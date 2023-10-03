@@ -1,5 +1,7 @@
-NAME = "blue_plugin"
+NAME = "roofAI"
 
-VERSION = "2.69.1"
+VERSION = "3.1.1"
+
+DESCRIPTION = "everything AI about roofs. 🏠"
 
 from .functions import *

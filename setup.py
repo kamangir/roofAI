@@ -1,11 +1,11 @@
 from setuptools import setup
 
-from blue_plugin import NAME, VERSION
+from roofAI import NAME, VERSION, DESCRIPTION
 
 setup(
     name=NAME,
     author="arash@kamangir.net",
     version=VERSION,
-    description="template for an abcli plugin",
+    description=DESCRIPTION,
     packages=[NAME],
 )
