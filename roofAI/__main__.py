@@ -11,11 +11,23 @@ parser.add_argument(
     type=str,
     help="version",
 )
+parser.add_argument(
+    "--show_description",
+    type=bool,
+    default=0,
+    help="0|1",
+)
 args = parser.parse_args()
 
 success = False
 if args.task == "version":
-    print(f"{NAME}-{VERSION}")
+    print(
+        "{}-{}{}".format(
+            NAME,
+            VERSION,
+            "\\n{}".format(DESCRIPTION) if args.show_description else "",
+        )
+    )
     success = True
 else:
     logger.error(f"-{NAME}: {args.task}: command not found.")

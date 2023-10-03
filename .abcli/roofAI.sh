@@ -4,6 +4,7 @@ function roofAI() {
     local task=$(abcli_unpack_keyword $1 help)
 
     if [ $task == "help" ]; then
+        roofAI version \\n
         abcli_show_usage "roofAI task [<thing_1+thing_2>|all]" \
             "task things."
 
@@ -26,6 +27,11 @@ function roofAI() {
             task \
             --what $(abcli_clarify_input $2 all) \
             ${@:3}
+        return
+    fi
+
+    if [ "$task" == "version" ]; then
+        abcli_log "📜 $(python3 -m roofAI version --show_description 1)${@:2}"
         return
     fi
 
