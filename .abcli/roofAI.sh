@@ -5,6 +5,7 @@ function roofAI() {
 
     if [ $task == "help" ]; then
         roofAI version \\n
+
         abcli_show_usage "roofAI task [<thing_1+thing_2>|all]" \
             "task things."
 
