@@ -1,7 +1,7 @@
 NAME = "roofAI"
 
-VERSION = "3.4.1"
+VERSION = "3.5.1"
 
-DESCRIPTION = "everything AI about roofs. 🏠"
+DESCRIPTION = "🏠 everything AI about roofs."
 
 from .functions import *

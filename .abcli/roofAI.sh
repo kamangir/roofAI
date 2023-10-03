@@ -22,6 +22,11 @@ function roofAI() {
         return
     fi
 
+    if [ "$task" == "init" ]; then
+        abcli_init roofAI "${@:2}"
+        return
+    fi
+
     if [ "$task" == "task" ]; then
         python3 -m roofAI \
             task \
@@ -31,7 +36,7 @@ function roofAI() {
     fi
 
     if [ "$task" == "version" ]; then
-        abcli_log "📜 $(python3 -m roofAI version --show_description 1)${@:2}"
+        abcli_log "🏠 $(python3 -m roofAI version --show_description 1)${@:2}"
         return
     fi
 
