@@ -9,7 +9,7 @@ function roofAI() {
         abcli_show_usage "roofAI task [<thing_1+thing_2>|all]" \
             "task things."
 
-        # blue_plugin_task $@
+        roofAI_QGIS "$@"
 
         if [ "$(abcli_keyword_is $2 verbose)" == true ]; then
             python3 -m roofAI --help
@@ -17,7 +17,7 @@ function roofAI() {
         return
     fi
 
-    local function_name=blue_plugin_$task
+    local function_name=roofAI_$task
     if [[ $(type -t $function_name) == "function" ]]; then
         $function_name "${@:2}"
         return
@@ -28,20 +28,12 @@ function roofAI() {
         return
     fi
 
-    if [ "$task" == "task" ]; then
-        python3 -m roofAI \
-            task \
-            --what $(abcli_clarify_input $2 all) \
-            ${@:3}
-        return
-    fi
-
     if [ "$task" == "version" ]; then
         abcli_log "🏠 $(python3 -m roofAI version --show_description 1)${@:2}"
         return
     fi
 
     python3 -m roofAI \
-        $task \
-        ${@:2}
+        "$task" \
+        "${@:2}"
 }
