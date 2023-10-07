@@ -6,9 +6,6 @@ function roofAI() {
     if [ $task == "help" ]; then
         roofAI version \\n
 
-        abcli_show_usage "roofAI task [<thing_1+thing_2>|all]" \
-            "task things."
-
         roofAI_QGIS "$@"
 
         if [ "$(abcli_keyword_is $2 verbose)" == true ]; then
