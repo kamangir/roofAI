@@ -5,7 +5,7 @@ import os
 
 NAME = "roofAI.QGIS"
 
-VERSION = "3.16.1"
+VERSION = "3.17.1"
 
 
 abcli_object_root = os.path.join(
@@ -112,8 +112,8 @@ class ABCLI_QGIS(object):
     def help(self):
         log("QGIS.clear", "clear Python Console.")
 
-        self.layer.help
         self.project.help
+        self.layer.help
 
         log("QGIS.reload", "reload all layers.")
 
