@@ -2,17 +2,10 @@
 # run `QGIS seed 🌱` to start.
 
 import os
-import re
-from pathlib import Path
-from typing import Any, Dict, List
-
-import pyperclip
-import yaml
-from tqdm import tqdm
 
 NAME = "roofAI.QGIS"
 
-VERSION = "3.15.1"
+VERSION = "3.16.1"
 
 
 abcli_object_root = os.path.join(
@@ -92,8 +85,6 @@ class ABCLI_QGIS(object):
     def __init__(self):
         self.layer = ABCLI_QGIS_Layer()
         self.project = ABCLI_QGIS_Project()
-
-        self.list_of_apps: List[Any] = []
 
     @property
     def intro(self):
