@@ -12,7 +12,7 @@ from tqdm import tqdm
 
 NAME = "roofAI.QGIS"
 
-VERSION = "3.14.1"
+VERSION = "3.15.1"
 
 
 abcli_object_root = os.path.join(
@@ -31,9 +31,8 @@ class ABCLI_QGIS_Layer(object):
 
     @property
     def name(self):
-        output = ""
         try:
-            output = (
+            return (
                 iface.activeLayer()
                 .dataProvider()
                 .dataSourceUri()
@@ -42,20 +41,15 @@ class ABCLI_QGIS_Layer(object):
             )
         except:
             log_error("no layer is selected.")
-
-        return output
+            return ""
 
     @property
     def object(self):
-        output = ""
         try:
-            output = (
-                iface.activeLayer().dataProvider().dataSourceUri().split(os.sep)[-2]
-            )
+            return iface.activeLayer().dataProvider().dataSourceUri().split(os.sep)[-2]
         except:
             log_error("no layer is selected.")
-
-        return output
+            return ""
 
     @property
     def open(self):
@@ -63,13 +57,11 @@ class ABCLI_QGIS_Layer(object):
 
     @property
     def path(self):
-        output = ""
         try:
-            output = os.path.dirname(iface.activeLayer().dataProvider().dataSourceUri())
+            return os.path.dirname(iface.activeLayer().dataProvider().dataSourceUri())
         except:
             log_error("no layer is selected.")
-
-        return output
+            return ""
 
 
 class ABCLI_QGIS_Project(object):
