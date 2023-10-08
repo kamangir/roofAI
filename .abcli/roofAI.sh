@@ -25,8 +25,9 @@ function roofAI() {
 
     if [ "$task" == "create_conda_env" ]; then
         abcli_conda create_env \
-            "$2" roofAI \
+            "$2,torch" roofAI \
             "${@:3}"
+        pip3 install -U albumentations[imgaug]
         return
     fi
 
