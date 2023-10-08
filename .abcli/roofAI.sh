@@ -28,6 +28,9 @@ function roofAI() {
             "$2,torch" roofAI \
             "${@:3}"
         pip3 install -U albumentations[imgaug]
+        pip3 install timm
+        pip3 install pretrainedmodels
+        pip3 install efficientnet_pytorch
         return
     fi
 
