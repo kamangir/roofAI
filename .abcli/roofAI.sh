@@ -9,6 +9,7 @@ function roofAI() {
         abcli_show_usage "roofAI create_conda_env$ABCUL[dryrun,~pip]" \
             "create conda environmnt."
 
+        roofAI_ingest "$@"
         roofAI_QGIS "$@"
 
         if [ "$(abcli_keyword_is $2 verbose)" == true ]; then
