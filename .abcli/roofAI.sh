@@ -6,6 +6,9 @@ function roofAI() {
     if [ $task == "help" ]; then
         roofAI version \\n
 
+        abcli_show_usage "roofAI create_conda_env$ABCUL[dryrun,~pip]" \
+            "create conda environmnt."
+
         roofAI_QGIS "$@"
 
         if [ "$(abcli_keyword_is $2 verbose)" == true ]; then
@@ -17,6 +20,13 @@ function roofAI() {
     local function_name=roofAI_$task
     if [[ $(type -t $function_name) == "function" ]]; then
         $function_name "${@:2}"
+        return
+    fi
+
+    if [ "$task" == "create_conda_env" ]; then
+        abcli_conda create_env \
+            "$2" roofAI \
+            "${@:3}"
         return
     fi
 
