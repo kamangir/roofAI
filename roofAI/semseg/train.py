@@ -1,6 +1,17 @@
 import os
-from roofAI.semseg.augmentation import get_training_augmentation
+import numpy as np
+import torch
+from torch.utils.data import DataLoader
+from abcli import file
+import segmentation_models_pytorch as smp
+from segmentation_models_pytorch import utils
+from roofAI.semseg.augmentation import (
+    get_training_augmentation,
+    get_validation_augmentation,
+    get_preprocessing,
+)
 from roofAI.semseg.dataloader import Dataset
+from roofAI.semseg.model import SemSegModel
 from roofAI.semseg.utils import visualize
 from roofAI.semseg import Profile
 import abcli.logging
@@ -68,3 +79,151 @@ class SemSegModelTrainer(object):
             for _ in range(1 if profile == Profile.VALIDATION else 3):
                 image, mask = augmented_dataset[0]
                 visualize(image=image, mask=mask.squeeze(-1))
+
+    def train(
+        self,
+        encoder_name="se_resnext50_32x4d",
+        encoder_weights="imagenet",
+        classes=["car"],
+        activation="sigmoid",  # could be None for logits or 'softmax2d' for multi-class segmentation
+        DEVICE="cpu",  # 'cuda'
+    ):
+        logger.info(
+            "{}.train -{}:{}-> {}[{}]: {}".format(
+                self.__class__.__name__,
+                DEVICE,
+                activation,
+                encoder_name,
+                encoder_weights,
+                ",".join(classes),
+            )
+        )
+
+        # create segmentation model with pretrained encoder
+        model = smp.FPN(
+            encoder_name=encoder_name,
+            encoder_weights=encoder_weights,
+            classes=len(classes),
+            activation=activation,
+        )
+
+        preprocessing_fn = smp.encoders.get_preprocessing_fn(
+            encoder_name,
+            encoder_weights,
+        )
+
+        train_dataset = Dataset(
+            self.x_train_dir,
+            self.y_train_dir,
+            augmentation=get_training_augmentation(),
+            preprocessing=get_preprocessing(preprocessing_fn),
+            classes=classes,
+            count=self.profile.data_count,
+        )
+
+        valid_dataset = Dataset(
+            self.x_valid_dir,
+            self.y_valid_dir,
+            augmentation=get_validation_augmentation(),
+            preprocessing=get_preprocessing(preprocessing_fn),
+            classes=classes,
+            count=self.profile.data_count,
+        )
+
+        train_loader = DataLoader(
+            train_dataset,
+            batch_size=8,
+            shuffle=True,
+            num_workers=0,
+        )
+        valid_loader = DataLoader(
+            valid_dataset,
+            batch_size=1,
+            shuffle=False,
+            num_workers=0,
+        )
+
+        # Dice/F1 score - https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient
+        # IoU/Jaccard score - https://en.wikipedia.org/wiki/Jaccard_index
+
+        loss = utils.losses.DiceLoss()
+        metrics = [
+            utils.metrics.IoU(threshold=0.5),
+        ]
+
+        optimizer = torch.optim.Adam(
+            [
+                dict(params=model.parameters(), lr=0.0001),
+            ]
+        )
+
+        # create epoch runners
+        # it is a simple loop of iterating over dataloader`s samples
+        train_epoch = smp.utils.train.TrainEpoch(
+            model,
+            loss=loss,
+            metrics=metrics,
+            optimizer=optimizer,
+            device=DEVICE,
+            verbose=True,
+        )
+
+        valid_epoch = smp.utils.train.ValidEpoch(
+            model,
+            loss=loss,
+            metrics=metrics,
+            device=DEVICE,
+            verbose=True,
+        )
+
+        max_score = 0
+        model_filename = os.path.join(self.model_path, "model.pth")
+        for i in range(0, self.profile.epoch_count):
+            logger.info("epoch: #{}/{}".format(i + 1, self.profile.epoch_count))
+            train_logs = train_epoch.run(train_loader)
+            valid_logs = valid_epoch.run(valid_loader)
+
+            # do something (save model, change lr, etc.)
+            if max_score < valid_logs["iou_score"]:
+                max_score = valid_logs["iou_score"]
+                torch.save(model, model_filename)
+                logger.info("-> {}".format(model_filename))
+
+            if i == 25:
+                optimizer.param_groups[0]["lr"] = 1e-5
+                print("Decrease decoder learning rate to 1e-5!")
+
+        file.save_json(
+            os.path.join(self.model_path, "model.json"),
+            {
+                "activation": activation,
+                "classes": classes,
+                "encoder_name": encoder_name,
+                "encoder_weights": encoder_weights,
+            },
+        )
+
+        semseg_model = SemSegModel(model_filename)
+
+        test_dataset = Dataset(
+            self.x_test_dir,
+            self.y_test_dir,
+            augmentation=get_validation_augmentation(),
+            preprocessing=get_preprocessing(preprocessing_fn),
+            classes=classes,
+            count=self.profile.data_count,
+        )
+
+        test_dataloader = DataLoader(test_dataset)
+
+        # evaluate model on test set
+        test_epoch = smp.utils.train.ValidEpoch(
+            model=semseg_model.model,
+            loss=loss,
+            metrics=metrics,
+            device=DEVICE,
+        )
+
+        logs = test_epoch.run(test_dataloader)
+
+        return semseg_model
