@@ -19,6 +19,16 @@ function roofAI_ingest() {
     if [ "$source" == "CamVid" ]; then
         abcli_log "ingesting $source -> $object_name"
 
+        abcli_log """
+For this example we will use **CamVid** dataset. It is a set of:
+ - **train** images + segmentation masks
+ - **validation** images + segmentation masks
+ - **test** images + segmentation masks
+ 
+All images have 320 pixels height and 480 pixels width.
+For more inforamtion about dataset visit http://mi.eng.cam.ac.uk/research/projects/VideoRec/CamVid/.
+"""
+
         pushd $object_path >/dev/null
         # https://github.com/qubvel/segmentation_models.pytorch/blob/master/examples/cars%20segmentation%20(camvid).ipynb
         abcli_git clone https://github.com/alexgkendall/SegNet-Tutorial object
