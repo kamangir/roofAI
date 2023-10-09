@@ -1,3 +1,4 @@
+import os
 import abcli.logging
 import logging
 
@@ -17,6 +18,7 @@ class SemSegModel(object):
     def train(
         dataset_path: str,
         model_path: str,
+        in_notebook: bool = False,
     ):
         model = SemSegModel()
 
