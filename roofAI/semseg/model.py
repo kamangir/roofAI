@@ -34,10 +34,10 @@ class SemSegModel(object):
 
     @property
     def signature(self):
-        return "{}: {}-{}[{}]: {}".format(
+        return "{}: {}[{}]-{}-> {}".format(
             self.__class__.__name__,
-            self.activation,
             self.encoder_name,
             self.encoder_weights,
+            self.activation,
             ",".join(self.classes),
         )

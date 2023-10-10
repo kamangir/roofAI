@@ -226,4 +226,6 @@ class SemSegModelTrainer(object):
 
         logs = test_epoch.run(test_dataloader)
 
+        # TODO: semseg_model.predict(...)
+
         return semseg_model
