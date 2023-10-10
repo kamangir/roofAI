@@ -1,3 +1,7 @@
+"""
+Copied with modification from ../../notebooks/semseg.ipynb
+"""
+
 import os
 import numpy as np
 import torch
