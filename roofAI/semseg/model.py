@@ -106,12 +106,15 @@ class SemSegModel(object):
             pr_mask = self.model.predict(x_tensor)
             pr_mask = pr_mask.squeeze().cpu().numpy().round()
 
-            if in_notebook:
-                visualize(
-                    image=image_vis,
-                    ground_truth_mask=gt_mask,
-                    predicted_mask=pr_mask,
-                )
+            visualize(
+                {
+                    "image": image_vis,
+                    "groundtruth": gt_mask,
+                    "prediction": pr_mask,
+                },
+                in_notebook=in_notebook,
+                filename=os.path.join(output_path, f"predict-{n:05d}.png"),
+            )
 
     @property
     def signature(self):

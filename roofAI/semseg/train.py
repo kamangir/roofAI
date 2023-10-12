@@ -65,11 +65,14 @@ class SemSegModelTrainer(object):
 
             image, mask = dataset[0]  # get some sample
             visualize(
-                image=image,
-                cars_mask=mask.squeeze(),
+                {
+                    "image": image,
+                    "mask": mask.squeeze(),
+                },
+                in_notebook=in_notebook,
+                filename=os.path.join(model_path, "dataset.png"),
             )
 
-        if in_notebook:
             #### Visualize resulted augmented images and masks
             augmented_dataset = Dataset(
                 self.x_train_dir,
@@ -80,9 +83,16 @@ class SemSegModelTrainer(object):
             )
 
             # same image with different random transforms
-            for _ in range(1 if profile == Profile.VALIDATION else 3):
+            for i in range(1 if profile == Profile.VALIDATION else 3):
                 image, mask = augmented_dataset[0]
-                visualize(image=image, mask=mask.squeeze(-1))
+                visualize(
+                    {
+                        "image": image,
+                        "mask": mask.squeeze(-1),
+                    },
+                    in_notebook=in_notebook,
+                    filename=os.path.join(model_path, f"augmented_dataset-{i:05d}.png"),
+                )
 
     def train(
         self,
