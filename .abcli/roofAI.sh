@@ -11,6 +11,7 @@ function roofAI() {
 
         roofAI_ingest "$@"
         roofAI_QGIS "$@"
+        roofAI_semseg "$@"
 
         if [ "$(abcli_keyword_is $2 verbose)" == true ]; then
             python3 -m roofAI --help
