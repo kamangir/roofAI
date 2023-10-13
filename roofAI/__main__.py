@@ -5,7 +5,10 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-parser = argparse.ArgumentParser(NAME, description=f"{NAME}-{VERSION}")
+parser = argparse.ArgumentParser(
+    f"python3 -m {NAME}",
+    description=f"{NAME}-{VERSION}",
+)
 parser.add_argument(
     "task",
     type=str,
