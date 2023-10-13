@@ -12,9 +12,9 @@ function roofAI_semseg() {
         abcli_show_usage "semseg predict$ABCUL[$options]$ABCUL<model_object_name>$ABCUL<dataset_object_name>$ABCUL<prediction_object_name>" \
             "semseg[<model_object_name>].predict(<dataset_object_name>) -> <prediction_object_name>."
 
-        if [ "$(abcli_keyword_is $2 verbose)" == true ]; then
+        [[ "$(abcli_keyword_is $2 verbose)" == true ]] &&
             python3 -m roofAI.semseg --help
-        fi
+
         return
     fi
 
@@ -45,9 +45,8 @@ function roofAI_semseg() {
             --profile $(abcli_option "$options" profile VALIDATION) \
             "${@:6}"
 
-        if [ "$do_upload" == 1 ]; then
+        [ "$do_upload" == 1 ]] &&
             abcli_upload object $prediction_object_name
-        fi
 
         return
     fi
