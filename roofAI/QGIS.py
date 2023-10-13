@@ -2,10 +2,11 @@
 # run `QGIS seed 🌱` to start.
 
 import os
+from tqdm import tqdm
 
 NAME = "roofAI.QGIS"
 
-VERSION = "3.18.1"
+VERSION = "3.19.1"
 
 
 abcli_object_root = os.path.join(
@@ -116,6 +117,12 @@ class ABCLI_QGIS(object):
         self.project.help
 
         log("QGIS.reload", "reload all layers.")
+
+    @property
+    def reload(self):
+        # https://gis.stackexchange.com/a/449101/210095
+        for layer in tqdm(QgsProject.instance().mapLayers().values()):
+            layer.dataProvider().reloadData()
 
 
 def log(message, note="", error=False):
