@@ -1,5 +1,9 @@
 #! /usr/bin/env bash
 
+function roof() {
+    roofAI "$@"
+}
+
 function roofAI() {
     local task=$(abcli_unpack_keyword $1 help)
 
