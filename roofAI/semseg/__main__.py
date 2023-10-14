@@ -93,7 +93,11 @@ logger.info(f"dataset_path: {dataset_path}")
 if success:
     success = False
     if args.task == "ingest":
-        ...
+        if args.source == "AIRS":
+            ...
+            success = True
+        else:
+            logger.error(f"-{NAME}: {args.task}: {args.source}: source not found.")
     elif args.task == "predict":
         model = SemSegModel(
             model_filename=os.path.join(args.model_path, "model.pth"),
