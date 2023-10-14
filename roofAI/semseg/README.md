@@ -1,3 +1,6 @@
+# train
+
+🚧
 # predict
 
 ```bash
@@ -11,7 +14,3 @@ roofAI semseg predict \
 ![image](../../assets/predict-00000.png)
 
 https://arash-kamangir.medium.com/roofai-7-camvid-semseg-for-airs-2-4ad962c03b5b
-
-# train
-
-🚧
