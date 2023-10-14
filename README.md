@@ -2,9 +2,7 @@
 
 everything AI about roofs. 🏠
 
-> [datasets](./wiki/datasets.md)
-> [notebooks](./notebooks/)
-> [semseg](./roofAI/semseg/README.md)
+🔷 [datasets](./wiki/datasets.md) 🔷 [notebooks](./notebooks/) 🔷 [semseg](./roofAI/semseg/README.md) 🔷
 
 ```bash
  > roofAI help verbose
