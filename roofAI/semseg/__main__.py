@@ -1,5 +1,6 @@
 import argparse
 import os
+from abcli import path
 from roofAI import NAME, VERSION
 from roofAI.semseg.model import SemSegModel
 from roofAI.semseg.train import SemSegModelTrainer
@@ -46,8 +47,30 @@ parser.add_argument(
 parser.add_argument(
     "--dataset_is_camvid",
     type=int,
-    default=1,
-    help="0|1",
+    default=-1,
+    help="0|1|-1",
+)
+parser.add_argument(
+    "--encoder_name",
+    type=str,
+    default="se_resnext50_32x4d",
+)
+parser.add_argument(
+    "--encoder_weights",
+    type=str,
+    default="imagenet",
+)
+parser.add_argument(
+    "--classes",
+    type=str,
+    default="car",
+    help="one+two+three+four",
+)
+parser.add_argument(
+    "--activation",
+    type=str,
+    default="sigmoid",
+    help="sigmoid or None for logits or softmax2d for multi-class segmentation",
 )
 args = parser.parse_args()
 
@@ -60,7 +83,10 @@ except:
     success = False
 
 dataset_path = args.dataset_path
-if args.dataset_is_camvid:
+dataset_is_camvid = args.dataset_is_camvid
+if dataset_is_camvid == -1:
+    dataset_is_camvid = "camvid" in path.name(dataset_path).lower()
+if dataset_is_camvid:
     dataset_path = os.path.join(dataset_path, "SegNet-Tutorial/CamVid/")
 logger.info(f"dataset_path: {dataset_path}")
 
@@ -89,6 +115,10 @@ if success:
         )
 
         model = trainer.train(
+            encoder_name=args.encoder_name,
+            encoder_weights=args.encoder_weights,
+            classes=args.classes.split("+"),
+            activation=args.activation,
             device=args.device,
         )
     else:

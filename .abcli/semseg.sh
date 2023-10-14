@@ -65,7 +65,8 @@ function roofAI_semseg() {
     if [ "$task" == "train" ]; then
         if [ $(abcli_option_int "$options" help 0) == 1 ]; then
             local options="device=cpu|cuda,~download,dryrun,profile=FULL|QUICK|VALIDATION,register,~upload"
-            abcli_show_usage "semseg train$ABCUL[$options]$ABCUL<dataset_object_name>$ABCUL<model_object_name>" \
+            local args="[--activation <sigmoid>]$ABCUL[--classes <one+two+three+four>]$ABCUL[--encoder_name <se_resnext50_32x4d>]$ABCUL[--encoder_weights <imagenet>]"
+            abcli_show_usage "semseg train$ABCUL[$options]$ABCUL<dataset_object_name>$ABCUL<model_object_name>$ABCUL$args" \
                 "semseg.train(<dataset_object_name>) -> <model_object_name>."
             return
         fi
