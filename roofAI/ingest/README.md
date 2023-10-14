@@ -3,7 +3,7 @@
 from [kaggle](https://www.kaggle.com/datasets/atilol/aerialimageryforroofsegmentation), 457 km2, orthorectified, 220,000 buildings, gsd: 7.5 cm, 19.36 GB, + ground truth.
 
 ```bash
-roofAI ingest source=AIRS,from_cache <TBA>
+roofAI ingest source=AIRS <TBA>
 ```
 
 - https://medium.com/@arash-kamangir/roofai-1-airs-b440ebb54968

@@ -1,5 +1,5 @@
 import argparse
-from . import *
+from roofAI import NAME, VERSION, DESCRIPTION
 from abcli import logging
 import logging
 

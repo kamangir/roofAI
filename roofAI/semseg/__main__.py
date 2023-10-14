@@ -11,14 +11,16 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+NAME = f"{NAME}.semseg"
+
 parser = argparse.ArgumentParser(
-    f"python3 -m {NAME}.semseg",
-    description=f"{NAME}-{VERSION}.semseg",
+    f"python3 -m {NAME}",
+    description=f"{NAME}-{VERSION}",
 )
 parser.add_argument(
     "task",
     type=str,
-    help="ingest|predict|train",
+    help="predict|train",
 )
 parser.add_argument(
     "--activation",
@@ -92,13 +94,7 @@ logger.info(f"dataset_path: {dataset_path}")
 
 if success:
     success = False
-    if args.task == "ingest":
-        if args.source == "AIRS":
-            ...
-            success = True
-        else:
-            logger.error(f"-{NAME}: {args.task}: {args.source}: source not found.")
-    elif args.task == "predict":
+    if args.task == "predict":
         model = SemSegModel(
             model_filename=os.path.join(args.model_path, "model.pth"),
             profile=profile,
