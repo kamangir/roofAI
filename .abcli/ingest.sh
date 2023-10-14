@@ -48,13 +48,16 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
 
     if [ "$source" == "AIRS" ]; then
         local from_cache=$(abcli_option_int "$options" from_cache 1)
+        echo "from_cache: $from_cache"
+
+        local cache_object_name=$roofAI_ingest_AIRS_cache_object_name
+        local cache_object_path=$abcli_object_root/$cache_object_name
 
         # https://arash-kamangir.medium.com/roofai-1-airs-b440ebb54968
         if [[ "$from_cache" == 0 ]]; then
-            local cache_object_name=$roofAI_ingest_AIRS_cache_object_name
             abcli_log "caching $source -> $cache_object_name"
 
-            abcli_eval dryrun=$do_dryrun,path=$abcli_object_root/$cache_object_name \
+            abcli_eval dryrun=$do_dryrun,path=$cache_object_path \
                 "kaggle datasets download \
                 -d atilol/aerialimageryforroofsegmentation \
                 -p ./; \
@@ -62,9 +65,15 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
 
             [[ "$do_upload" == 1 ]] &&
                 abcli_upload - $cache_object_name
+        else
+            abcli_log "using $source cache: $cache_object_name"
         fi
 
-        echo "wip"
+        abcli_eval dryrun=$do_dryrun \
+            python3 -m roofAI.semseg ingest \
+            --cache_path $cache_object_path \
+            --ingest_path $$object_path \
+            "${@:3}"
     fi
 
     [[ "$do_upload" == 1 ]] &&
