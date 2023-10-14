@@ -12,4 +12,4 @@ roofAI ingest CamVid roofAI-CamVid-v2
 
 | `AIRS` | `CamVid` | | |
 |---|---|---|---|
-| ![image](./assets/AIRS.png) | ![image](./assets/CamVid.png) | | |
+| ![image](../assets/AIRS.png) | ![image](../assets/CamVid.png) | | |
