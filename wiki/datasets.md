@@ -10,6 +10,8 @@ ingested from [SegNet-Tutorial](https://github.com/alexgkendall/SegNet-Tutorial)
 roofAI ingest CamVid roofAI-CamVid-v2
 ```
 
+---
+
 | `AIRS` | `CamVid` | | |
 |---|---|---|---|
 | ![image](../assets/AIRS.png) | ![image](../assets/CamVid.png) | | |
