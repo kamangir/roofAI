@@ -1,0 +1,1 @@
+- [`semseg.ipynb`](./notebooks/semseg.ipynb) -> [predict.ipynb](./semseg/predict.ipynb) + [train.ipynb](./semseg/train.ipynb): [segmentation_models.pytorch](https://github.com/qubvel/segmentation_models.pytorch)-based segmentation.
