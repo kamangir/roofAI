@@ -18,7 +18,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument(
     "task",
     type=str,
-    help="predict",
+    help="ingest|predict|train",
 )
 parser.add_argument(
     "--model_path",
@@ -92,7 +92,9 @@ logger.info(f"dataset_path: {dataset_path}")
 
 if success:
     success = False
-    if args.task == "predict":
+    if args.task == "ingest":
+        ...
+    elif args.task == "predict":
         model = SemSegModel(
             model_filename=os.path.join(args.model_path, "model.pth"),
             profile=profile,

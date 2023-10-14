@@ -70,6 +70,7 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
 
         abcli_eval dryrun=$do_dryrun \
             python3 -m roofAI.semseg ingest \
+            --source $source \
             --cache_path $cache_object_path \
             --ingest_path $$object_path \
             "${@:3}"
