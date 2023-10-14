@@ -7,6 +7,8 @@ roofAI semseg train \
     roofAI-CamVid-semseg-model-$(@timestamp)
 ```
 
+![image](../../assets/augmented_dataset-00000.png)
+
 `model.json`
 ```json
 {
@@ -18,8 +20,6 @@ roofAI semseg train \
     "encoder_weights": "imagenet"
 }
 ```
-
-![image](../../assets/augmented_dataset-00000.png)
 
 https://arash-kamangir.medium.com/roofai-7-camvid-semseg-for-airs-train-51ff862fd8a6
 
