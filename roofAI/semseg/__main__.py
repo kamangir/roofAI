@@ -57,7 +57,7 @@ if success:
     if args.task == "predict":
         model = SemSegModel(
             model_filename=os.path.join(args.model_path, "model.pth"),
-            profile=args.profile,
+            profile=profile,
         )
 
         model.predict(
