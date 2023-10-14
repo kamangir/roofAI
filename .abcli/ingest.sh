@@ -20,13 +20,17 @@ function roofAI_ingest() {
         abcli_log "ingesting $source -> $object_name"
 
         abcli_log """
-For this example we will use **CamVid** dataset. It is a set of:
+The CamVid dataset is a set of:
  - **train** images + segmentation masks
  - **validation** images + segmentation masks
  - **test** images + segmentation masks
  
 All images have 320 pixels height and 480 pixels width.
 For more inforamtion about dataset visit http://mi.eng.cam.ac.uk/research/projects/VideoRec/CamVid/.
+
+Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
+
+Text from https://github.com/qubvel/segmentation_models.pytorch/blob/master/examples/cars%20segmentation%20(camvid).ipynb
 """
 
         pushd $object_path >/dev/null
