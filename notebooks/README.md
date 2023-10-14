@@ -1,1 +1,2 @@
 - [segmentation_models.pytorch](https://github.com/qubvel/segmentation_models.pytorch/blob/master/examples/cars%20segmentation%20(camvid).ipynb) -> [camvid.ipynb](./camvid.ipynb) -> [semseg/train.ipynb](./semseg/train.ipynb) + [semseg/predict.ipynb](./semseg/predict.ipynb).
+- [ingest.ipynb](./ingest.ipynb)

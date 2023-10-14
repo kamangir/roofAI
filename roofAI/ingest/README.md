@@ -20,6 +20,30 @@ roofAI ingest source=CamVid roofAI-CamVid-v2
 
 - https://arash-kamangir.medium.com/roofai-6-camvid-semseg-for-airs-1-f7530374adef
 
+Files are in `./SegNet-Tutorial/CamVid/`, where, for `subset` in `[test, train, val]`,
+
+- `{subset}/` contain `.png`s: RGB. 
+- `{subset}annot/` contain `.png`s: RGB, three channels identical, 0-11, corresponding to the following classes. `Dataset` filters the required `classes` for a train.
+```python
+CLASSES = [
+    "sky",
+    "building",
+    "pole",
+    "road",
+    "pavement",
+    "tree",
+    "signsymbol",
+    "fence",
+    "car",
+    "pedestrian",
+    "bicyclist",
+    "unlabelled",
+]
+```
+- `{subset}.txt` is likely unused.
+
+![image](../../assets/dataset_index.png)
+
 ---
 
 | `AIRS` | `CamVid` | | |
