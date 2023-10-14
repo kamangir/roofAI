@@ -37,5 +37,4 @@ def visualize(
 
     if in_notebook:
         plt.show()
-
     plt.close()

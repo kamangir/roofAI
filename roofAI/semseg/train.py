@@ -54,45 +54,44 @@ class SemSegModelTrainer(object):
         self.x_test_dir = os.path.join(self.dataset_path, "test")
         self.y_test_dir = os.path.join(self.dataset_path, "testannot")
 
-        if in_notebook:
-            logger.info("data review")
-            dataset = Dataset(
-                self.x_train_dir,
-                self.y_train_dir,
-                classes=["car"],
-                count=self.profile.data_count,
-            )
+        logger.info("data review")
+        dataset = Dataset(
+            self.x_train_dir,
+            self.y_train_dir,
+            classes=["car"],
+            count=self.profile.data_count,
+        )
 
-            image, mask = dataset[0]  # get some sample
+        image, mask = dataset[0]  # get some sample
+        visualize(
+            {
+                "image": image,
+                "mask": mask.squeeze(),
+            },
+            in_notebook=in_notebook,
+            filename=os.path.join(model_path, "dataset.png"),
+        )
+
+        #### Visualize resulted augmented images and masks
+        augmented_dataset = Dataset(
+            self.x_train_dir,
+            self.y_train_dir,
+            augmentation=get_training_augmentation(),
+            classes=["car"],
+            count=self.profile.data_count,
+        )
+
+        # same image with different random transforms
+        for i in range(1 if profile == Profile.VALIDATION else 3):
+            image, mask = augmented_dataset[0]
             visualize(
                 {
                     "image": image,
-                    "mask": mask.squeeze(),
+                    "mask": mask.squeeze(-1),
                 },
                 in_notebook=in_notebook,
-                filename=os.path.join(model_path, "dataset.png"),
+                filename=os.path.join(model_path, f"augmented_dataset-{i:05d}.png"),
             )
-
-            #### Visualize resulted augmented images and masks
-            augmented_dataset = Dataset(
-                self.x_train_dir,
-                self.y_train_dir,
-                augmentation=get_training_augmentation(),
-                classes=["car"],
-                count=self.profile.data_count,
-            )
-
-            # same image with different random transforms
-            for i in range(1 if profile == Profile.VALIDATION else 3):
-                image, mask = augmented_dataset[0]
-                visualize(
-                    {
-                        "image": image,
-                        "mask": mask.squeeze(-1),
-                    },
-                    in_notebook=in_notebook,
-                    filename=os.path.join(model_path, f"augmented_dataset-{i:05d}.png"),
-                )
 
     def train(
         self,
