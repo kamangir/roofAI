@@ -1,12 +1,14 @@
 #! /usr/bin/env bash
 
 export roofAI_ingest_sources="CamVid|AIRS"
+export roofAI_ingest_AIRS_cache_object_name=AIRS-v1
 
 function roofAI_ingest() {
     local options=$1
 
     if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-        abcli_show_usage "roofAI ingest$ABCUL[dryrun,source=$roofAI_ingest_sources,upload]$ABCUL<object-name>" \
+        local options="dryrun,~from_cache,source=$roofAI_ingest_sources,upload"
+        abcli_show_usage "roofAI ingest$ABCUL[$options]$ABCUL<object-name>" \
             "ingest -> <object-name>."
         return
     fi
@@ -45,6 +47,23 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
     fi
 
     if [ "$source" == "AIRS" ]; then
+        local from_cache=$(abcli_option_int "$options" from_cache 1)
+
+        # https://arash-kamangir.medium.com/roofai-1-airs-b440ebb54968
+        if [[ "$from_cache" == 0 ]]; then
+            local cache_object_name=$roofAI_ingest_AIRS_cache_object_name
+            abcli_log "caching $source -> $cache_object_name"
+
+            abcli_eval dryrun=$do_dryrun,path=$abcli_object_root/$cache_object_name \
+                "kaggle datasets download \
+                -d atilol/aerialimageryforroofsegmentation \
+                -p ./; \
+                unzip aerialimageryforroofsegmentation.zip"
+
+            [[ "$do_upload" == 1 ]] &&
+                abcli_upload - $cache_object_name
+        fi
+
         echo "wip"
     fi
 
