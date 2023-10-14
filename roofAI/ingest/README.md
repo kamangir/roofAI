@@ -9,7 +9,7 @@ roofAI ingest source=AIRS <TBA>
 - https://medium.com/@arash-kamangir/roofai-1-airs-b440ebb54968
 - url 🔥
 
-[review](TBA): 🔥
+[review](../../notebooks/ingest/AIRS.ipynb): 🔥
 
 
 # CamVid
@@ -22,7 +22,7 @@ roofAI ingest source=CamVid roofAI-CamVid-v2
 
 - https://arash-kamangir.medium.com/roofai-6-camvid-semseg-for-airs-1-f7530374adef
 
-[review](../../notebooks/CamVid.ipynb): files are in `./SegNet-Tutorial/CamVid/`, where, for `subset` in `[test, train, val]`,
+[review](../../notebooks/ingest/CamVid.ipynb): files are in `./SegNet-Tutorial/CamVid/`, where, for `subset` in `[test, train, val]`,
 
 - `{subset}/` contains `.png`s: RGB. 
 - `{subset}annot/` contains `.png`s: RGB, three channels identical, `0-11` corresponding to the following classes. `Dataset` filters the required `classes` for a train.
