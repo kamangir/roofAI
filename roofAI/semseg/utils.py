@@ -19,6 +19,7 @@ def visualize(
     images,
     filename: str = "",
     in_notebook: bool = False,
+    description: str = "",
 ):
     n = len(images)
     plt.figure(figsize=(n * 5, 5))
@@ -42,9 +43,20 @@ def visualize(
 
     plt.subplot(1, n, 1)
 
-    if filename:
-        plt.xlabel(path.name(file.path(filename)))
+    plt.xlabel(
+        " | ".join(
+            [
+                thing
+                for thing in [
+                    path.name(file.path(filename)),
+                ]
+                + description
+                if thing
+            ]
+        )
+    )
 
+    if filename:
         while file.exist(filename):
             filename = file.add_postfix(filename, "b")
         plt.savefig(filename)
