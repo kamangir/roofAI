@@ -1,6 +1,6 @@
 NAME = "roofAI"
 
-VERSION = "3.37.1"
+VERSION = "3.38.1"
 
 DESCRIPTION = "🏠 everything AI about roofs."
 
