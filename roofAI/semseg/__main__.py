@@ -121,6 +121,8 @@ if success:
             activation=args.activation,
             device=args.device,
         )
+
+        success = True
     else:
         logger.error(f"-{NAME}: {args.task}: command not found.")
 
