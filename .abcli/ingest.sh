@@ -48,7 +48,6 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
 
     if [ "$source" == "AIRS" ]; then
         local from_cache=$(abcli_option_int "$options" from_cache 1)
-        echo "from_cache: $from_cache"
 
         local cache_object_name=$roofAI_ingest_AIRS_cache_object_name
         local cache_object_path=$abcli_object_root/$cache_object_name
