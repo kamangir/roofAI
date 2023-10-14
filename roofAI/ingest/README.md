@@ -22,8 +22,8 @@ roofAI ingest source=CamVid roofAI-CamVid-v2
 
 Files are in `./SegNet-Tutorial/CamVid/`, where, for `subset` in `[test, train, val]`,
 
-- `{subset}/` contain `.png`s: RGB. 
-- `{subset}annot/` contain `.png`s: RGB, three channels identical, 0-11, corresponding to the following classes. `Dataset` filters the required `classes` for a train.
+- `{subset}/` contains `.png`s: RGB. 
+- `{subset}annot/` contains `.png`s: RGB, three channels identical, `0-11` corresponding to the following classes. `Dataset` filters the required `classes` for a train.
 ```python
 CLASSES = [
     "sky",
