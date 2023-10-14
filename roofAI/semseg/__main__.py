@@ -21,34 +21,32 @@ parser.add_argument(
     help="ingest|predict|train",
 )
 parser.add_argument(
-    "--model_path",
+    "--activation",
     type=str,
+    default="sigmoid",
+    help="sigmoid or None for logits or softmax2d for multi-class segmentation",
 )
 parser.add_argument(
-    "--dataset_path",
+    "--classes",
     type=str,
-)
-parser.add_argument(
-    "--prediction_path",
-    type=str,
-)
-parser.add_argument(
-    "--profile",
-    type=str,
-    default="VALIDATION",
-    help="FULL|QUICK|VALIDATION",
-)
-parser.add_argument(
-    "--device",
-    type=str,
-    default="cpu",
-    help="cpu|cuda",
+    default="car",
+    help="one+two+three+four",
 )
 parser.add_argument(
     "--dataset_is_camvid",
     type=int,
     default=-1,
     help="0|1|-1",
+)
+parser.add_argument(
+    "--dataset_path",
+    type=str,
+)
+parser.add_argument(
+    "--device",
+    type=str,
+    default="cpu",
+    help="cpu|cuda",
 )
 parser.add_argument(
     "--encoder_name",
@@ -61,16 +59,18 @@ parser.add_argument(
     default="imagenet",
 )
 parser.add_argument(
-    "--classes",
+    "--model_path",
     type=str,
-    default="car",
-    help="one+two+three+four",
 )
 parser.add_argument(
-    "--activation",
+    "--prediction_path",
     type=str,
-    default="sigmoid",
-    help="sigmoid or None for logits or softmax2d for multi-class segmentation",
+)
+parser.add_argument(
+    "--profile",
+    type=str,
+    default="VALIDATION",
+    help="FULL|QUICK|VALIDATION",
 )
 args = parser.parse_args()
 
