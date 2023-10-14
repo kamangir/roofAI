@@ -100,12 +100,12 @@ class SemSegModelTrainer(object):
         encoder_weights="imagenet",
         classes=["car"],
         activation="sigmoid",  # could be None for logits or 'softmax2d' for multi-class segmentation
-        DEVICE="cpu",  # 'cuda'
+        device="cpu",  # 'cuda'
     ):
         logger.info(
             "{}.train -{}:{}-> {}[{}]: {}".format(
                 self.__class__.__name__,
-                DEVICE,
+                device,
                 activation,
                 encoder_name,
                 encoder_weights,
@@ -178,7 +178,7 @@ class SemSegModelTrainer(object):
             loss=loss,
             metrics=metrics,
             optimizer=optimizer,
-            device=DEVICE,
+            device=device,
             verbose=True,
         )
 
@@ -186,7 +186,7 @@ class SemSegModelTrainer(object):
             model,
             loss=loss,
             metrics=metrics,
-            device=DEVICE,
+            device=device,
             verbose=True,
         )
 
@@ -235,7 +235,7 @@ class SemSegModelTrainer(object):
             model=semseg_model.model,
             loss=loss,
             metrics=metrics,
-            device=DEVICE,
+            device=device,
         )
 
         logs = test_epoch.run(test_dataloader)

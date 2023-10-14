@@ -55,14 +55,14 @@ class SemSegModel(object):
         self,
         dataset_path,
         output_path,
-        DEVICE="cpu",  # 'cuda'
+        device="cpu",  # 'cuda'
         in_notebook: bool = False,
     ):
         logger.info(
             "{}.predict({}) -{}-> {}".format(
                 self.__class__.__name__,
                 dataset_path,
-                DEVICE,
+                device,
                 output_path,
             )
         )
@@ -102,7 +102,7 @@ class SemSegModel(object):
 
             gt_mask = gt_mask.squeeze()
 
-            x_tensor = torch.from_numpy(image).to(DEVICE).unsqueeze(0)
+            x_tensor = torch.from_numpy(image).to(device).unsqueeze(0)
             pr_mask = self.model.predict(x_tensor)
             pr_mask = pr_mask.squeeze().cpu().numpy().round()
 
