@@ -36,6 +36,12 @@ parser.add_argument(
     default="VALIDATION",
     help="FULL|QUICK|VALIDATION",
 )
+parser.add_argument(
+    "--device",
+    type=str,
+    default="cpu",
+    help="cpu|cuda",
+)
 args = parser.parse_args()
 
 success = True
@@ -57,6 +63,7 @@ if success:
         model.predict(
             dataset_path=os.path.join(args.dataset_path, "SegNet-Tutorial/CamVid/"),
             output_path=args.prediction_path,
+            device=args.device,
             in_notebook=False,
         )
 
