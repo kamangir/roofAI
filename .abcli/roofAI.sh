@@ -47,7 +47,7 @@ function roofAI() {
         return
     fi
 
-    if [ "$task" == "pytest" ]; then
+    if [[ "|pytest|test|" == *"|$task|"* ]]; then
         abcli_pytest plugin=roofAI,$1 \
             "${@:2}"
         return
