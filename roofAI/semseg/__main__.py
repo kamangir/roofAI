@@ -65,6 +65,12 @@ parser.add_argument(
     default="VALIDATION",
     help="FULL|QUICK|VALIDATION",
 )
+parser.add_argument(
+    "--suffix",
+    type=str,
+    default="",
+    help="suffix to register the model",
+)
 args = parser.parse_args()
 
 success = True
@@ -95,6 +101,7 @@ if success:
             classes=args.classes.split("+"),
             activation=args.activation,
             device=args.device,
+            suffix="" if args.suffix == "-" else args.suffix,
         )
     else:
         logger.error(f"-{NAME}: {args.task}: command not found.")

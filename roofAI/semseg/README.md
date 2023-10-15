@@ -28,7 +28,7 @@ https://arash-kamangir.medium.com/roofai-7-camvid-semseg-for-airs-train-51ff862f
 ```bash
 roofAI semseg predict \
     profile=VALIDATION \
-    $(@cache read latest_CamVid_model) \
+    $(@cache read roofAI_semseg_model_CamVid_v1) \
     $(@cache read roofAI_ingest_CamVid_v1) \
     roofAI-CamVid-semseg-prediction-$(@timestamp)
 ```

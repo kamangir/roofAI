@@ -4,8 +4,11 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def ingest_AIRS(ingest_path: str) -> bool:
-    logger.info(f"ingesting AIRS -> {ingest_path}")
+def ingest_AIRS(
+    cache_path: str,
+    ingest_path: str,
+) -> bool:
+    logger.info(f"ingesting AIRS -{cache_path}-> {ingest_path}")
 
     ...
 

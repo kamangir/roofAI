@@ -7,6 +7,8 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader
 from abcli import file
+from abcli import path
+from abcli.plugins import cache
 import segmentation_models_pytorch as smp
 from segmentation_models_pytorch import utils
 from roofAI.semseg.augmentation import (
@@ -33,9 +35,9 @@ class SemSegModelTrainer(object):
         in_notebook: bool = False,
         profile: Profile = Profile.VALIDATION,
     ):
-        dataset = RoofAIDataset(dataset_path)
+        self.dataset = RoofAIDataset(dataset_path)
 
-        self.dataset_path = dataset.dataset_path
+        self.dataset_path = self.dataset.dataset_path
 
         self.model_path = model_path
         self.in_notebook = in_notebook
@@ -103,10 +105,12 @@ class SemSegModelTrainer(object):
         classes=["car"],
         activation="sigmoid",  # could be None for logits or 'softmax2d' for multi-class segmentation
         device="cpu",  # 'cuda'
+        suffix: str = "",
     ):
         logger.info(
-            "{}.train -{}:{}-> {}[{}]: {}".format(
+            "{}.train{} -{}:{}-> {}[{}]: {}".format(
                 self.__class__.__name__,
+                f"[{suffix}]" if suffix else "",
                 device,
                 activation,
                 encoder_name,
@@ -243,5 +247,11 @@ class SemSegModelTrainer(object):
         logs = test_epoch.run(test_dataloader)
 
         # TODO: semseg_model.predict(...)
+
+        if suffix:
+            cache.write(
+                f"roofAI_semseg_model_{self.dataset.source}_{suffix}",
+                path.name(self.model_path),
+            )
 
         return semseg_model
