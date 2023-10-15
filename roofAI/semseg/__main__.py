@@ -1,6 +1,6 @@
 import argparse
 from roofAI import NAME, VERSION
-from roofAI.semseg.interface import run_prediction, train_model
+from roofAI.semseg.interface import predict, train
 from roofAI.semseg import Profile
 from abcli.logging import crash_report
 from abcli import logging
@@ -78,7 +78,7 @@ except:
 if success:
     success = False
     if args.task == "predict":
-        success = run_prediction(
+        success = predict(
             args.model_path,
             args.dataset_path,
             args.prediction_path,
@@ -86,7 +86,7 @@ if success:
             profile,
         )
     elif args.task == "train":
-        success = train_model(
+        success = train(
             args.dataset_path,
             args.model_path,
             profile,

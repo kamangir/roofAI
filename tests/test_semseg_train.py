@@ -1,15 +1,11 @@
 from abcli.modules import objects
-from roofAI.semseg.interface import train_model
-from roofAI.semseg import Profile
+from roofAI.semseg.interface import train
 
 
-def test_semseg_train_model():
-    success, model = train_model(
+def test_semseg_train():
+    success, _ = train(
         dataset_path=objects.object_path("roofAI-CamVid-v2"),
-        model_path=objects.object_path(
-            objects.unique_object("test_semseg_train_model")
-        ),
-        profile=Profile.VALIDATION,
+        model_path=objects.object_path(objects.unique_object("test_semseg_train")),
     )
     assert success
 

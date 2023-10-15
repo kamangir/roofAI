@@ -5,7 +5,7 @@ from roofAI.semseg import Profile
 from typing import Tuple, Any
 
 
-def run_prediction(
+def predict(
     model_path: str,
     dataset_path: str,
     prediction_path: str,
@@ -28,7 +28,7 @@ def run_prediction(
     return True
 
 
-def train_model(
+def train(
     dataset_path: str,
     model_path: str,
     profile: Profile = Profile.VALIDATION,
