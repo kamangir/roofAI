@@ -6,14 +6,14 @@ everything AI about roofs. 🏠
 
 ```bash
  > roof help verbose
-🏠 roofAI-3.74.1
+🏠 roofAI-3.75.1
 🏠 everything AI about roofs.
 
 roofAI create_conda_env \
 	[dryrun,~pip]
  . create conda environmnt.
 roofAI ingest \
-	[dryrun,~from_cache,source=CamVid|AIRS,upload] \
+	[~download,dryrun,~from_cache,source=CamVid|AIRS,upload] \
 	<object-name>
  . ingest -> <object-name>.
 QGIS seed
@@ -33,12 +33,14 @@ semseg train \
 	[--encoder_name <se_resnext50_32x4d>] \
 	[--encoder_weights <imagenet>]
  . semseg.train(<dataset_object_name>) -> <model_object_name>.
-usage: python3 -m roofAI.semseg [-h] [--activation ACTIVATION] [--classes CLASSES] [--dataset_is_camvid DATASET_IS_CAMVID]
-                                [--dataset_path DATASET_PATH] [--device DEVICE] [--encoder_name ENCODER_NAME] [--encoder_weights ENCODER_WEIGHTS]
-                                [--model_path MODEL_PATH] [--prediction_path PREDICTION_PATH] [--profile PROFILE]
+usage: python3 -m roofAI.semseg [-h] [--activation ACTIVATION] [--classes CLASSES]
+                                [--dataset_path DATASET_PATH] [--device DEVICE]
+                                [--encoder_name ENCODER_NAME] [--encoder_weights ENCODER_WEIGHTS]
+                                [--model_path MODEL_PATH] [--prediction_path PREDICTION_PATH]
+                                [--profile PROFILE]
                                 task
 
-roofAI.semseg-3.74.1
+roofAI.semseg-3.75.1
 
 positional arguments:
   task                  predict|train
@@ -48,8 +50,6 @@ optional arguments:
   --activation ACTIVATION
                         sigmoid or None for logits or softmax2d for multi-class segmentation
   --classes CLASSES     one+two+three+four
-  --dataset_is_camvid DATASET_IS_CAMVID
-                        0|1|-1
   --dataset_path DATASET_PATH
   --device DEVICE       cpu|cuda
   --encoder_name ENCODER_NAME
@@ -57,9 +57,13 @@ optional arguments:
   --model_path MODEL_PATH
   --prediction_path PREDICTION_PATH
   --profile PROFILE     FULL|QUICK|VALIDATION
+roofAI pytest \
+	[dryrun,list,~log,plugin=<plugin-name>,warning] \
+	[args]
+ . pytest roofAI.
 usage: python3 -m roofAI [-h] [--show_description SHOW_DESCRIPTION] task
 
-roofAI-3.74.1
+roofAI-3.75.1
 
 positional arguments:
   task                  version

@@ -7,7 +7,7 @@ function roofAI_ingest() {
     local options=$1
 
     if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-        local options="dryrun,~from_cache,source=$roofAI_ingest_sources,upload"
+        local options="~download,dryrun,~from_cache,source=$roofAI_ingest_sources,upload"
         abcli_show_usage "roofAI ingest$ABCUL[$options]$ABCUL<object-name>" \
             "ingest -> <object-name>."
         return
@@ -18,6 +18,7 @@ function roofAI_ingest() {
     mkdir -p $object_path
 
     local do_dryrun=$(abcli_option_int "$options" dryrun 0)
+    local do_download=$(abcli_option_int "$options" download 1)
     local do_upload=$(abcli_option_int "$options" upload 0)
     local source=$(abcli_option "$options" source)
 
@@ -27,6 +28,8 @@ function roofAI_ingest() {
     fi
 
     abcli_log "ingesting $source -> $object_name"
+
+    local args=""
 
     if [ "$source" == "CamVid" ]; then
         abcli_log """
@@ -65,16 +68,21 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
             [[ "$do_upload" == 1 ]] &&
                 abcli_upload - $cache_object_name
         else
+            [[ "$do_download" == 1 ]] &&
+                abcli_download - $cache_object_name
+
             abcli_log "using $source cache: $cache_object_name"
         fi
 
-        abcli_eval dryrun=$do_dryrun \
-            python3 -m roofAI.ingest \
-            --source $source \
-            --cache_path $cache_object_path \
-            --ingest_path $object_path \
-            "${@:3}"
+        local args="--cache_path $cache_object_path"
     fi
+
+    abcli_eval dryrun=$do_dryrun \
+        python3 -m roofAI.ingest \
+        --source $source \
+        --ingest_path $object_path \
+        "$args" \
+        "${@:3}"
 
     [[ "$do_upload" == 1 ]] &&
         abcli_upload - $object_name

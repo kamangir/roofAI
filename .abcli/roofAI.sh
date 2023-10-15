@@ -16,6 +16,7 @@ function roofAI() {
         roofAI_ingest "$@"
         roofAI_QGIS "$@"
         roofAI_semseg "$@"
+        roofAI_pytest "$@"
 
         if [ "$(abcli_keyword_is $2 verbose)" == true ]; then
             python3 -m roofAI --help
@@ -42,6 +43,13 @@ function roofAI() {
 
     if [ "$task" == "init" ]; then
         abcli_init roofAI "${@:2}"
+        conda activate roofAI
+        return
+    fi
+
+    if [ "$task" == "pytest" ]; then
+        abcli_pytest plugin=roofAI,$1 \
+            "${@:2}"
         return
     fi
 

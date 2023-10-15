@@ -9,6 +9,7 @@ import torch
 from roofAI.semseg.augmentation import get_validation_augmentation, get_preprocessing
 from roofAI.semseg.dataloader import Dataset
 import segmentation_models_pytorch as smp
+from roofAI.ingest import DatasetSource
 from roofAI.semseg.utils import visualize
 from roofAI.semseg import Profile
 import abcli.logging
@@ -57,10 +58,14 @@ class SemSegModel(object):
         output_path,
         device="cpu",  # 'cuda'
         in_notebook: bool = False,
+        dataset_source: DatasetSource = DatasetSource.AUTO,
     ):
+        dataset_path = dataset_source.adjust_path(dataset_path)
+
         logger.info(
-            "{}.predict({}) -{}-> {}".format(
+            "{}.predict({}:{}) -{}-> {}".format(
                 self.__class__.__name__,
+                dataset_source,
                 dataset_path,
                 device,
                 output_path,

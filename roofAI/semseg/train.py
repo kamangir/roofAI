@@ -14,6 +14,7 @@ from roofAI.semseg.augmentation import (
     get_validation_augmentation,
     get_preprocessing,
 )
+from roofAI.ingest import DatasetSource
 from roofAI.semseg.dataloader import Dataset
 from roofAI.semseg.model import SemSegModel
 from roofAI.semseg.utils import visualize
@@ -31,8 +32,9 @@ class SemSegModelTrainer(object):
         model_path: str,
         in_notebook: bool = False,
         profile: Profile = Profile.VALIDATION,
+        dataset_source: DatasetSource = DatasetSource.AUTO,
     ):
-        self.dataset_path = dataset_path
+        self.dataset_path = dataset_source.adjust_path(dataset_path)
         self.model_path = model_path
         self.in_notebook = in_notebook
         self.profile = profile
@@ -54,7 +56,6 @@ class SemSegModelTrainer(object):
         self.x_test_dir = os.path.join(self.dataset_path, "test")
         self.y_test_dir = os.path.join(self.dataset_path, "testannot")
 
-        logger.info("data review")
         dataset = Dataset(
             self.x_train_dir,
             self.y_train_dir,
