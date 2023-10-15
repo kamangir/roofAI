@@ -6,7 +6,7 @@ everything AI about roofs. 🏠
 
 ```bash
  > roof help verbose
-🏠 roofAI-3.67.1
+🏠 roofAI-3.74.1
 🏠 everything AI about roofs.
 
 roofAI create_conda_env \
@@ -38,7 +38,7 @@ usage: python3 -m roofAI.semseg [-h] [--activation ACTIVATION] [--classes CLASSE
                                 [--model_path MODEL_PATH] [--prediction_path PREDICTION_PATH] [--profile PROFILE]
                                 task
 
-roofAI.semseg-3.67.1
+roofAI.semseg-3.74.1
 
 positional arguments:
   task                  predict|train
@@ -59,7 +59,7 @@ optional arguments:
   --profile PROFILE     FULL|QUICK|VALIDATION
 usage: python3 -m roofAI [-h] [--show_description SHOW_DESCRIPTION] task
 
-roofAI-3.67.1
+roofAI-3.74.1
 
 positional arguments:
   task                  version
