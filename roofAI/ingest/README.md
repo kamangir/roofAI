@@ -21,6 +21,7 @@ roofAI ingest source=CamVid,register
 ```
 
 - https://arash-kamangir.medium.com/roofai-6-camvid-semseg-for-airs-1-f7530374adef
+- https://arash-kamangir.medium.com/roofai-8-ingesting-airs-1f0efa4bd8a1
 
 [review](../../notebooks/ingest/CamVid.ipynb): files are in `./SegNet-Tutorial/CamVid/`, where, for `subset` in `[test, train, val]`,
 
