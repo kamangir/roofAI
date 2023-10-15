@@ -9,7 +9,7 @@ import torch
 from roofAI.semseg.augmentation import get_validation_augmentation, get_preprocessing
 from roofAI.semseg.dataloader import Dataset
 import segmentation_models_pytorch as smp
-from roofAI.ingest import DatasetSource
+from roofAI.ingest.dataset import RoofAIDataset
 from roofAI.semseg.utils import visualize
 from roofAI.semseg import Profile
 import abcli.logging
@@ -58,22 +58,21 @@ class SemSegModel(object):
         output_path,
         device="cpu",  # 'cuda'
         in_notebook: bool = False,
-        dataset_source: DatasetSource = DatasetSource.AUTO,
     ):
-        dataset_path = dataset_source.adjust_path(dataset_path)
+        dataset = RoofAIDataset(dataset_path)
 
         logger.info(
             "{}.predict({}:{}) -{}-> {}".format(
                 self.__class__.__name__,
-                dataset_source,
-                dataset_path,
+                dataset.source,
+                dataset.dataset_path,
                 device,
                 output_path,
             )
         )
 
-        x_test_dir = os.path.join(dataset_path, "test")
-        y_test_dir = os.path.join(dataset_path, "testannot")
+        x_test_dir = os.path.join(dataset.dataset_path, "test")
+        y_test_dir = os.path.join(dataset.dataset_path, "testannot")
 
         # test dataset without transformations for image visualization
         test_dataset_vis = Dataset(

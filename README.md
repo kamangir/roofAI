@@ -6,26 +6,26 @@ everything AI about roofs. 🏠
 
 ```bash
  > roof help verbose
-🏠 roofAI-3.76.1
+🏠 roofAI-3.79.1
 🏠 everything AI about roofs.
 
 roofAI create_conda_env \
 	[dryrun,~pip]
  . create conda environmnt.
 roofAI ingest \
-	[~download,dryrun,~from_cache,source=CamVid|AIRS,upload] \
+	[dryrun,source=CamVid|AIRS,sufix=<v1>,register,upload] \
 	<object-name>
  . ingest -> <object-name>.
 QGIS seed
  . seed 🌱 QGIS.
 semseg predict \
-	[device=cpu|cuda,~download,dryrun,profile=FULL|QUICK|VALIDATION,~upload] \
+	[device=cpu|cuda,~download,dryrun,profile=FULL|QUICK|VALIDATION,upload] \
 	<model_object_name> \
 	<dataset_object_name> \
 	<prediction_object_name>
  . semseg[<model_object_name>].predict(<dataset_object_name>) -> <prediction_object_name>.
 semseg train \
-	[device=cpu|cuda,~download,dryrun,profile=FULL|QUICK|VALIDATION,register,~upload] \
+	[device=cpu|cuda,~download,dryrun,profile=FULL|QUICK|VALIDATION,register,upload] \
 	<dataset_object_name> \
 	<model_object_name> \
 	[--activation <sigmoid>] \
@@ -33,14 +33,12 @@ semseg train \
 	[--encoder_name <se_resnext50_32x4d>] \
 	[--encoder_weights <imagenet>]
  . semseg.train(<dataset_object_name>) -> <model_object_name>.
-usage: python3 -m roofAI.semseg [-h] [--activation ACTIVATION] [--classes CLASSES]
-                                [--dataset_path DATASET_PATH] [--device DEVICE]
-                                [--encoder_name ENCODER_NAME] [--encoder_weights ENCODER_WEIGHTS]
-                                [--model_path MODEL_PATH] [--prediction_path PREDICTION_PATH]
-                                [--profile PROFILE]
+usage: python3 -m roofAI.semseg [-h] [--activation ACTIVATION] [--classes CLASSES] [--dataset_path DATASET_PATH] [--device DEVICE]
+                                [--encoder_name ENCODER_NAME] [--encoder_weights ENCODER_WEIGHTS] [--model_path MODEL_PATH]
+                                [--prediction_path PREDICTION_PATH] [--profile PROFILE]
                                 task
 
-roofAI.semseg-3.76.1
+roofAI.semseg-3.79.1
 
 positional arguments:
   task                  predict|train
@@ -63,7 +61,7 @@ roofAI pytest \
  . pytest roofAI.
 usage: python3 -m roofAI [-h] [--show_description SHOW_DESCRIPTION] task
 
-roofAI-3.77.1
+roofAI-3.79.1
 
 positional arguments:
   task                  version

@@ -3,7 +3,7 @@
 ```bash
 roofAI semseg train \
     profile=VALIDATION \
-    roofAI-CamVid-v2 \
+    $(@cache read roofAI_ingest_CamVid_v1) \
     roofAI-CamVid-semseg-model-$(@timestamp)
 ```
 
@@ -29,7 +29,7 @@ https://arash-kamangir.medium.com/roofai-7-camvid-semseg-for-airs-train-51ff862f
 roofAI semseg predict \
     profile=VALIDATION \
     $(@cache read latest_CamVid_model) \
-    roofAI-CamVid-v2 \
+    $(@cache read roofAI_ingest_CamVid_v1) \
     roofAI-CamVid-semseg-prediction-$(@timestamp)
 ```
 

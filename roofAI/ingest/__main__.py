@@ -33,7 +33,7 @@ args = parser.parse_args()
 
 success = False
 if args.source == "AIRS":
-    success = ingest_AIRS(args.cache_path, args.ingest_path)
+    success = ingest_AIRS(args.ingest_path)
 elif args.source == "CamVid":
     success = ingest_CamVid(args.ingest_path)
 else:

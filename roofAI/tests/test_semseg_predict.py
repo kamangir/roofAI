@@ -6,7 +6,7 @@ from abcli.plugins import cache
 def test_semseg_predict():
     assert predict(
         model_path=objects.object_path(cache.read("latest_CamVid_model")),
-        dataset_path=objects.object_path("roofAI-CamVid-v2"),
+        dataset_path=objects.object_path(cache.read("roofAI_ingest_CamVid_v1")),
         prediction_path=objects.object_path(
             objects.unique_object("test_semseg_predict")
         ),

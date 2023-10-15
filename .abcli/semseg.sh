@@ -21,12 +21,12 @@ function roofAI_semseg() {
 
     local device=$(abcli_option "$options" device cpu)
     local do_dryrun=$(abcli_option_int "$options" dryrun 0)
-    local do_download=$(abcli_option_int "$options" download $(abcli_not $du_dryrun))
-    local do_upload=$(abcli_option_int "$options" upload $(abcli_not $du_dryrun))
+    local do_download=$(abcli_option_int "$options" download $(abcli_not $do_dryrun))
+    local do_upload=$(abcli_option_int "$options" upload 0)
 
     if [ "$task" == "predict" ]; then
         if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-            local options="device=cpu|cuda,~download,dryrun,profile=FULL|QUICK|VALIDATION,~upload"
+            local options="device=cpu|cuda,~download,dryrun,profile=FULL|QUICK|VALIDATION,upload"
             abcli_show_usage "semseg predict$ABCUL[$options]$ABCUL<model_object_name>$ABCUL<dataset_object_name>$ABCUL<prediction_object_name>" \
                 "semseg[<model_object_name>].predict(<dataset_object_name>) -> <prediction_object_name>."
             return
@@ -64,7 +64,7 @@ function roofAI_semseg() {
 
     if [ "$task" == "train" ]; then
         if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-            local options="device=cpu|cuda,~download,dryrun,profile=FULL|QUICK|VALIDATION,register,~upload"
+            local options="device=cpu|cuda,~download,dryrun,profile=FULL|QUICK|VALIDATION,register,upload"
             local args="[--activation <sigmoid>]$ABCUL[--classes <one+two+three+four>]$ABCUL[--encoder_name <se_resnext50_32x4d>]$ABCUL[--encoder_weights <imagenet>]"
             abcli_show_usage "semseg train$ABCUL[$options]$ABCUL<dataset_object_name>$ABCUL<model_object_name>$ABCUL$args" \
                 "semseg.train(<dataset_object_name>) -> <model_object_name>."
