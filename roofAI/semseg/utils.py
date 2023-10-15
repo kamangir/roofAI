@@ -5,9 +5,11 @@ copied with minor modification from ../../notebooks/semseg.ipynb
 import matplotlib.pyplot as plt
 import cv2
 import os
+import numpy as np
 from abcli import file
 from abcli import path
 from abcli import string
+from typing import List
 import abcli.logging
 import logging
 
@@ -19,7 +21,7 @@ def visualize(
     images,
     filename: str = "",
     in_notebook: bool = False,
-    description: str = "",
+    description: List[str] = [],
 ):
     n = len(images)
     plt.figure(figsize=(n * 5, 5))
@@ -34,9 +36,16 @@ def visualize(
         plt.xticks([])
         plt.yticks([])
         plt.title(
-            "{} - {}".format(
-                name.replace("_", " "),
+            "{} - {}{}".format(
+                name,
                 string.pretty_shape_of_matrix(image),
+                " - {} levels: {}..{}".format(
+                    len(np.unique(image)),
+                    int(np.min(image)),
+                    int(np.max(image)),
+                )
+                if name in "prediction,mask,groundtruth".split(",")
+                else "",
             )
         )
         plt.imshow(image)
