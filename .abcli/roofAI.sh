@@ -16,7 +16,8 @@ function roofAI() {
         roofAI_ingest "$@"
         roofAI_QGIS "$@"
         roofAI_semseg "$@"
-        roofAI_pytest "$@"
+        abcli_pytest plugin=roofAI,"$@"
+        roofAI_test "$@"
 
         if [ "$(abcli_keyword_is $2 verbose)" == true ]; then
             python3 -m roofAI --help
@@ -47,7 +48,7 @@ function roofAI() {
         return
     fi
 
-    if [[ "|pytest|test|" == *"|$task|"* ]]; then
+    if [ "$task" == "pytest" ]; then
         abcli_pytest plugin=roofAI,$1 \
             "${@:2}"
         return
