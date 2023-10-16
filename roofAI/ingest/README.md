@@ -12,7 +12,7 @@ roofAI ingest source=AIRS,register
 [review](../../notebooks/ingest/AIRS.ipynb): for `subset` in `[test, train, val]`,
 
 - `{subset}/image` contains `.tif`s, RGB.
-- `{subset}/label` contains `.tif`s and `_vis.tif`, binary.
+- `{subset}/label` contains `.tif`s and `_vis.tif`, binary, RGB.
 - `{subset}.txt`, `test.txt` missing.
 
 # CamVid
