@@ -40,8 +40,11 @@ class SemSegModelTrainer(object):
         self.dataset_path = self.dataset.dataset_path
 
         self.model_path = model_path
+        path.create(self.model_path, log=True)
+
         self.in_notebook = in_notebook
         self.profile = profile
+
         logger.info(
             "{}: {} -{}-> {}".format(
                 self.__class__.__name__,
@@ -105,7 +108,8 @@ class SemSegModelTrainer(object):
         classes=["car"],
         activation="sigmoid",  # could be None for logits or 'softmax2d' for multi-class segmentation
         device="cpu",  # 'cuda'
-        suffix: str = "",
+        register: bool = False,
+        suffix: str = "v1",
     ):
         logger.info(
             "{}.train{} -{}:{}-> {}[{}]: {}".format(
@@ -248,7 +252,7 @@ class SemSegModelTrainer(object):
 
         # TODO: semseg_model.predict(...)
 
-        if suffix:
+        if register:
             cache.write(
                 f"roofAI_semseg_model_{self.dataset.source}_{suffix}",
                 path.name(self.model_path),

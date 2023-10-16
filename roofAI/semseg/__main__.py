@@ -66,6 +66,12 @@ parser.add_argument(
     help="FULL|QUICK|VALIDATION",
 )
 parser.add_argument(
+    "--register",
+    type=int,
+    default=0,
+    help="0|1",
+)
+parser.add_argument(
     "--suffix",
     type=str,
     default="",
@@ -101,7 +107,8 @@ if success:
             classes=args.classes.split("+"),
             activation=args.activation,
             device=args.device,
-            suffix="" if args.suffix == "-" else args.suffix,
+            register=bool(args.register),
+            suffix=args.suffix,
         )
     else:
         logger.error(f"-{NAME}: {args.task}: command not found.")

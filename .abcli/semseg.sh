@@ -64,7 +64,7 @@ function roofAI_semseg() {
 
     if [ "$task" == "train" ]; then
         if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-            local options="device=cpu|cuda,~download,dryrun,profile=FULL|QUICK|VALIDATION,suffix=<v1>,upload"
+            local options="device=cpu|cuda,~download,dryrun,profile=FULL|QUICK|VALIDATION,register,suffix=<v1>,upload"
             local args="[--activation <sigmoid>]$ABCUL[--classes <one+two+three+four>]$ABCUL[--encoder_name <se_resnext50_32x4d>]$ABCUL[--encoder_weights <imagenet>]"
             abcli_show_usage "semseg train$ABCUL[$options]$ABCUL<dataset_object_name>$ABCUL<model_object_name>$ABCUL$args" \
                 "semseg.train(<dataset_object_name>) -> <model_object_name>."
@@ -79,16 +79,14 @@ function roofAI_semseg() {
 
         abcli_log "semseg.train($dataset_object_name) -$device-> $model_object_name."
 
-        local model_object_path=$abcli_object_root/$model_object_name
-        mkdir -pv $model_object_path
-
         abcli_eval dryrun=$do_dryrun \
             python3 -m roofAI.semseg train \
             --device $device \
             --dataset_path $abcli_object_root/$dataset_object_name \
-            --model_path $model_object_path \
+            --model_path $abcli_object_root/$model_object_name \
             --profile $(abcli_option "$options" profile VALIDATION) \
-            --suffix $(abcli_option "$options" suffix -) \
+            --register $(abcli_option_int "$options" register 0) \
+            --suffix $(abcli_option "$options" suffix v1) \
             "${@:5}"
 
         [[ "$do_upload" == 1 ]] &&
