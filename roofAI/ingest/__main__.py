@@ -29,11 +29,32 @@ parser.add_argument(
     default="",
     help="AIRS|CamVid",
 )
+parser.add_argument(
+    "--test_count",
+    type=int,
+    default="10",
+)
+parser.add_argument(
+    "--train_count",
+    type=int,
+    default="10",
+)
+parser.add_argument(
+    "--val_count",
+    type=int,
+    default="10",
+)
 args = parser.parse_args()
 
 success = False
 if args.source == "AIRS":
-    success = ingest_AIRS(args.cache_path, args.ingest_path)
+    success = ingest_AIRS(
+        args.cache_path,
+        args.ingest_path,
+        test_count=args.test_count,
+        train_count=args.train_count,
+        val_count=args.val_count,
+    )
 elif args.source == "CamVid":
     success = ingest_CamVid(args.ingest_path)
 else:
