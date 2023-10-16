@@ -7,7 +7,7 @@ roofAI ingest source=AIRS,register
 ```
 
 - https://medium.com/@arash-kamangir/roofai-1-airs-b440ebb54968
-- url 🔥
+- https://arash-kamangir.medium.com/roofai-9-ingesting-airs-2-e71dca1d28d2
 
 [review](../../notebooks/ingest/AIRS.ipynb): for `subset` in `[test, train, val]`,
 
