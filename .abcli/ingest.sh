@@ -6,9 +6,13 @@ function roofAI_ingest() {
     local options=$1
 
     if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-        local options="cache,dryrun,~from_cache,source=$roofAI_ingest_sources,suffix=<v1>,register,upload"
-        abcli_show_usage "roofAI ingest$ABCUL[$options]$ABCUL<object-name>" \
-            "ingest -> <object-name>."
+        local common_options="dryrun,suffix=<v1>,register,upload"
+
+        abcli_show_usage "roofAI ingest$ABCUL[cache,,~from_cache,CamVid=AIRS,$common_options]$ABCUL<object-name>" \
+            "ingest AIRS -> <object-name>."
+
+        abcli_show_usage "roofAI ingest$ABCUL[source=CamVid,$common_options]$ABCUL<object-name>" \
+            "ingest CamVid -> <object-name>."
         return
     fi
 
