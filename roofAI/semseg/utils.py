@@ -35,7 +35,7 @@ def visualize(
         plt.subplot(1, n, i + 1)
         plt.xticks([])
         plt.yticks([])
-        plt.title(
+        plt.xlabel(
             "{} - {}{}".format(
                 name,
                 string.pretty_shape_of_matrix(image),
@@ -52,7 +52,7 @@ def visualize(
 
     plt.subplot(1, n, 1)
 
-    plt.xlabel(
+    plt.title(
         " | ".join(
             [
                 thing

@@ -9,8 +9,11 @@ roofAI ingest source=AIRS,register
 - https://medium.com/@arash-kamangir/roofai-1-airs-b440ebb54968
 - url 🔥
 
-[review](../../notebooks/ingest/AIRS.ipynb): 🔥
+[review](../../notebooks/ingest/AIRS.ipynb): for `subset` in `[test, train, val]`,
 
+- `{subset}/image` contains `.tif`s, RGB.
+- `{subset}/label` contains `.tif`s and `_vis.tif`, binary.
+- `{subset}.txt`, `test.txt` missing.
 
 # CamVid
 
