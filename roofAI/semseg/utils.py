@@ -24,7 +24,7 @@ def visualize(
     description: List[str] = [],
 ):
     n = len(images)
-    plt.figure(figsize=(n * 5, 5))
+    fig = plt.figure(figsize=(n * 5, 5))
 
     for name in images:
         if isinstance(images[name], str):
@@ -32,7 +32,7 @@ def visualize(
             assert success
 
     for i, (name, image) in enumerate(images.items()):
-        plt.subplot(1, n, i + 1)
+        ax = fig.add_subplot(1, n, i + 1)
         plt.xticks([])
         plt.yticks([])
         plt.xlabel(
@@ -48,11 +48,10 @@ def visualize(
                 else "",
             )
         )
-        plt.imshow(image)
+        ax.imshow(image)
 
-    plt.subplot(1, n, 1)
-
-    plt.title(
+    # https://stackoverflow.com/a/7066293/17619982
+    fig.suptitle(
         " | ".join(
             [
                 thing
