@@ -22,6 +22,11 @@ roof dataset review open \
 
 ![image](../../assets/christchurch_397.png)
 
+```bash
+roof dataset review open \
+    $(@ref roofAI_ingest_AIRS_v1)
+```
+
 ## ingest
 
 

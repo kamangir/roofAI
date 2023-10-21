@@ -58,7 +58,7 @@ def test_MatrixKind(
             "test",
             10,
             MatrixKind.IMAGE,
-            "test/0001TP_009390.png",
+            "test/0001TP_008850.png",
             (360, 480, 3),
         ),
         (
@@ -67,7 +67,7 @@ def test_MatrixKind(
             "test",
             10,
             MatrixKind.MASK,
-            "testannot/0001TP_009390.png",
+            "testannot/0001TP_008850.png",
             (360, 480),
         ),
         (
@@ -76,7 +76,7 @@ def test_MatrixKind(
             "test",
             10,
             MatrixKind.IMAGE,
-            "test/image/christchurch_585.tif",
+            "test/image/christchurch_162.tif",
             (10000, 10000, 3),
         ),
         (
@@ -85,7 +85,7 @@ def test_MatrixKind(
             "test",
             10,
             MatrixKind.MASK,
-            "test/label/christchurch_585.tif",
+            "test/label/christchurch_162.tif",
             (10000, 10000),
         ),
     ],
