@@ -7,6 +7,7 @@ from roofAI import NAME, VERSION
 from abcli import string
 import numpy as np
 from typing import Dict
+import matplotlib.pyplot as plt
 from abcli import path
 from roofAI.semseg.model import chip_width, chip_height
 from abcli import logging
@@ -62,7 +63,7 @@ def ingest_AIRS(
                     chip_width,
                     chip_overlap,
                     max_chip_count=chip_count,
-                    path=ingest_dataset.subset_path(subset, matrix_kind),
+                    output_path=ingest_dataset.subset_path(subset, matrix_kind),
                     prefix=record_id,
                     log=log,
                 )
@@ -96,7 +97,7 @@ def slice_matrix(
     chip_width: int,
     chip_overlap: float,
     max_chip_count: int,
-    path: str,
+    output_path: str,
     prefix: str,
     log: bool = False,
 ) -> int:
@@ -109,7 +110,7 @@ def slice_matrix(
                 chip_height,
                 chip_width,
                 chip_overlap * 100,
-                path,
+                output_path,
                 prefix,
             )
         )
@@ -123,20 +124,29 @@ def slice_matrix(
         ):
             count += 1
 
-            chip = input_matrix[y : y + chip_height, x : x + chip_width]
+            chip = input_matrix[
+                y : y + chip_height,
+                x : x + chip_width,
+            ]
+
+            filename = f"{prefix}-{y:05d}-{x:05d}.png"
 
             assert file.save_image(
-                os.path.join(
-                    path,
-                    "{}-{:05d}-{:05d}.png".format(
-                        prefix,
-                        y,
-                        x,
-                    ),
-                ),
+                os.path.join(output_path, filename),
                 chip,
                 log=log,
             )
+
+            if kind == MatrixKind.MASK:
+                assert file.save_image(
+                    os.path.join(
+                        path.parent(output_path),
+                        f"{path.name(output_path)}-colored",
+                        filename,
+                    ),
+                    (plt.cm.jet(chip * 255) * 255).astype(np.uint8),
+                    log=log,
+                )
 
             if count >= max_chip_count:
                 return count
