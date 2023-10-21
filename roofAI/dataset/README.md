@@ -2,7 +2,7 @@
 
 Aerial Imagery for Roof Segmentation, from [kaggle](https://www.kaggle.com/datasets/atilol/aerialimageryforroofsegmentation), 457 km2, orthorectified, 220,000 buildings, gsd: 7.5 cm, 19.36 GB, + ground truth.
 
-[review](../../notebooks/dataset/ingest/AIRS.ipynb): for `subset` in `[test, train, val]`,
+[review](../../notebooks/dataset/custom/AIRS.ipynb): for `subset` in `[test, train, val]`,
 
 - `{subset}/image` contains `.tif`s, RGB.
 - `{subset}/label` contains `.tif`s and `_vis.tif`, binary, RGB.
