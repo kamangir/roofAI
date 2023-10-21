@@ -27,12 +27,14 @@ roof dataset review open \
 
 ```bash
 roofAI dataset ingest \
-    source=AIRS,register
+    source=AIRS,register \
+    - \
+    --test_count 250 \
+    --train_count 350 \
+    --val_count 100
 ```
 
-🔥
-
-
+![image](../../assets/christchurch_424-00000-00000.png)
 
 # CamVid
 

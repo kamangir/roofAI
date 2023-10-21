@@ -113,15 +113,17 @@ class RoofAIDataset(object):
         subset: str,
         matrix_kind: MatrixKind = MatrixKind.IMAGE,
     ) -> List[str]:
-        return [
-            file.name(filename)
-            for filename in file.list_of(
-                os.path.join(
-                    self.subset_path(subset, matrix_kind),
-                    f"*.{self.kind.file_extension}",
+        return sorted(
+            [
+                file.name(filename)
+                for filename in file.list_of(
+                    os.path.join(
+                        self.subset_path(subset, matrix_kind),
+                        f"*.{self.kind.file_extension}",
+                    )
                 )
-            )
-        ]
+            ]
+        )
 
     @property
     def one_liner(self):
