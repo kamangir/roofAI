@@ -168,24 +168,23 @@ class RoofAIDataset(object):
 
         if kind == MatrixKind.MASK:
             matrix = matrix[:, :, 0]
-
             unique_value = np.unique(matrix)
-            logger.info(
-                "{} unique value(s): {}".format(
-                    len(unique_value),
-                    unique_value,
-                )
-            )
 
         if log:
             logger.info(
-                "{}[{}].get_matrix({},{},{}): {}".format(
+                "{}[{}].get_matrix({},{},{}): {}{}".format(
                     self.__class__.__name__,
                     self.object_name,
                     subset,
                     record_id,
                     kind,
                     string.pretty_shape_of_matrix(matrix),
+                    "{} unique value(s): {}".format(
+                        len(unique_value),
+                        unique_value,
+                    )
+                    if kind == MatrixKind.MASK
+                    else "",
                 )
             )
 
