@@ -64,6 +64,11 @@ function roofAI() {
         return
     fi
 
+    if [ "$task" == "ingest" ]; then
+        roofAI_dataset_ingest "${@:2}"
+        return
+    fi
+
     if [ "$task" == "init" ]; then
         abcli_init roofAI "${@:2}"
         conda activate roofAI
@@ -73,6 +78,11 @@ function roofAI() {
     if [ "$task" == "pytest" ]; then
         abcli_pytest plugin=roofAI,$2 \
             "${@:3}"
+        return
+    fi
+
+    if [ "$task" == "review" ]; then
+        roofAI_dataset_review "${@:2}"
         return
     fi
 
