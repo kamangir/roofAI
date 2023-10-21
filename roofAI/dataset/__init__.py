@@ -45,7 +45,7 @@ class MatrixKind(Enum):
         self,
         dataset_kind,
         subset,
-    ):
+    ) -> str:
         return (
             (subset if self == MatrixKind.IMAGE else f"{subset}annot")
             if dataset_kind == DatasetKind.CAMVID
@@ -54,7 +54,9 @@ class MatrixKind(Enum):
 
 
 class RoofAIDataset(object):
-    def __init__(self, dataset_path):
+    SUBSETS = "test,train,val".split(",")
+
+    def __init__(self, dataset_path, kind=None):
         self.path = dataset_path
         self.object_name = path.name(self.path)
 
@@ -64,22 +66,43 @@ class RoofAIDataset(object):
         )
 
         self.source = self.metadata.get("source", "AIRS")
-        self.kind = DatasetKind[self.source.upper()]
+        self.kind = DatasetKind[self.source.upper()] if kind is None else kind
 
         self.subsets = {
-            subset: self.list_of_record_id(subset)
-            for subset in "test,train,val".split(",")
+            subset: self.list_of_record_id(subset) for subset in self.SUBSETS
         }
 
         logger.info(self.one_liner)
 
-    def list_of_record_id(self, subset):
+    def create(self, log: bool = False):
+        for subset in self.subsets:
+            for matrix_kind in list(MatrixKind):
+                path.create(
+                    self.subset_path(subset, matrix_kind),
+                    log=log,
+                )
+        return self
+
+    def subset_path(
+        self,
+        subset: str,
+        matrix_kind: MatrixKind,
+    ) -> str:
+        return os.path.join(
+            self.dataset_path,
+            matrix_kind.subset_path(self.kind, subset),
+        )
+
+    def list_of_record_id(
+        self,
+        subset: str,
+        matrix_kind: MatrixKind = MatrixKind.IMAGE,
+    ) -> List[str]:
         return [
             file.name(filename)
             for filename in file.list_of(
                 os.path.join(
-                    self.dataset_path,
-                    MatrixKind.IMAGE.subset_path(self.kind, subset),
+                    self.subset_path(subset, matrix_kind),
                     f"*.{self.kind.file_extension}",
                 )
             )
@@ -156,8 +179,9 @@ class RoofAIDataset(object):
 
         if log:
             logger.info(
-                "{}.get_matrix({},{},{}): {}".format(
+                "{}[{}].get_matrix({},{},{}): {}".format(
                     self.__class__.__name__,
+                    self.object_name,
                     subset,
                     record_id,
                     kind,
