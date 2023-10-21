@@ -6,7 +6,7 @@ everything AI about roofs. 🏠
 
 ```bash
  > roof help
-🏠 roofAI-3.104.1
+🏠 roofAI-3.113.1
 🏠 everything AI about roofs.
 
 roofAI create_conda_env \
@@ -30,14 +30,14 @@ semseg train \
 	[--encoder_weights <imagenet>]
  . semseg.train(<dataset_object_name>) -> <model_object_name>.
 roofAI dataset ingest \
-	[cache,~from_cache,source=AIRS,dryrun,suffix=<v1>,register,upload] \
+	[cache,~from_cache,source=AIRS,dryrun,open,register,suffix=<v1>,upload] \
 	<object-name> \
 	[--test_count <10>] \
 	[--train_count <10>] \
 	[--val_count <10>]
  . ingest AIRS -> <object-name>.
 roofAI dataset ingest \
-	[source=CamVid,dryrun,suffix=<v1>,register,upload] \
+	[source=CamVid,dryrun,open,register,suffix=<v1>,upload] \
 	<object-name>
  . ingest CamVid -> <object-name>.
 roofAI dataset review \
