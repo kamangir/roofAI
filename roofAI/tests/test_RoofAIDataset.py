@@ -54,7 +54,7 @@ def test_MatrixKind(
     [
         (
             "roofAI_ingest_CamVid_v1",
-            "RoofAIDataset[DatasetKind.CAMVID](",
+            "RoofAIDataset[DatasetKind.CAMVID:CamVid](",
             "test",
             10,
             MatrixKind.IMAGE,
@@ -63,7 +63,7 @@ def test_MatrixKind(
         ),
         (
             "roofAI_ingest_CamVid_v1",
-            "RoofAIDataset[DatasetKind.CAMVID](",
+            "RoofAIDataset[DatasetKind.CAMVID:CamVid](",
             "test",
             10,
             MatrixKind.MASK,
@@ -72,7 +72,7 @@ def test_MatrixKind(
         ),
         (
             "roofAI_ingest_AIRS_cache",
-            "RoofAIDataset[DatasetKind.AIRS](",
+            "RoofAIDataset[DatasetKind.AIRS:AIRS](",
             "test",
             10,
             MatrixKind.IMAGE,
@@ -81,7 +81,7 @@ def test_MatrixKind(
         ),
         (
             "roofAI_ingest_AIRS_cache",
-            "RoofAIDataset[DatasetKind.AIRS](",
+            "RoofAIDataset[DatasetKind.AIRS:AIRS](",
             "test",
             10,
             MatrixKind.MASK,

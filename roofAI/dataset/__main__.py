@@ -86,9 +86,11 @@ if args.task == "ingest":
         success = ingest_AIRS(
             args.cache_path,
             args.ingest_path,
-            test_count=args.test_count,
-            train_count=args.train_count,
-            val_count=args.val_count,
+            {
+                "test": args.test_count,
+                "train": args.train_count,
+                "val": args.val_count,
+            },
         )
     elif args.source == "CamVid":
         success = ingest_CamVid(args.ingest_path)

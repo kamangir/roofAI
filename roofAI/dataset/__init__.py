@@ -87,9 +87,10 @@ class RoofAIDataset(object):
 
     @property
     def one_liner(self):
-        return "{}[{}]({}): {} subset(s): {}".format(
+        return "{}[{}:{}]({}): {} subset(s): {}".format(
             self.__class__.__name__,
             self.kind,
+            self.source,
             self.object_name,
             len(self.subsets),
             " + ".join(
@@ -165,6 +166,20 @@ class RoofAIDataset(object):
             )
 
         return matrix
+
+    def shape(
+        self,
+        subset: str = "train",
+        index: int = 0,
+        kind: MatrixKind = MatrixKind.IMAGE,
+        log: bool = False,
+    ):
+        return self.get_matrix(
+            subset=subset,
+            record_id=self.subsets[subset][index],
+            kind=kind,
+            log=log,
+        ).shape
 
     def visualize(
         self,
