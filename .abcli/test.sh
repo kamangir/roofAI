@@ -11,14 +11,24 @@ function roofAI_test() {
 
     local do_dryrun=$(abcli_option_int "$options" dryrun 0)
 
-    abcli_cache write roofAI_semseg_model_CamVid_void void
+    local dataset_object_name=dataset-$(@timestamp)
+
+    abcli_eval dryrun=$do_dryrun \
+        roofAI dataset ingest \
+        source=AIRS \
+        $dataset_object_name \
+        --test_count 5 \
+        --train_count 5 \
+        --val_count 5
 
     abcli_eval dryrun=$do_dryrun \
         roofAI dataset review - \
-        $(@cache read roofAI_ingest_CamVid_v1) \
+        $dataset_object_name \
         --count 1 \
-        --index 10 \
+        --index 1 \
         --subset test
+
+    abcli_cache write roofAI_semseg_model_CamVid_void void
 
     abcli_eval dryrun=$do_dryrun \
         roofAI semseg train \
