@@ -6,16 +6,23 @@ everything AI about roofs. 🏠
 
 ```bash
  > roof help
-🏠 roofAI-3.85.1
+🏠 roofAI-3.102.1
 🏠 everything AI about roofs.
 
 roofAI create_conda_env \
 	[dryrun,~pip]
  . create conda environmnt.
 roofAI ingest \
-	[cache,dryrun,~from_cache,source=CamVid|AIRS,suffix=<v1>,register,upload] \
+	[cache,~from_cache,source=AIRS,dryrun,suffix=<v1>,register,upload] \
+	<object-name> \
+	[--test_count <10>] \
+	[--train_count <10>] \
+	[--val_count <10>]
+ . ingest AIRS -> <object-name>.
+roofAI ingest \
+	[source=CamVid,dryrun,suffix=<v1>,register,upload] \
 	<object-name>
- . ingest -> <object-name>.
+ . ingest CamVid -> <object-name>.
 QGIS seed
  . seed 🌱 QGIS.
 semseg predict \
@@ -35,8 +42,15 @@ semseg train \
  . semseg.train(<dataset_object_name>) -> <model_object_name>.
 roofAI pytest \
 	[dryrun,list,~log,plugin=<plugin-name>,warning] \
-	[args]
+	[filename.py|filename.py::test]
  . pytest roofAI.
+roofAI review_dataset \
+	[download,dryrun] \
+	<dataset_object_name> \
+	[--count <1>] \
+	[--index <index>] \
+	[--subset <subset>]
+ . review <dataset_object_name>.
 roofAI test [dryrun]
- . test roofAI.
+ . test roofAI. 
 ```
