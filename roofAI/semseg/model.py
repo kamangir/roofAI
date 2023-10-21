@@ -17,6 +17,9 @@ import logging
 
 logger = logging.getLogger()
 
+chip_width = 480
+chip_height = 360
+
 
 class SemSegModel(object):
     def __init__(
