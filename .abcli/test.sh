@@ -14,7 +14,7 @@ function roofAI_test() {
     abcli_cache write roofAI_semseg_model_CamVid_void void
 
     abcli_eval dryrun=$do_dryrun \
-        roofAI review_dataset - \
+        roofAI dataset review - \
         $(@cache read roofAI_ingest_CamVid_v1) \
         --count 1 \
         --index 10 \

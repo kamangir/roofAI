@@ -2,7 +2,7 @@
 
 export roofAI_ingest_sources="CamVid|AIRS"
 
-function roofAI_ingest() {
+function roofAI_dataset_ingest() {
     local options=$1
 
     if [ $(abcli_option_int "$options" help 0) == 1 ]; then
@@ -10,10 +10,10 @@ function roofAI_ingest() {
 
         local options="cache,~from_cache,source=AIRS,$common_options"
         local args="[--test_count <10>]$ABCUL[--train_count <10>]$ABCUL[--val_count <10>]"
-        abcli_show_usage "roofAI ingest$ABCUL[$options]$ABCUL<object-name>$ABCUL$args" \
+        abcli_show_usage "roofAI dataset ingest$ABCUL[$options]$ABCUL<object-name>$ABCUL$args" \
             "ingest AIRS -> <object-name>."
 
-        abcli_show_usage "roofAI ingest$ABCUL[source=CamVid,$common_options]$ABCUL<object-name>" \
+        abcli_show_usage "roofAI dataset ingest$ABCUL[source=CamVid,$common_options]$ABCUL<object-name>" \
             "ingest CamVid -> <object-name>."
         return
     fi
@@ -29,7 +29,7 @@ function roofAI_ingest() {
     local cache_keyword=roofAI_ingest_${source}_cache
 
     if [[ "|$roofAI_ingest_sources|" != *"|$source|"* ]]; then
-        abcli_log_error "-roofAI: ingest: $source: source not found."
+        abcli_log_error "-roofAI: dataset: ingest: $source: source not found."
         return 1
     fi
 

@@ -45,7 +45,7 @@ parser.add_argument(
 parser.add_argument(
     "--index",
     type=int,
-    default=0,
+    default=10,
 )
 parser.add_argument(
     "--ingest_path",
@@ -61,7 +61,7 @@ parser.add_argument(
 parser.add_argument(
     "--subset",
     type=str,
-    default="",
+    default="test",
 )
 parser.add_argument(
     "--test_count",

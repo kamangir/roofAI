@@ -13,11 +13,10 @@ function roofAI() {
         abcli_show_usage "roofAI create_conda_env$ABCUL[dryrun,~pip]" \
             "create conda environmnt."
 
-        roofAI_ingest "$@"
         roofAI_QGIS "$@"
         roofAI_semseg "$@"
+        roofAI dataset "$@"
         roofAI pytest "$@"
-        roofAI_review_dataset "$@"
         roofAI_test "$@"
 
         if [ "$(abcli_keyword_is $2 verbose)" == true ]; then
@@ -40,6 +39,28 @@ function roofAI() {
         pip3 install timm
         pip3 install pretrainedmodels
         pip3 install efficientnet_pytorch
+        return
+    fi
+
+    if [ "$task" == "dataset" ]; then
+        local task=$2
+
+        if [ "$task" == "help" ]; then
+            roofAI_dataset_ingest "${@:2}"
+            roofAI_dataset_review "${@:2}"
+            return
+        fi
+
+        local function_name=roofAI_dataset_$task
+        if [[ $(type -t $function_name) == "function" ]]; then
+            $function_name "${@:3}"
+            return
+        fi
+
+        python3 -m roofAI.dataset \
+            "$task" \
+            "${@:3}"
+
         return
     fi
 
