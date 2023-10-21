@@ -6,7 +6,7 @@ function roofAI_dataset_ingest() {
     local options=$1
 
     if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-        local common_options="dryrun,suffix=<v1>,register,upload"
+        local common_options="dryrun,open,register,suffix=<v1>,upload"
 
         local options="cache,~from_cache,source=AIRS,$common_options"
         local args="[--test_count <10>]$ABCUL[--train_count <10>]$ABCUL[--val_count <10>]"
@@ -21,6 +21,7 @@ function roofAI_dataset_ingest() {
     local from_cache=$(abcli_option_int "$options" from_cache 1)
     local do_cache=$(abcli_option_int "$options" cache $(abcli_not $from_cache))
     local do_dryrun=$(abcli_option_int "$options" dryrun 0)
+    local do_open=$(abcli_option_int "$options" open 0)
     local do_register=$(abcli_option_int "$options" register 0)
     local do_upload=$(abcli_option_int "$options" upload 0)
     local suffix=$(abcli_option "$options" suffix v1)
@@ -36,6 +37,8 @@ function roofAI_dataset_ingest() {
     local object_name=$(abcli_clarify_object $2 roofAI_ingest_${source}_$(abcli_string_timestamp))
     local object_path=$abcli_object_root/$object_name
     mkdir -p $object_path
+    [[ "$do_open" == 1 ]] &&
+        open $object_path
 
     abcli_log "ingesting $source -> $object_name"
 
