@@ -27,6 +27,6 @@ def ingest_AIRS(
         )
     )
 
-    ...
+    logger.info("wip")
 
     return True

@@ -9,7 +9,7 @@ roofAI ingest source=AIRS,register
 - https://medium.com/@arash-kamangir/roofai-1-airs-b440ebb54968
 - https://arash-kamangir.medium.com/roofai-9-ingesting-airs-2-e71dca1d28d2
 
-[review](../../notebooks/ingest/AIRS.ipynb): for `subset` in `[test, train, val]`,
+[review](../../notebooks/ingest/AIRS/review.ipynb): for `subset` in `[test, train, val]`,
 
 - `{subset}/image` contains `.tif`s, RGB.
 - `{subset}/label` contains `.tif`s and `_vis.tif`, binary, RGB.
