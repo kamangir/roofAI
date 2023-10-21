@@ -62,7 +62,7 @@ def visualize(
                     path.name(file.path(filename)),
                 ]
                 + description
-                if thing
+                if thing and thing != "_review"
             ]
         )
     )
