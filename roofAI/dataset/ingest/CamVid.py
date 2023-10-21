@@ -15,7 +15,7 @@ def ingest_CamVid(ingest_path: str) -> bool:
         os.path.join(ingest_path, "metadata.yaml"),
         {
             "classes": Dataset.CLASSES,
-            "path_prefix": "SegNet-Tutorial/CamVid",
+            "kind": "CamVid",
             "source": "CamVid",
             "ingested-by": f"{NAME}-{VERSION}",
         },

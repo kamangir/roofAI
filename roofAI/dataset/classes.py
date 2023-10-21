@@ -1,6 +1,7 @@
 import os
 from enum import Enum, auto
-from typing import List
+from roofAI.semseg.dataloader import Dataset
+from typing import List, Tuple
 import numpy as np
 from abcli import path
 from abcli import string
@@ -66,7 +67,21 @@ class RoofAIDataset(object):
         )
 
         self.source = self.metadata.get("source", "AIRS")
-        self.kind = DatasetKind[self.source.upper()] if kind is None else kind
+        self.kind = DatasetKind[
+            self.metadata.get(
+                "kind",
+                self.source
+                if kind is None
+                else kind.name
+                if isinstance(kind, DatasetKind)
+                else kind,
+            ).upper()
+        ]
+
+        self.classes = self.metadata.get(
+            "classes",
+            "other,roof".split(",") if self.source == "AIRS" else Dataset.CLASSES,
+        )
 
         self.subsets = {
             subset: self.list_of_record_id(subset) for subset in self.SUBSETS
@@ -110,7 +125,7 @@ class RoofAIDataset(object):
 
     @property
     def one_liner(self):
-        return "{}[{}:{}]({}): {} subset(s): {}".format(
+        return "{}[kind:{},source:{}]({}): {} subset(s): {} - {} class(es): {}".format(
             self.__class__.__name__,
             self.kind,
             self.source,
@@ -122,6 +137,8 @@ class RoofAIDataset(object):
                     for subset, ids in self.subsets.items()
                 ]
             ),
+            len(self.classes),
+            ", ".join(self.classes),
         )
 
     @property
@@ -206,14 +223,14 @@ class RoofAIDataset(object):
 
     def visualize(
         self,
-        subset,
-        index,
+        subset: str,
+        index: Tuple[int, str],
         filename: str = "auto",
         in_notebook: bool = False,
         description: List[str] = [],
         log: bool = False,
     ):
-        record_id = self.subsets[subset][index]
+        record_id = self.subsets[subset][index] if isinstance(index, int) else index
         logger.info("record_id: {}".format(record_id))
 
         image = self.get_matrix(
