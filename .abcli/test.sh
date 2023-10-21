@@ -14,6 +14,13 @@ function roofAI_test() {
     abcli_cache write roofAI_semseg_model_CamVid_void void
 
     abcli_eval dryrun=$do_dryrun \
+        roofAI review_dataset - \
+        $(@cache read roofAI_ingest_CamVid_v1) \
+        --count 1 \
+        --index 10 \
+        --subset test
+
+    abcli_eval dryrun=$do_dryrun \
         roofAI semseg train \
         profile=VALIDATION,register,suffix=void \
         $(@cache read roofAI_ingest_CamVid_v1) \

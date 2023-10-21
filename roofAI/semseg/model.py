@@ -9,7 +9,7 @@ import torch
 from roofAI.semseg.augmentation import get_validation_augmentation, get_preprocessing
 from roofAI.semseg.dataloader import Dataset
 import segmentation_models_pytorch as smp
-from roofAI.ingest.dataset import RoofAIDataset
+from roofAI.dataset import RoofAIDataset
 from roofAI.semseg.utils import visualize
 from roofAI.semseg import Profile
 import abcli.logging

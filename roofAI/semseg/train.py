@@ -17,7 +17,7 @@ from roofAI.semseg.augmentation import (
     get_preprocessing,
 )
 from roofAI.semseg.dataloader import Dataset
-from roofAI.ingest.dataset import RoofAIDataset
+from roofAI.dataset import RoofAIDataset
 from roofAI.semseg.model import SemSegModel
 from roofAI.semseg.utils import visualize
 from roofAI.semseg import Profile

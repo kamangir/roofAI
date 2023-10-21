@@ -2,7 +2,7 @@
 
 everything AI about roofs. 🏠
 
-🔷 [datasets](./roofAI/ingest) 🔷 [notebooks](./notebooks/) 🔷 [semseg](./roofAI/semseg) 🔷
+🔷 [datasets](./roofAI/dataset) 🔷 [notebooks](./notebooks/) 🔷 [semseg](./roofAI/semseg) 🔷
 
 ```bash
  > roof help

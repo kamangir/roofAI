@@ -28,8 +28,11 @@ def visualize(
 
     for name in images:
         if isinstance(images[name], str):
-            success, images[name] = file.load_image(images[name], log=True)
+            success, images[name] = image = file.load_image(images[name], log=True)
             assert success
+
+    for name in images:
+        images[name][np.isnan(images[name])] = 0
 
     for i, (name, image) in enumerate(images.items()):
         ax = fig.add_subplot(1, n, i + 1)
@@ -65,8 +68,7 @@ def visualize(
     )
 
     if filename:
-        while file.exist(filename):
-            filename = file.add_postfix(filename, "b")
+        file.prepare_for_saving(filename)
         plt.savefig(filename)
         logger.info(f"-> {filename}")
 

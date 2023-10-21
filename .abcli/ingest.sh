@@ -8,7 +8,9 @@ function roofAI_ingest() {
     if [ $(abcli_option_int "$options" help 0) == 1 ]; then
         local common_options="dryrun,suffix=<v1>,register,upload"
 
-        abcli_show_usage "roofAI ingest$ABCUL[cache,~from_cache,source=AIRS,test=<10>,train=<10>,val=<10>,$common_options]$ABCUL<object-name>" \
+        local options="cache,~from_cache,source=AIRS,$common_options"
+        local args="[--test_count <10>]$ABCUL[--train_count <10>]$ABCUL[--val_count <10>]"
+        abcli_show_usage "roofAI ingest$ABCUL[$options]$ABCUL<object-name>$ABCUL$args" \
             "ingest AIRS -> <object-name>."
 
         abcli_show_usage "roofAI ingest$ABCUL[source=CamVid,$common_options]$ABCUL<object-name>" \
@@ -81,21 +83,13 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
                 $cache_keyword \
                 $cache_object_name
 
-        local test_count=$(abcli_option_int "$options" test 10)
-        local train_count=$(abcli_option_int "$options" train 10)
-        local val_count=$(abcli_option_int "$options" val 10)
-
-        local args="\
-            --cache_path $abcli_object_root/$cache_object_name \
-            --test_count $test_count \
-            --train_count $train_count \
-            --val_count $val_count"
+        local args="--cache_path $abcli_object_root/$cache_object_name"
 
         abcli_log "using cache: $cache_object_name"
     fi
 
     abcli_eval dryrun=$do_dryrun \
-        python3 -m roofAI.ingest \
+        python3 -m roofAI.dataset ingest \
         --source $source \
         --ingest_path $object_path \
         "$args" \
