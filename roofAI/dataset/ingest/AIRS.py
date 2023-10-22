@@ -1,5 +1,6 @@
 import os
 from tqdm import tqdm
+from typing import List, Tuple
 from abcli import file
 from roofAI.dataset import RoofAIDataset, DatasetKind, MatrixKind
 from roofAI.semseg.model import chip_width, chip_height
@@ -46,7 +47,8 @@ def ingest_AIRS(
     ).create(log=log)
 
     for subset in tqdm(counts.keys()):
-        for matrix_kind in list(MatrixKind):
+        record_id_list = []
+        for matrix_kind in [MatrixKind.MASK, MatrixKind.IMAGE]:  # order is critical.
             chip_count = counts[subset]
             for record_id in cache_dataset.subsets[subset]:
                 input_matrix = cache_dataset.get_matrix(
@@ -56,17 +58,20 @@ def ingest_AIRS(
                     log=log,
                 )
 
-                chip_count -= slice_matrix(
-                    input_matrix,
-                    matrix_kind,
-                    chip_height,
-                    chip_width,
-                    chip_overlap,
+                slice_count, slice_record_id_list = slice_matrix(
+                    input_matrix=input_matrix,
+                    kind=matrix_kind,
+                    chip_height=chip_height,
+                    chip_width=chip_width,
+                    chip_overlap=chip_overlap,
                     max_chip_count=chip_count,
+                    record_id_list=record_id_list,
                     output_path=ingest_dataset.subset_path(subset, matrix_kind),
                     prefix=record_id,
-                    log=log,
+                    log=False,
                 )
+                chip_count -= slice_count
+                record_id_list = list(set(record_id_list + slice_record_id_list))
 
                 if chip_count <= 0:
                     break
@@ -97,13 +102,14 @@ def slice_matrix(
     chip_width: int,
     chip_overlap: float,
     max_chip_count: int,
+    record_id_list: List[str],
     output_path: str,
     prefix: str,
     log: bool = False,
-) -> int:
+) -> Tuple[int, List[str]]:
     if log:
         logger.info(
-            "slice_matrix[{}]: {} -{}X{}x{}-@{:.0f}%-> {} - {}".format(
+            "slice_matrix[{}]: {} -{}X{}x{}-@{:.0f}%-> {} - {}{}".format(
                 string.pretty_shape_of_matrix(input_matrix),
                 kind,
                 max_chip_count,
@@ -112,8 +118,16 @@ def slice_matrix(
                 chip_overlap * 100,
                 output_path,
                 prefix,
+                ""
+                if kind == MatrixKind.MASK
+                else ": {} record_id(s): {}".format(
+                    len(record_id_list),
+                    ", ".join(record_id_list[:3] + ["..."]),
+                ),
             )
         )
+
+    record_id_list_output = []
 
     count = 0
     for y in range(
@@ -127,15 +141,18 @@ def slice_matrix(
                 x : x + chip_width,
             ]
 
+            record_id = f"{prefix}-{y:05d}-{x:05d}"
+
             # to ensure variety of labels in the pixel.
             # TODO: make it more elaborate.
-            if len(np.unique(chip)) < 2:
+            if (kind == MatrixKind.MASK and (len(np.unique(chip)) < 2)) or (
+                kind == MatrixKind.IMAGE and (record_id not in record_id_list)
+            ):
                 continue
-
-            filename = f"{prefix}-{y:05d}-{x:05d}.png"
+            record_id_list_output += [record_id]
 
             assert file.save_image(
-                os.path.join(output_path, filename),
+                os.path.join(output_path, f"{record_id}.png"),
                 chip,
                 log=log,
             )
@@ -145,7 +162,7 @@ def slice_matrix(
                     os.path.join(
                         path.parent(output_path),
                         f"{path.name(output_path)}-colored",
-                        filename,
+                        f"{record_id}.png",
                     ),
                     (plt.cm.viridis(chip * 255) * 255).astype(np.uint8)[:, :, :3],
                     log=log,
@@ -153,6 +170,6 @@ def slice_matrix(
 
             count += 1
             if count >= max_chip_count:
-                return count
+                return count, record_id_list_output
 
-    return count
+    return count, record_id_list_output

@@ -53,6 +53,12 @@ parser.add_argument(
     default="",
 )
 parser.add_argument(
+    "--log",
+    type=int,
+    default=1,
+    help="0|1",
+)
+parser.add_argument(
     "--source",
     type=str,
     default="",
@@ -91,6 +97,7 @@ if args.task == "ingest":
                 "train": args.train_count,
                 "val": args.val_count,
             },
+            log=args.log,
         )
     elif args.source == "CamVid":
         success = ingest_CamVid(args.ingest_path)
@@ -105,7 +112,7 @@ elif args.task == "review":
             index=index + args.index,
             in_notebook=False,
             description=args.description.split(","),
-            log=True,
+            log=args.log,
         )
 
     success = True
