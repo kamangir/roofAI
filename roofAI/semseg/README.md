@@ -4,7 +4,8 @@
 roofAI semseg train \
     profile=VALIDATION \
     $(@cache read roofAI_ingest_CamVid_v1) \
-    roofAI-CamVid-semseg-model-$(@timestamp)
+    roofAI-CamVid-semseg-model-$(@timestamp) \
+    --classes car
 ```
 
 ![image](../../assets/augmented_dataset-00000.png)
