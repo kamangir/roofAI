@@ -2,13 +2,15 @@
 
 ```bash
 roofAI semseg train \
-    profile=VALIDATION \
-    $(@cache read roofAI_ingest_CamVid_v1) \
-    roofAI-CamVid-semseg-model-$(@timestamp) \
-    --classes car
+    profile=DECENT,register,suffix=v1 \
+    $(@ref roofAI_ingest_AIRS_v1) \
+    $(@timestamp) \
+    --classes roof
 ```
 
-![image](../../assets/augmented_dataset-00000.png)
+![image](../../assets/christchurch_424-00000-00000.png)
+
+![image](../../assets/train-summary.png)
 
 `model.json`
 ```json
@@ -22,18 +24,14 @@ roofAI semseg train \
 }
 ```
 
-https://arash-kamangir.medium.com/roofai-7-camvid-semseg-for-airs-train-51ff862fd8a6
-
 # predict
 
 ```bash
 roofAI semseg predict \
     profile=VALIDATION \
-    $(@cache read roofAI_semseg_model_CamVid_v1) \
-    $(@cache read roofAI_ingest_CamVid_v1) \
-    roofAI-CamVid-semseg-prediction-$(@timestamp)
+    $(@ref roofAI_semseg_model_AIRS_v1) \
+    $(@ref roofAI_ingest_AIRS_v1)
 ```
 
 ![image](../../assets/predict-00000.png)
 
-https://arash-kamangir.medium.com/roofai-7-camvid-semseg-for-airs-2-4ad962c03b5b

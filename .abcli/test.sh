@@ -46,15 +46,15 @@ function roofAI_test() {
             abcli_eval dryrun=$do_dryrun \
                 roofAI semseg train \
                 profile=VALIDATION,register,suffix=test \
-                $(@cache read roofAI_ingest_${dataset_source}_v1) \
+                $(@ref roofAI_ingest_${dataset_source}_v1) \
                 roofAI-${dataset_source}-semseg-model-$(@timestamp) \
                 --classes $classes
 
             abcli_eval dryrun=$do_dryrun \
                 roofAI semseg predict \
                 profile=VALIDATION \
-                $(@cache read roofAI_semseg_model_${dataset_source}_test) \
-                $(@cache read roofAI_ingest_${dataset_source}_v1) \
+                $(@ref roofAI_semseg_model_${dataset_source}_test) \
+                $(@ref roofAI_ingest_${dataset_source}_v1) \
                 roofAI-${dataset_source}-semseg-prediction-$(@timestamp)
         done
     fi
