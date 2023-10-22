@@ -64,8 +64,12 @@ function roofAI() {
         return
     fi
 
-    if [ "$task" == "ingest" ]; then
-        roofAI_dataset_ingest "${@:2}"
+    if [[ "|ingest|review|" == *"|$task|"* ]]; then
+        roofAI_dataset_${task} "${@:2}"
+        return
+    fi
+    if [[ "|predict|train|" == *"|$task|"* ]]; then
+        roofAI_semseg $task "${@:2}"
         return
     fi
 
@@ -78,11 +82,6 @@ function roofAI() {
     if [ "$task" == "pytest" ]; then
         abcli_pytest plugin=roofAI,$2 \
             "${@:3}"
-        return
-    fi
-
-    if [ "$task" == "review" ]; then
-        roofAI_dataset_review "${@:2}"
         return
     fi
 
