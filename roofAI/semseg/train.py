@@ -4,6 +4,8 @@ Copied with modification from ../../notebooks/semseg.ipynb
 
 import os
 import numpy as np
+import matplotlib.pyplot as plt
+import time
 from typing import List
 import torch
 from torch.utils.data import DataLoader
@@ -112,6 +114,7 @@ class SemSegModelTrainer(object):
         device="cpu",  # 'cuda'
         register: bool = False,
         suffix: str = "v1",
+        in_notebook: bool = False,
     ):
         logger.info(
             "{}.train{} -{}:{}-> {}[{}]: {}".format(
@@ -124,6 +127,8 @@ class SemSegModelTrainer(object):
                 ",".join(classes),
             )
         )
+
+        start_time = time.time()
 
         # create segmentation model with pretrained encoder
         model = smp.FPN(
@@ -204,10 +209,14 @@ class SemSegModelTrainer(object):
 
         max_score = 0
         model_filename = os.path.join(self.model_path, "model.pth")
-        for i in range(0, self.profile.epoch_count):
+        epic_logs = {}
+        epic_list = range(0, self.profile.epoch_count)
+        for i in epic_list:
             logger.info("epoch: #{}/{}".format(i + 1, self.profile.epoch_count))
             train_logs = train_epoch.run(train_loader)
             valid_logs = valid_epoch.run(valid_loader)
+
+            epic_logs[i] = {"train": train_logs, "valid": valid_logs}
 
             # do something (save model, change lr, etc.)
             if max_score < valid_logs["iou_score"]:
@@ -224,10 +233,43 @@ class SemSegModelTrainer(object):
             {
                 "activation": activation,
                 "classes": classes,
+                "elapsed_time": time.time() - start_time,
                 "encoder_name": encoder_name,
                 "encoder_weights": encoder_weights,
+                "epics": epic_logs,
             },
         )
+
+        fig = plt.figure(figsize=(10, 5))
+        plt.subplot(1, 2, 1)
+        for subset in "train,valid".split(","):
+            plt.plot(
+                epic_list,
+                [epic_logs[epic][subset]["dice_loss"] for epic in epic_list],
+                label=f"{subset} loss",
+            )
+        plt.xlabel("epic")
+        plt.ylabel("dice-loss")
+        plt.grid(True)
+        plt.title(path.name(self.model_path))
+        plt.subplot(1, 2, 2)
+        for subset in "train,valid".split(","):
+            plt.plot(
+                epic_list,
+                [epic_logs[epic][subset]["iou_score"] for epic in epic_list],
+                label=f"{subset} iou",
+            )
+        plt.xlabel("epic")
+        plt.ylabel("iou score")
+        plt.yticks([0, 1])
+        plt.grid(True)
+        filename = os.path.join(self.model_path, "train-summary.png")
+        file.prepare_for_saving(filename)
+        plt.savefig(filename)
+        logger.info(f"-> {filename}")
+        if in_notebook:
+            plt.show()
+        plt.close()
 
         semseg_model = SemSegModel(model_filename)
 

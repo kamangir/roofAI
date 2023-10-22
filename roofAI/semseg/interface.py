@@ -56,6 +56,7 @@ def train(
         device=device,
         register=register,
         suffix=suffix,
+        in_notebook=in_notebook,
     )
 
     model.predict(
