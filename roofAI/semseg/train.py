@@ -105,9 +105,9 @@ class SemSegModelTrainer(object):
 
     def train(
         self,
+        classes,
         encoder_name="se_resnext50_32x4d",
         encoder_weights="imagenet",
-        classes=["car"],
         activation="sigmoid",  # could be None for logits or 'softmax2d' for multi-class segmentation
         device="cpu",  # 'cuda'
         register: bool = False,

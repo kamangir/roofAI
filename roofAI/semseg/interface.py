@@ -30,9 +30,9 @@ def predict(
 def train(
     dataset_path: str,
     model_path: str,
+    classes: List[str],
     encoder_name="se_resnext50_32x4d",
     encoder_weights="imagenet",
-    classes: List[str] = ["car"],
     activation="sigmoid",  # could be None for logits or 'softmax2d' for multi-class segmentation
     device="cpu",  # 'cuda'
     register: bool = False,
@@ -41,21 +41,21 @@ def train(
     in_notebook: bool = False,
 ) -> Tuple[bool, Any]:
     trainer = SemSegModelTrainer(
-        dataset_path,
-        model_path,
-        classes,
-        in_notebook,
-        profile,
+        dataset_path=dataset_path,
+        model_path=model_path,
+        classes=classes,
+        in_notebook=in_notebook,
+        profile=profile,
     )
 
     model = trainer.train(
-        encoder_name,
-        encoder_weights,
-        classes,
-        activation,
-        device,
-        register,
-        suffix,
+        classes=classes,
+        encoder_name=encoder_name,
+        encoder_weights=encoder_weights,
+        activation=activation,
+        device=device,
+        register=register,
+        suffix=suffix,
     )
 
     model.predict(

@@ -30,7 +30,7 @@ parser.add_argument(
 parser.add_argument(
     "--classes",
     type=str,
-    default="car",
+    default="",
     help="one+two+three+four",
 )
 parser.add_argument(
