@@ -10,6 +10,8 @@ import cv2
 import numpy as np
 from torch.utils.data import DataLoader
 from torch.utils.data import Dataset as BaseDataset
+from abcli import path
+from roofAI.dataset import RoofAIDataset
 
 
 class Dataset(BaseDataset):
@@ -25,21 +27,6 @@ class Dataset(BaseDataset):
             (e.g. normalization, shape manipulation, etc.)
 
     """
-
-    CLASSES = [
-        "sky",
-        "building",
-        "pole",
-        "road",
-        "pavement",
-        "tree",
-        "signsymbol",
-        "fence",
-        "car",
-        "pedestrian",
-        "bicyclist",
-        "unlabelled",
-    ]
 
     def __init__(
         self,
@@ -58,7 +45,16 @@ class Dataset(BaseDataset):
         self.masks_fps = [os.path.join(masks_dir, image_id) for image_id in self.ids]
 
         # convert str names to class values on masks
-        self.class_values = [self.CLASSES.index(cls.lower()) for cls in classes]
+        dataset = RoofAIDataset(path.parent(images_dir, 3))
+        self.class_values = [dataset.classes.index(cls.lower()) for cls in classes]
+        print(
+            "{}: {} class(es): {}".format(
+                self.__class__.__name__,
+                len(self.class_values),
+                ", ".join([str(value) for value in self.class_values]),
+            )
+        )
+        assert self.class_values
 
         self.augmentation = augmentation
         self.preprocessing = preprocessing

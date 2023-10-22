@@ -1,11 +1,25 @@
 import os
-from roofAI.semseg.dataloader import Dataset
 from roofAI import NAME, VERSION
 from abcli import file
 from abcli import logging
 import logging
 
 logger = logging.getLogger(__name__)
+
+CLASSES = [
+    "sky",
+    "building",
+    "pole",
+    "road",
+    "pavement",
+    "tree",
+    "signsymbol",
+    "fence",
+    "car",
+    "pedestrian",
+    "bicyclist",
+    "unlabelled",
+]
 
 
 def ingest_CamVid(ingest_path: str) -> bool:
@@ -14,7 +28,7 @@ def ingest_CamVid(ingest_path: str) -> bool:
     return file.save_yaml(
         os.path.join(ingest_path, "metadata.yaml"),
         {
-            "classes": Dataset.CLASSES,
+            "classes": CLASSES,
             "kind": "CamVid",
             "source": "CamVid",
             "ingested-by": f"{NAME}-{VERSION}",

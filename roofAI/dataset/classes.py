@@ -1,6 +1,6 @@
 import os
 from enum import Enum, auto
-from roofAI.semseg.dataloader import Dataset
+from roofAI.dataset.ingest.CamVid import CLASSES as CAMVID_CLASSES
 from typing import List, Tuple
 import numpy as np
 from abcli import path
@@ -80,7 +80,7 @@ class RoofAIDataset(object):
 
         self.classes = self.metadata.get(
             "classes",
-            "other,roof".split(",") if self.source == "AIRS" else Dataset.CLASSES,
+            "other,roof".split(",") if self.source == "AIRS" else CAMVID_CLASSES,
         )
 
         self.subsets = {
