@@ -46,6 +46,15 @@ class Dataset(BaseDataset):
 
         # convert str names to class values on masks
         dataset = RoofAIDataset(path.parent(images_dir, 3))
+
+        missing_classes = [cls for cls in classes if cls.lower() not in dataset.classes]
+        assert not bool(
+            missing_classes
+        ), "{} class(es) are not found in the dataset: {}".format(
+            len(missing_classes),
+            ", ".join(missing_classes),
+        )
+
         self.class_values = [dataset.classes.index(cls.lower()) for cls in classes]
         print(
             "{}: {} class(es): {}".format(
