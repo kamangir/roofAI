@@ -1,20 +1,23 @@
 from abcli.modules import objects
 from abcli.plugins import cache
 from roofAI.semseg.interface import predict, train
+from roofAI.semseg.model import SemSegModel
 
 
 def test_semseg_train():
     cache.write("roofAI_semseg_model_CamVid_void_py", "void")
 
-    success, _ = train(
-        dataset_path=objects.object_path(cache.read("roofAI_ingest_CamVid_v1")),
-        model_path=objects.object_path(objects.unique_object("test_semseg_train")),
-        register=True,
-        suffix="void_py",
+    assert isinstance(
+        train(
+            dataset_path=objects.object_path(cache.read("roofAI_ingest_CamVid_v1")),
+            model_path=objects.object_path(objects.unique_object("test_semseg_train")),
+            register=True,
+            suffix="void_py",
+        ),
+        SemSegModel,
     )
-    assert success
 
-    assert predict(
+    predict(
         model_path=objects.object_path(
             cache.read("roofAI_semseg_model_CamVid_void_py")
         ),

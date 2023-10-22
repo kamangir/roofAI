@@ -12,7 +12,7 @@ def predict(
     device: str,
     profile: Profile = Profile.VALIDATION,
     in_notebook: bool = False,
-) -> bool:
+):
     model = SemSegModel(
         model_filename=os.path.join(model_path, "model.pth"),
         profile=profile,
@@ -25,23 +25,42 @@ def predict(
         in_notebook=in_notebook,
     )
 
-    return True
-
 
 def train(
     dataset_path: str,
     model_path: str,
+    encoder_name="se_resnext50_32x4d",
+    encoder_weights="imagenet",
+    classes=["car"],
+    activation="sigmoid",  # could be None for logits or 'softmax2d' for multi-class segmentation
+    device="cpu",  # 'cuda'
+    register: bool = False,
+    suffix: str = "v1",
     profile: Profile = Profile.VALIDATION,
     in_notebook: bool = False,
-    **kwargs,
 ) -> Tuple[bool, Any]:
     trainer = SemSegModelTrainer(
-        dataset_path=dataset_path,
-        model_path=model_path,
-        in_notebook=in_notebook,
-        profile=profile,
+        dataset_path,
+        model_path,
+        in_notebook,
+        profile,
     )
 
-    model = trainer.train(**kwargs)
+    model = trainer.train(
+        encoder_name,
+        encoder_weights,
+        classes,
+        activation,
+        device,
+        register,
+        suffix,
+    )
 
-    return True, model
+    model.predict(
+        dataset_path=dataset_path,
+        output_path=os.path.join(dataset_path, "_validation"),
+        device=device,
+        in_notebook=in_notebook,
+    )
+
+    return model

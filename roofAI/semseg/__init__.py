@@ -18,6 +18,6 @@ class Profile(Enum):
     def epoch_count(self):
         return {
             Profile.FULL: 40,
-            Profile.QUICK: 10,
+            Profile.QUICK: 5,
             Profile.VALIDATION: 1,
         }[self]

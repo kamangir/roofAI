@@ -10,6 +10,8 @@ logger = logging.getLogger(__name__)
 
 NAME = f"{NAME}.semseg"
 
+list_of_tasks = "predict|train"
+
 parser = argparse.ArgumentParser(
     f"python3 -m {NAME}",
     description=f"{NAME}-{VERSION}",
@@ -17,7 +19,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument(
     "task",
     type=str,
-    help="predict|train",
+    help=list_of_tasks,
 )
 parser.add_argument(
     "--activation",
@@ -88,20 +90,19 @@ except:
     success = False
 
 if success:
-    success = False
+    success = args.task in list_of_tasks.split("|")
     if args.task == "predict":
-        success = predict(
-            args.model_path,
-            args.dataset_path,
-            args.prediction_path,
-            args.device,
-            profile,
+        predict(
+            model_path=args.model_path,
+            dataset_path=args.dataset_path,
+            prediction_path=args.prediction_path,
+            device=args.device,
+            profile=profile,
         )
     elif args.task == "train":
-        success = train(
-            args.dataset_path,
-            args.model_path,
-            profile,
+        train(
+            dataset_path=args.dataset_path,
+            model_path=args.model_path,
             encoder_name=args.encoder_name,
             encoder_weights=args.encoder_weights,
             classes=args.classes.split("+"),
@@ -109,6 +110,7 @@ if success:
             device=args.device,
             register=bool(args.register),
             suffix=args.suffix,
+            profile=profile,
         )
     else:
         logger.error(f"-{NAME}: {args.task}: command not found.")
