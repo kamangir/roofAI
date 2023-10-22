@@ -122,12 +122,15 @@ def slice_matrix(
         for x in range(
             0, input_matrix.shape[1] - chip_width, int(chip_overlap * chip_width)
         ):
-            count += 1
-
             chip = input_matrix[
                 y : y + chip_height,
                 x : x + chip_width,
             ]
+
+            # to ensure variety of labels in the pixel.
+            # TODO: make it more elaborate.
+            if len(np.unique(chip)) < 2:
+                continue
 
             filename = f"{prefix}-{y:05d}-{x:05d}.png"
 
@@ -148,6 +151,7 @@ def slice_matrix(
                     log=log,
                 )
 
+            count += 1
             if count >= max_chip_count:
                 return count
 
