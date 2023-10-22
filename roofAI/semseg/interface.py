@@ -1,4 +1,5 @@
 import os.path
+from typing import List
 from roofAI.semseg.model import SemSegModel
 from roofAI.semseg.train import SemSegModelTrainer
 from roofAI.semseg import Profile
@@ -31,7 +32,7 @@ def train(
     model_path: str,
     encoder_name="se_resnext50_32x4d",
     encoder_weights="imagenet",
-    classes=["car"],
+    classes: List[str] = ["car"],
     activation="sigmoid",  # could be None for logits or 'softmax2d' for multi-class segmentation
     device="cpu",  # 'cuda'
     register: bool = False,
@@ -42,6 +43,7 @@ def train(
     trainer = SemSegModelTrainer(
         dataset_path,
         model_path,
+        classes,
         in_notebook,
         profile,
     )

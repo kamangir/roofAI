@@ -4,6 +4,7 @@ Copied with modification from ../../notebooks/semseg.ipynb
 
 import os
 import numpy as np
+from typing import List
 import torch
 from torch.utils.data import DataLoader
 from abcli import file
@@ -32,6 +33,7 @@ class SemSegModelTrainer(object):
         self,
         dataset_path: str,
         model_path: str,
+        classes: List[str],
         in_notebook: bool = False,
         profile: Profile = Profile.VALIDATION,
     ):
@@ -48,9 +50,9 @@ class SemSegModelTrainer(object):
         logger.info(
             "{}: {} -{}-> {}".format(
                 self.__class__.__name__,
-                self.dataset_path,
+                path.name(self.dataset_path),
                 self.profile,
-                self.model_path,
+                path.name(self.model_path),
             )
         )
 
@@ -66,7 +68,7 @@ class SemSegModelTrainer(object):
         dataset = Dataset(
             self.x_train_dir,
             self.y_train_dir,
-            classes=["car"],
+            classes=classes,
             count=self.profile.data_count,
         )
 
@@ -85,7 +87,7 @@ class SemSegModelTrainer(object):
             self.x_train_dir,
             self.y_train_dir,
             augmentation=get_training_augmentation(),
-            classes=["car"],
+            classes=classes,
             count=self.profile.data_count,
         )
 
