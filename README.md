@@ -6,7 +6,7 @@ everything AI about roofs. 🏠
 
 ```bash
  > roof help
-🏠 roofAI-3.113.1
+🏠 roofAI-3.124.1
 🏠 everything AI about roofs.
 
 roofAI create_conda_env \
@@ -51,6 +51,6 @@ roofAI pytest \
 	[dryrun,list,~log,plugin=<plugin-name>,warning] \
 	[filename.py|filename.py::test]
  . pytest roofAI.
-roofAI test [dryrun]
+roofAI test [~dataset,dryrun,~semseg]
  . test roofAI.
 ```
