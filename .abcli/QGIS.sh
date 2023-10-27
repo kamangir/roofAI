@@ -18,7 +18,7 @@ function roofAI_QGIS() {
     fi
 
     if [ "$task" == "seed" ]; then
-        abcli_log "exec(Path(f'{os.getenv(\"HOME\")}/git/roofAI/roofAI/QGIS.py').read_text())"
+        echo "exec(Path(f'{os.getenv(\"HOME\")}/git/roofAI/roofAI/QGIS.py').read_text())"
         return
     fi
 
