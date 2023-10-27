@@ -39,6 +39,7 @@ function roofAI() {
         pip3 install timm
         pip3 install pretrainedmodels
         pip3 install efficientnet_pytorch
+        pip3 install segmentation_models_pytorch
         return
     fi
 
