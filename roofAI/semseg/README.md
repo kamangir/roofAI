@@ -53,7 +53,8 @@ roofAI semseg train \
 roofAI semseg predict \
     profile=VALIDATION \
     $(@ref roofAI_semseg_model_AIRS_full_v1) \
-    $(@ref roofAI_ingest_AIRS_v1)
+    $(@ref roofAI_ingest_AIRS_v1) \
+    $(@timestamp)
 ```
 
 ![image](../../assets/predict-00000.png)
