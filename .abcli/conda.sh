@@ -41,7 +41,7 @@ function roofAI_conda() {
 
     if [ "$task" == validate ]; then
         abcli_eval - aws
-        python3 -c "import torch; print(torch.__version__)"
+        python3 -c "import torch; print(f'pytorch-{torch.__version__}')"
         return
     fi
 
