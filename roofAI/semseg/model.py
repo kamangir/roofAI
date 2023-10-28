@@ -102,7 +102,7 @@ class SemSegModel(object):
 
         list_of_images = []
         for n in (
-            [np.random.choice(len(test_dataset))]
+            [np.random.choice(len(test_dataset)) for _ in range(3)]
             if self.profile == Profile.VALIDATION
             else range(len(test_dataset))
         ):
