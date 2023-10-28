@@ -11,6 +11,9 @@ function roofAI_create_conda_env() {
 
     local do_dryrun=$(abcli_option_int "$options" dryrun 0)
 
+    conda activate base
+    conda remove -y --name roofAI --all
+
     conda create -y --name roofAI --clone base
     conda activate roofAI
 
