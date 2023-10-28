@@ -1,9 +1,9 @@
 #! /usr/bin/env bash
 
 function roofAI_conda() {
-    local options=$1
+    local task=$(abcli_unpack_keyword $1 help)
 
-    if [ $(abcli_option_int "$options" help 0) == 1 ]; then
+    if [ "$task" == "help" ]; then
         abcli_show_usage "roofAI conda create_env$ABCUL[dryrun]" \
             "create conda environmnt."
         abcli_show_usage "roofAI conda validate" \
@@ -12,6 +12,7 @@ function roofAI_conda() {
     fi
 
     if [ "$task" == "create_env" ]; then
+        local options=$2
         local do_dryrun=$(abcli_option_int "$options" dryrun 0)
 
         conda activate base
