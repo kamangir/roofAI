@@ -1,18 +1,37 @@
+# set-up
+
+To train on [AWS SageMaker](https://aws.amazon.com/sagemaker/), create an `ml.g4dn.xlarge` image, and run,
+
+```bash
+@seed sagemaker
+```
+
+Then, type in `bash` and paste the seed 🌱. Then, run,
+
+```bash
+roof conda create_env
+roof conda validate
+```
+
+![image](../../assets/sagemaker.jpg)
+
 # train
 
 ```bash
 roofAI semseg train \
-    profile=DECENT,register,suffix=v1 \
+    profile=FULL,register,suffix=full_v1 \
     $(@ref roofAI_ingest_AIRS_v1) \
     $(@timestamp) \
     --classes roof
 ```
 
+https://arash-kamangir.medium.com/roofai-17-train-on-airs-on-sagemaker-2-dd24082aca03
+
 ![image](../../assets/christchurch_424-00000-00000.png)
 
 ![image](../../assets/train-summary.png)
 
-`model.json` (shortened)
+`model.json` (example, shortened)
 ```json
 {
     "activation": "sigmoid",
@@ -47,11 +66,12 @@ roofAI semseg train \
 }
 ```
 
+
 # predict
 
 ```bash
 roofAI semseg predict \
-    profile=VALIDATION \
+    profile=FULL,upload \
     $(@ref roofAI_semseg_model_AIRS_full_v1) \
     $(@ref roofAI_ingest_AIRS_v1) \
     $(@timestamp)
