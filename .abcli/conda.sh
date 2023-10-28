@@ -25,6 +25,7 @@ function roofAI_create_conda_env() {
         dryrun=$do_dryrun,path=$abcli_path_git/roofAI \
         pip3 install -e .
 
+    pip3 install pymysql==0.10.1
     pip3 install -U albumentations[imgaug]
     pip3 install timm
     pip3 install pretrainedmodels
