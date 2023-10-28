@@ -10,7 +10,7 @@ function roofAI() {
     if [ $task == "help" ]; then
         roofAI version \\n
 
-        roofAI_create_conda_env "$@"
+        roofAI_conda "$@"
         roofAI_QGIS "$@"
         roofAI_semseg "$@"
         roofAI dataset "$@"
