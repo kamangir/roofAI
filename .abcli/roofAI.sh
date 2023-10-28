@@ -44,6 +44,11 @@ function roofAI() {
         pip3 install pretrainedmodels
         pip3 install efficientnet_pytorch
         pip3 install segmentation_models_pytorch
+
+        [[ "$abcli_is_sagemaker" == true ]] &&
+            [[ "$abcli_is_sagemaker_system" == false ]] &&
+            pip3 install awscli --upgrade --user
+
         return
     fi
 
