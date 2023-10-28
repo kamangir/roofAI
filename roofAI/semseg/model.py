@@ -11,6 +11,7 @@ from roofAI.semseg.dataloader import Dataset
 import segmentation_models_pytorch as smp
 from roofAI.dataset import RoofAIDataset
 from roofAI.semseg.utils import visualize
+from abcli.plugins.graphics.gif import generate_animated_gif
 from roofAI.semseg import Profile
 import abcli.logging
 import logging
@@ -99,6 +100,7 @@ class SemSegModel(object):
             count=self.profile.data_count,
         )
 
+        list_of_images = []
         for n in (
             [np.random.choice(len(test_dataset))]
             if self.profile == Profile.VALIDATION
@@ -113,6 +115,7 @@ class SemSegModel(object):
             pr_mask = self.model.predict(x_tensor)
             pr_mask = pr_mask.squeeze().cpu().numpy().round()
 
+            filename = os.path.join(output_path, f"predict-{n:05d}.png")
             visualize(
                 {
                     "image": image_vis,
@@ -120,8 +123,15 @@ class SemSegModel(object):
                     "prediction": pr_mask,
                 },
                 in_notebook=in_notebook,
-                filename=os.path.join(output_path, f"predict-{n:05d}.png"),
+                filename=filename,
             )
+            list_of_images += [filename]
+
+        generate_animated_gif(
+            list_of_images,
+            os.path.join(output_path, "predict.gif"),
+            frame_duration=500,
+        )
 
     @property
     def signature(self):
