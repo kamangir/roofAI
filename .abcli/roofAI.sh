@@ -33,8 +33,12 @@ function roofAI() {
 
     if [ "$task" == "create_conda_env" ]; then
         abcli_conda create_env \
-            "$2,torch" roofAI \
+            "$2,torch,install_environment" roofAI \
             "${@:3}"
+
+        abcli_eval path=$abcli_path_git/roofAI \
+            pip3 install -e .
+
         pip3 install -U albumentations[imgaug]
         pip3 install timm
         pip3 install pretrainedmodels
