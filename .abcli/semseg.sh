@@ -22,7 +22,8 @@ function roofAI_semseg() {
     local device=$(abcli_option "$options" device cpu)
     local do_dryrun=$(abcli_option_int "$options" dryrun 0)
     local do_download=$(abcli_option_int "$options" download $(abcli_not $do_dryrun))
-    local do_upload=$(abcli_option_int "$options" upload 0)
+    local do_register=$(abcli_option_int "$options" register 0)
+    local do_upload=$(abcli_option_int "$options" upload $do_register)
 
     if [ "$task" == "predict" ]; then
         if [ $(abcli_option_int "$options" help 0) == 1 ]; then
@@ -85,7 +86,7 @@ function roofAI_semseg() {
             --dataset_path $abcli_object_root/$dataset_object_name \
             --model_path $abcli_object_root/$model_object_name \
             --profile $(abcli_option "$options" profile VALIDATION) \
-            --register $(abcli_option_int "$options" register 0) \
+            --register $do_register \
             --suffix $(abcli_option "$options" suffix v1) \
             "${@:5}"
 
