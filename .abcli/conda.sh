@@ -11,7 +11,7 @@ function roofAI_conda() {
         return
     fi
 
-    if [ "$task" == "create_env"]; then
+    if [ "$task" == "create_env" ]; then
         local do_dryrun=$(abcli_option_int "$options" dryrun 0)
 
         conda activate base
