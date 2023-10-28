@@ -99,11 +99,11 @@ class SemSegModel(object):
             count=self.profile.data_count,
         )
 
-        # TODO: also save the outputs
-        # TODO: use profile cleaner.
-        for i in range(1 if self.profile == Profile.VALIDATION else 5):
-            n = np.random.choice(len(test_dataset))
-
+        for n in (
+            [np.random.choice(len(test_dataset))]
+            if self.profile == Profile.VALIDATION
+            else range(len(test_dataset))
+        ):
             image_vis = test_dataset_vis[n][0].astype("uint8")
             image, gt_mask = test_dataset[n]
 
