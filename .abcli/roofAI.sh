@@ -10,9 +10,7 @@ function roofAI() {
     if [ $task == "help" ]; then
         roofAI version \\n
 
-        abcli_show_usage "roofAI create_conda_env$ABCUL[dryrun,~pip]" \
-            "create conda environmnt."
-
+        roofAI_create_conda_env "$@"
         roofAI_QGIS "$@"
         roofAI_semseg "$@"
         roofAI dataset "$@"
@@ -28,24 +26,6 @@ function roofAI() {
     local function_name=roofAI_$task
     if [[ $(type -t $function_name) == "function" ]]; then
         $function_name "${@:2}"
-        return
-    fi
-
-    if [ "$task" == "create_conda_env" ]; then
-        abcli_conda create_env \
-            "$2,clone=base,torch,install_environment" roofAI \
-            "${@:3}"
-
-        pip3 install -U albumentations[imgaug]
-        pip3 install timm
-        pip3 install pretrainedmodels
-        pip3 install efficientnet_pytorch
-        pip3 install segmentation_models_pytorch
-
-        [[ "$abcli_is_sagemaker" == true ]] &&
-            [[ "$abcli_is_sagemaker_system" == false ]] &&
-            pip3 install awscli --upgrade --user
-
         return
     fi
 
