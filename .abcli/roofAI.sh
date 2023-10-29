@@ -73,7 +73,7 @@ function roofAI() {
     fi
 
     if [ "$task" == "version" ]; then
-        abcli_log "🏠 $(python3 -m roofAI version --show_description 1)${@:2}"
+        abcli_log "🏛️  $(python3 -m roofAI version --show_description 1)${@:2}"
         return
     fi
 

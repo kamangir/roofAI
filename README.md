@@ -1,17 +1,19 @@
-# roofAI 🏠
+# roofAI 🏛️
 
-everything AI about roofs. 🏠
+everything AI about roofs. 🏛️
 
 🔷 [datasets](./roofAI/dataset) 🔷 [notebooks](./notebooks/) 🔷 [semseg](./roofAI/semseg) 🔷
 
 ```bash
  > roof help
-🏠 roofAI-3.125.1
-🏠 everything AI about roofs.
+🏛️  roofAI-3.159.1
+🏛️  everything AI about roofs.
 
-roofAI create_conda_env \
-	[dryrun,~pip]
+roofAI conda create_env \
+	[dryrun]
  . create conda environmnt.
+roofAI conda validate
+ . validate conda environmnt.
 QGIS seed
  . seed 🌱 QGIS.
 semseg predict \
