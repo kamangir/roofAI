@@ -18,7 +18,7 @@ roof conda create_env validate
 
 ```bash
 roofAI semseg train \
-    profile=FULL,register,suffix=full_v1 \
+    profile=FULL,register,suffix=full_v2 \
     $(@ref roofAI_ingest_AIRS_v1) \
     $(@timestamp) \
     --classes roof
@@ -71,7 +71,7 @@ https://arash-kamangir.medium.com/roofai-17-train-on-airs-on-sagemaker-2-dd24082
 ```bash
 roofAI semseg predict \
     profile=FULL,upload \
-    $(@ref roofAI_semseg_model_AIRS_full_v1) \
+    $(@ref roofAI_semseg_model_AIRS_full_v2) \
     $(@ref roofAI_ingest_AIRS_v1) \
     $(@timestamp)
 ```
