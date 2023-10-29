@@ -4,7 +4,7 @@ function roofAI_conda() {
     local task=$(abcli_unpack_keyword $1 help)
 
     if [ "$task" == "help" ]; then
-        abcli_show_usage "roofAI conda create_env$ABCUL[dryrun]" \
+        abcli_show_usage "roofAI conda create_env [dryrun,validate]" \
             "create conda environmnt."
         abcli_show_usage "roofAI conda validate" \
             "validate conda environmnt."
@@ -14,6 +14,7 @@ function roofAI_conda() {
     if [ "$task" == "create_env" ]; then
         local options=$2
         local do_dryrun=$(abcli_option_int "$options" dryrun 0)
+        local do_validate=$(abcli_option_int "$options" validate 0)
 
         conda activate base
         conda remove -y --name roofAI --all
@@ -35,6 +36,9 @@ function roofAI_conda() {
         pip3 install pretrainedmodels
         pip3 install efficientnet_pytorch
         pip3 install segmentation_models_pytorch
+
+        [[ "$validate" == 1 ]] &&
+            roofAI_conda validate
 
         return
     fi
