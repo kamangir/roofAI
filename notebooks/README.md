@@ -4,6 +4,5 @@
 
 [dataset/ingest.ipynb](./dataset/ingest.ipynb) and [dataset/review.ipynb](./dataset/review.ipynb) ingest and review [`RoofAIDataset`](../roofAI/dataset)s.
 
-# set-up
 
--> [](../roofAI/semseg/README.md#set-up)
+Refer to [set-up](../roofAI/semseg/README.md#set-up) for instructions to run the notebooks on [AWS SageMaker](https://aws.amazon.com/sagemaker/).
