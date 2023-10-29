@@ -37,7 +37,7 @@ function roofAI_conda() {
         pip3 install efficientnet_pytorch
         pip3 install segmentation_models_pytorch
 
-        [[ "$validate" == 1 ]] &&
+        [[ "$do_validate" == 1 ]] &&
             roofAI_conda validate
 
         return
