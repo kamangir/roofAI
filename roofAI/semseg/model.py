@@ -6,6 +6,8 @@ import os
 from abcli import file, path
 import numpy as np
 import torch
+import cv2
+from scipy import ndimage
 from roofAI.semseg.augmentation import get_validation_augmentation, get_preprocessing
 from roofAI.semseg.dataloader import Dataset
 import segmentation_models_pytorch as smp
@@ -119,6 +121,30 @@ class SemSegModel(object):
             pr_mask = self.model.predict(x_tensor)
             pr_mask = pr_mask.squeeze().cpu().numpy().round()
 
+            label_mask, label_count = ndimage.label(pr_mask)
+            logger.info(f"{label_count} object(s) found.")
+            list_of_contours = []
+            for label in range(1, label_count + 1):
+                mask = label_mask == label
+
+                contour, _ = cv2.findContours(
+                    mask.astype(np.uint8),
+                    cv2.RETR_EXTERNAL,
+                    cv2.CHAIN_APPROX_SIMPLE,
+                )
+                list_of_contours.append(contour[0])
+
+            file.save_json(
+                os.path.join(
+                    output_path,
+                    f"predict-{n:05d}.png",
+                ),
+                {
+                    "count": label_count,
+                    "contour": list_of_contours,
+                },
+            )
+
             filename = os.path.join(output_path, f"predict-{n:05d}.png")
             visualize(
                 {
@@ -132,6 +158,7 @@ class SemSegModel(object):
                     f"{n:05d}",
                     f"on {self.object_name}",
                 ],
+                list_of_contours=list_of_contours,
             )
             list_of_images += [filename]
 

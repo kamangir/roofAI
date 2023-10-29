@@ -9,7 +9,7 @@ import numpy as np
 from abcli import file
 from abcli import path
 from abcli import string
-from typing import List
+from typing import List, Any
 import abcli.logging
 import logging
 
@@ -22,6 +22,7 @@ def visualize(
     filename: str = "",
     in_notebook: bool = False,
     description: List[str] = [],
+    list_of_contours: List[Any] = [],
 ):
     n = len(images)
     fig = plt.figure(figsize=(n * 5, 5))
@@ -52,6 +53,14 @@ def visualize(
             )
         )
         ax.imshow(image)
+
+        if name == "image":
+            for contour in list_of_contours:
+                plt.plot(
+                    contour[:, 0, 0],
+                    contour[:, 0, 1],
+                    color="orange",
+                )
 
     # https://stackoverflow.com/a/7066293/17619982
     fig.suptitle(
