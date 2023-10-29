@@ -6,11 +6,7 @@ To train on [AWS SageMaker](https://aws.amazon.com/sagemaker/), generate the see
 @seed sagemaker
 ```
 
-Then change the environment to a `PyTorch 2` image, `Python3` kernel, `ml.g4dn.xlarge` instance,
-
-![image](../../assets/envirnoment.png)
-
-and "open image terminal". Then, type in `bash` and paste the seed 🌱. Then, run,
+Then change the environment to a `PyTorch 2` image, `Python3` kernel, `ml.g4dn.xlarge` instance, and "open image terminal". Then, type in `bash` and paste the seed 🌱. Then, run,
 
 ```bash
 roof conda create_env validate
