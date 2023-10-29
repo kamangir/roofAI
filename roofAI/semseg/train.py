@@ -261,7 +261,7 @@ class SemSegModelTrainer(object):
             )
         plt.xlabel("epic")
         plt.ylabel("iou score")
-        plt.xlim(0, 1)
+        plt.ylim(0, 1)
         plt.grid(True)
         filename = os.path.join(self.model_path, "train-summary.png")
         file.prepare_for_saving(filename)
