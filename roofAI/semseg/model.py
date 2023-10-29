@@ -11,6 +11,7 @@ from scipy import ndimage
 from roofAI.semseg.augmentation import get_validation_augmentation, get_preprocessing
 from roofAI.semseg.dataloader import Dataset
 import segmentation_models_pytorch as smp
+from shapely.geometry import Polygon
 from roofAI.dataset import RoofAIDataset
 from roofAI.semseg.utils import visualize
 from abcli.plugins.graphics.gif import generate_animated_gif
@@ -29,9 +30,11 @@ class SemSegModel(object):
         self,
         model_filename: str,
         profile: Profile = Profile.VALIDATION,
+        tolerance: float = 2,
     ):
         self.profile = profile
         self.filename = model_filename
+        self.tolerance = tolerance
 
         logger.info(
             "{}.load({}): {}".format(
@@ -108,7 +111,7 @@ class SemSegModel(object):
 
         list_of_images = []
         for n in (
-            np.random.choice(len(test_dataset), 3)
+            [np.random.choice(len(test_dataset))]
             if self.profile == Profile.VALIDATION
             else range(len(test_dataset))
         ):
@@ -132,7 +135,24 @@ class SemSegModel(object):
                     cv2.RETR_EXTERNAL,
                     cv2.CHAIN_APPROX_SIMPLE,
                 )
-                list_of_contours.append(contour[0])
+
+                polygon = Polygon(
+                    [
+                        (x, y)
+                        for x, y in zip(
+                            contour[0][:, 0, 0],
+                            contour[0][:, 0, 1],
+                        )
+                    ]
+                )
+                polygon = polygon.simplify(self.tolerance)
+
+                list_of_contours.append(
+                    (
+                        list(polygon.exterior.xy[0]),
+                        list(polygon.exterior.xy[1]),
+                    )
+                )
 
             file.save_json(
                 os.path.join(
@@ -170,10 +190,11 @@ class SemSegModel(object):
 
     @property
     def signature(self):
-        return "{}: {}[{}]-{}-> {}".format(
+        return "{}: {}[{}]-{}-> {}: {:.2f}".format(
             self.__class__.__name__,
             self.encoder_name,
             self.encoder_weights,
             self.activation,
             ",".join(self.classes),
+            self.tolerance,
         )

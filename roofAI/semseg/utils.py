@@ -57,8 +57,9 @@ def visualize(
         if name == "image":
             for contour in list_of_contours:
                 plt.plot(
-                    contour[:, 0, 0],
-                    contour[:, 0, 1],
+                    contour[0],
+                    contour[1],
+                    "o-",
                     color="orange",
                 )
 
