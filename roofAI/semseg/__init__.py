@@ -24,6 +24,6 @@ class Profile(Enum):
             Profile.FULL: 40,
             Profile.DECENT: 10,
             Profile.QUICK: 5,
-            Profile.DEBUG: 2,
+            Profile.DEBUG: 3,
             Profile.VALIDATION: 1,
         }[self]
