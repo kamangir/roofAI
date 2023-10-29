@@ -252,6 +252,7 @@ class SemSegModelTrainer(object):
         plt.ylabel("dice-loss")
         plt.grid(True)
         plt.title(path.name(self.model_path))
+        plt.legend()
         plt.subplot(1, 2, 2)
         for subset in "train,valid".split(","):
             plt.plot(
@@ -263,6 +264,7 @@ class SemSegModelTrainer(object):
         plt.ylabel("iou score")
         plt.ylim(0, 1)
         plt.grid(True)
+        plt.legend()
         filename = os.path.join(self.model_path, "train-summary.png")
         file.prepare_for_saving(filename)
         plt.savefig(filename)
