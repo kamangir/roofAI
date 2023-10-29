@@ -3,7 +3,7 @@ Copied with modification from ../../notebooks/semseg.ipynb
 """
 
 import os
-from abcli import file
+from abcli import file, path
 import numpy as np
 import torch
 from roofAI.semseg.augmentation import get_validation_augmentation, get_preprocessing
@@ -55,6 +55,10 @@ class SemSegModel(object):
         self.activation = metadata["activation"]
 
         logger.info(self.signature)
+
+    @property
+    def object_name(self):
+        return path.name(file.path(self.filename))
 
     def predict(
         self,
@@ -124,6 +128,10 @@ class SemSegModel(object):
                 },
                 in_notebook=in_notebook,
                 filename=filename,
+                description=[
+                    f"{n:05d}",
+                    f"on {self.object_name}",
+                ],
             )
             list_of_images += [filename]
 
