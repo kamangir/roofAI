@@ -79,4 +79,4 @@ roofAI semseg predict \
 
 ![image](../../assets/predict-00000.png)
 
-![image](https://kamangir-public.s3.ca-central-1.amazonaws.com/2023-10-28-16-28-36-88493-predict.gif)
+![image](https://github.com/kamangir/assets/blob/main/2023-10-28-16-28-36-88493-predict.gif?raw=true)
