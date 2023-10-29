@@ -136,6 +136,9 @@ class SemSegModel(object):
                     cv2.CHAIN_APPROX_SIMPLE,
                 )
 
+                if contour[0].shape[0] <= 4:
+                    continue
+
                 polygon = Polygon(
                     [
                         (x, y)
