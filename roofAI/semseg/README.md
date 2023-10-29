@@ -1,16 +1,19 @@
 # set-up
 
-To train on [AWS SageMaker](https://aws.amazon.com/sagemaker/), create an `ml.g4dn.xlarge` image, and run,
+To train on [AWS SageMaker](https://aws.amazon.com/sagemaker/), generate the seed 🌱,
 
 ```bash
 @seed sagemaker
 ```
 
-Then, type in `bash` and paste the seed 🌱. Then, run,
+Then change the environment to a `PyTorch 2` image, `Python3` kernel, `ml.g4dn.xlarge` instance,
+
+![image](../../assets/envirnoment.png)
+
+and "open image terminal". Then, type in `bash` and paste the seed 🌱. Then, run,
 
 ```bash
-roof conda create_env
-roof conda validate
+roof conda create_env validate
 ```
 
 ![image](../../assets/sagemaker.jpg)
