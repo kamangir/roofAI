@@ -6,11 +6,10 @@ everything AI about roofs. 🏛️
 
 ```bash
  > roof help
-🏛️  roofAI-3.159.1
+🏛️  roofAI-3.178.1
 🏛️  everything AI about roofs.
 
-roofAI conda create_env \
-	[dryrun]
+roofAI conda create_env [dryrun,validate]
  . create conda environmnt.
 roofAI conda validate
  . validate conda environmnt.
