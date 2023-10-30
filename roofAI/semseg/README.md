@@ -26,6 +26,8 @@ roofAI semseg train \
 
 https://arash-kamangir.medium.com/roofai-17-train-on-airs-on-sagemaker-2-dd24082aca03
 
+https://arash-kamangir.medium.com/roofai-20-refactors-on-sagemaker-9e295b84daea
+
 ![image](../../assets/christchurch_424-00000-00000.png)
 
 ![image](../../assets/train-summary.png)
