@@ -57,3 +57,19 @@ roofAI test [~dataset,dryrun,~semseg]
 ```
 
 [![image](https://github.com/kamangir/assets/blob/main/predict.gif?raw=true)](./roofAI/semseg/)
+
+# SageMaker set-up
+
+To use on [AWS SageMaker](https://aws.amazon.com/sagemaker/), generate the seed 🌱,
+
+```bash
+@seed sagemaker
+```
+
+Then change the environment to a `PyTorch 2` image, `Python3` kernel, `ml.g4dn.xlarge` instance, and "open image terminal". Then, type in `bash` and paste the seed 🌱. Then, run,
+
+```bash
+roof conda create_env validate
+```
+
+![image](../../assets/sagemaker.jpg)
