@@ -63,13 +63,14 @@ roofAI test [~dataset,dryrun,~semseg]
 To use on [AWS SageMaker](https://aws.amazon.com/sagemaker/), generate the seed 🌱,
 
 ```bash
+abcli git clone roofAI install
 @seed sagemaker
 ```
 
 Then change the environment to a `PyTorch 2` image, `Python3` kernel, `ml.g4dn.xlarge` instance, and "open image terminal". Then, type in `bash` and paste the seed 🌱. Then, run,
 
 ```bash
-roof conda create_env validate
+roofAI conda create_env validate
 ```
 
 ![image](./assets/sagemaker.jpg)
