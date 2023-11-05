@@ -20,6 +20,7 @@ function roofAI_conda() {
         pip3 install pymysql==0.10.1
         pip3 install -U albumentations[imgaug]
         pip3 install timm
+        pip3 install kaggle
         pip3 install pretrainedmodels
         pip3 install efficientnet_pytorch
         pip3 install segmentation_models_pytorch
