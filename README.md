@@ -58,7 +58,7 @@ roofAI test [~dataset,dryrun,~semseg]
 
 [![image](https://github.com/kamangir/assets/blob/main/predict.gif?raw=true)](./roofAI/semseg/)
 
-# SageMaker set-up
+## SageMaker set-up
 
 To use on [AWS SageMaker](https://aws.amazon.com/sagemaker/), generate the seed 🌱,
 
