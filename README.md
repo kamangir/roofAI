@@ -72,4 +72,4 @@ Then change the environment to a `PyTorch 2` image, `Python3` kernel, `ml.g4dn.x
 roof conda create_env validate
 ```
 
-![image](../../assets/sagemaker.jpg)
+![image](./assets/sagemaker.jpg)
