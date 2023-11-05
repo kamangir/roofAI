@@ -15,7 +15,7 @@ function roofAI_conda() {
         local options=$2
         local do_validate=$(abcli_option_int "$options" validate 0)
 
-        abcli_conda create_env clone=base,name=roofAI
+        abcli_conda create_env name=roofAI
 
         pip3 install pymysql==0.10.1
         pip3 install -U albumentations[imgaug]
