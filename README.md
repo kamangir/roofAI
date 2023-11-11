@@ -58,15 +58,4 @@ roofAI test [~dataset,dryrun,~semseg]
 
 [![image](https://github.com/kamangir/assets/blob/main/predict.gif?raw=true)](./roofAI/semseg/)
 
-## SageMaker set-up
-
-To use on [AWS SageMaker](https://aws.amazon.com/sagemaker/), generate the seed 🌱,
-
-```bash
-abcli git clone roofAI install
-@seed sagemaker plugin=roofAI
-```
-
-Then change the environment to a `PyTorch 2` image, `Python3` kernel, `ml.g4dn.xlarge` instance, and "open image terminal". Then, type in `bash` and paste the seed 🌱. 
-
-![image](./assets/sagemaker.jpg)
+To use on [AWS SageMaker](https://aws.amazon.com/sagemaker/) replace `<plugin-name>` with `roofAI` and follow [these instructions](https://github.com/kamangir/blue-plugin/blob/main/SageMaker.md).
