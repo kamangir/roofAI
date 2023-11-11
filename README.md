@@ -58,4 +58,6 @@ roofAI test [~dataset,dryrun,~semseg]
 
 [![image](https://github.com/kamangir/assets/blob/main/predict.gif?raw=true)](./roofAI/semseg/)
 
+---
+
 To use on [AWS SageMaker](https://aws.amazon.com/sagemaker/) replace `<plugin-name>` with `roofAI` and follow [these instructions](https://github.com/kamangir/blue-plugin/blob/main/SageMaker.md).
