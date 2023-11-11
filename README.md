@@ -64,13 +64,9 @@ To use on [AWS SageMaker](https://aws.amazon.com/sagemaker/), generate the seed 
 
 ```bash
 abcli git clone roofAI install
-@seed sagemaker
+@seed sagemaker plugin=roofAI
 ```
 
-Then change the environment to a `PyTorch 2` image, `Python3` kernel, `ml.g4dn.xlarge` instance, and "open image terminal". Then, type in `bash` and paste the seed 🌱. Then, run,
-
-```bash
-roofAI conda create_env validate
-```
+Then change the environment to a `PyTorch 2` image, `Python3` kernel, `ml.g4dn.xlarge` instance, and "open image terminal". Then, type in `bash` and paste the seed 🌱. 
 
 ![image](./assets/sagemaker.jpg)
