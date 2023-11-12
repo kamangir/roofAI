@@ -10,9 +10,9 @@ everything AI about roofs. 🏛️
 🏛️  everything AI about roofs.
 
 roofAI conda create_env [dryrun,validate]
- . create conda environmnt.
+ . create conda environment.
 roofAI conda validate
- . validate conda environmnt.
+ . validate conda environment.
 QGIS seed
  . seed 🌱 QGIS.
 semseg predict \
