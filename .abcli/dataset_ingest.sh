@@ -64,8 +64,11 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
 
     if [ "$source" == "AIRS" ]; then
         local cache_object_name=""
-        [[ "$from_cache" == 1 ]] &&
+        if [[ "$from_cache" == 1 ]]; then
             local cache_object_name=$(abcli_cache read $cache_keyword)
+            [[ ! -z "$cache_object_name" ]] &&
+                abcli_download object $cache_object_name
+        fi
 
         if [[ -z "$cache_object_name" ]]; then
             local cache_object_name=roofAI_ingest_${source}_cache_$(abcli_string_timestamp)
