@@ -28,8 +28,8 @@ function roofAI_semseg() {
     if [ "$task" == "predict" ]; then
         if [ $(abcli_option_int "$options" help 0) == 1 ]; then
             local options="device=cpu|cuda,~download,dryrun,profile=FULL|QUICK|VALIDATION,upload"
-            abcli_show_usage "semseg predict$ABCUL[$options]$ABCUL<model_object_name>$ABCUL<dataset_object_name>$ABCUL<prediction_object_name>" \
-                "semseg[<model_object_name>].predict(<dataset_object_name>) -> <prediction_object_name>."
+            abcli_show_usage "semseg predict$ABCUL[$options]$ABCUL<model-object-name>$ABCUL<dataset-object-name>$ABCUL<prediction-object-name>" \
+                "semseg[<model-object-name>].predict(<dataset-object-name>) -> <prediction-object-name>."
             return
         fi
 
@@ -67,8 +67,8 @@ function roofAI_semseg() {
         if [ $(abcli_option_int "$options" help 0) == 1 ]; then
             local options="device=cpu|cuda,~download,dryrun,profile=FULL|QUICK|VALIDATION,register,suffix=<v1>,upload"
             local args="[--activation <sigmoid>]$ABCUL[--classes <one+two+three+four>]$ABCUL[--encoder_name <se_resnext50_32x4d>]$ABCUL[--encoder_weights <imagenet>]"
-            abcli_show_usage "semseg train$ABCUL[$options]$ABCUL<dataset_object_name>$ABCUL<model_object_name>$ABCUL$args" \
-                "semseg.train(<dataset_object_name>) -> <model_object_name>."
+            abcli_show_usage "semseg train$ABCUL[$options]$ABCUL<dataset-object-name>$ABCUL<model-object-name>$ABCUL$args" \
+                "semseg.train(<dataset-object-name>) -> <model-object-name>."
             return
         fi
 
