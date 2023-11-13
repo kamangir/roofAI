@@ -56,7 +56,7 @@ roofAI test [~dataset,dryrun,~semseg]
  . test roofAI.
 ```
 
-[![image](https://github.com/kamangir/assets/blob/main/predict.gif?raw=true)](./roofAI/semseg/)
+[![image](https://github.com/kamangir/assets/blob/main/roofAI/2023-11-12-20-30-49-02592-predict.gif?raw=true)](./roofAI/semseg/)
 
 ---
 
