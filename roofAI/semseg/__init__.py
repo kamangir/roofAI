@@ -1,3 +1,5 @@
+NAME = "roofAI.semseg"
+
 from enum import Enum, auto
 
 

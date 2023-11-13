@@ -9,6 +9,11 @@ import numpy as np
 from abcli import file
 from abcli import path
 from abcli import string
+from abcli.plugins.graphics import add_signature
+from abcli.modules.objects import signature as object_signature
+from abcli.modules.host import signature as host_signature
+from roofAI.semseg import NAME
+from roofAI import VERSION
 from typing import List, Any
 import abcli.logging
 import logging
@@ -63,24 +68,36 @@ def visualize(
                     color="orange",
                 )
 
-    # https://stackoverflow.com/a/7066293/17619982
-    fig.suptitle(
-        " | ".join(
-            [
-                thing
-                for thing in [
-                    path.name(file.path(filename)),
-                ]
-                + description
-                if thing and thing != "_review"
-            ]
-        )
-    )
-
     if filename:
         file.prepare_for_saving(filename)
         plt.savefig(filename)
-        logger.info(f"-> {filename}")
+        logger.info("-> {}".format(filename))
+
+        success, image = file.load_image(filename)
+        if success:
+            file.save_image(
+                filename,
+                add_signature(
+                    image,
+                    header=[
+                        " | ".join(
+                            [
+                                thing
+                                for thing in [path.name(file.path(filename))]
+                                + description
+                                if thing and thing != "_review"
+                            ]
+                        )
+                    ],
+                    footer=[
+                        " | ".join(thing)
+                        for thing in np.array_split(
+                            [f"{NAME}-{VERSION}"] + host_signature(),
+                            2,
+                        )
+                    ],
+                ),
+            )
 
     if in_notebook:
         plt.show()

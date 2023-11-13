@@ -179,7 +179,7 @@ class SemSegModel(object):
                 filename=filename,
                 description=[
                     f"{n:05d}",
-                    f"on {self.object_name}",
+                    f"model: {self.object_name}",
                 ],
                 list_of_contours=list_of_contours,
             )
