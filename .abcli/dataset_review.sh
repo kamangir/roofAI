@@ -6,8 +6,8 @@ function roofAI_dataset_review() {
     if [ $(abcli_option_int "$options" help 0) == 1 ]; then
         local options="download,dryrun,open"
         local args="[--count <1>]$ABCUL[--index <index>]$ABCUL[--subset <subset>]"
-        abcli_show_usage "roofAI dataset review$ABCUL[$options]$ABCUL<dataset_object_name>$ABCUL$args" \
-            "review <dataset_object_name>."
+        abcli_show_usage "roofAI dataset review$ABCUL[$options]$ABCUL<object-name>$ABCUL$args" \
+            "review <object-name>."
         return
     fi
 
