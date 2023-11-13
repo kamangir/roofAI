@@ -66,8 +66,14 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
         local cache_object_name=""
         if [[ "$from_cache" == 1 ]]; then
             local cache_object_name=$(abcli_cache read $cache_keyword)
-            [[ ! -z "$cache_object_name" ]] &&
+            if [[ ! -z "$cache_object_name" ]]; then
                 abcli_download object $cache_object_name
+
+                if [[ ! -f $abcli_object_root/$cache_object_name/train.txt ]]; then
+                    abcli_log "cache not available: $cache_object_name"
+                    local cache_object_name=""
+                fi
+            fi
         fi
 
         if [[ -z "$cache_object_name" ]]; then
