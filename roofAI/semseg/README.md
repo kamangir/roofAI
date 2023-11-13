@@ -62,6 +62,6 @@ roofAI semseg predict \
     $(@timestamp)
 ```
 
-![image](../../assets/predict-00000.png)
+![image](../../assets/predict-00247.png)
 
 ![image](https://github.com/kamangir/assets/blob/main/predict.gif?raw=true)
