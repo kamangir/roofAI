@@ -3,7 +3,7 @@
 ```bash
 roofAI semseg train \
     profile=FULL,register,suffix=full_v2 \
-    $(@ref roofAI_ingest_AIRS_v1) \
+    $(@ref roofAI_ingest_AIRS_v2) \
     $(@timestamp) \
     --classes roof
 ```
@@ -58,7 +58,7 @@ https://arash-kamangir.medium.com/roofai-20-refactors-on-sagemaker-9e295b84daea
 roofAI semseg predict \
     profile=FULL,upload \
     $(@ref roofAI_semseg_model_AIRS_full_v2) \
-    $(@ref roofAI_ingest_AIRS_v1) \
+    $(@ref roofAI_ingest_AIRS_v2) \
     $(@timestamp)
 ```
 

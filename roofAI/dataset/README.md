@@ -24,7 +24,7 @@ roof dataset review open \
 
 ```bash
 roof dataset review open \
-    $(@ref roofAI_ingest_AIRS_v1)
+    $(@ref roofAI_ingest_AIRS_v2)
 ```
 
 ## ingest
