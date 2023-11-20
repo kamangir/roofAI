@@ -46,6 +46,9 @@ function roofAI_QGIS_expressions() {
             "pull QGIS expressions."
         abcli_show_usage "QGIS expressions push [push]" \
             "push QGIS expressions."
+
+        abcli_log " 📂 $abcli_QGIS_path_expressions"
+        abcli_log " 📂 $abcli_QGIS_path_expressions_git"
         return
     fi
 
