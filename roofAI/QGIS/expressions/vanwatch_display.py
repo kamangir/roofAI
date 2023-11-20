@@ -25,10 +25,19 @@ def vanwatch_display(object_name, cameras, feature, parent):
         for image_name in image_name_list
     ]
 
-    image_tag_list = [f'<img src="{url}" height=100 >' for url in url_list]
+    image_tag_list = [
+        f'<a href="{url}><img src="{url}" height=100 ></a>' for url in url_list
+    ]
 
     return "\n".join(
-        ['<table border="1">', "    <tr>"]
+        [
+            '<table border="1">',
+            "    <tr>",
+        ]
         + [f"        <td>{image_tag}</td>" for image_tag in image_tag_list]
-        + ["    </tr>", "</table>"]
+        + [
+            "    </tr>",
+            "</table>",
+            object_name,
+        ]
     )
