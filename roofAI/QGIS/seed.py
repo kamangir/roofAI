@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 NAME = "roofAI.QGIS"
 
-VERSION = "3.19.1"
+VERSION = "4.1.1"
 
 
 abcli_object_root = os.path.join(
