@@ -26,7 +26,7 @@ def vanwatch_display(object_name, cameras, feature, parent):
     ]
 
     image_tag_list = [
-        f'<a href="{url}><img src="{url}" height=100 ></a>' for url in url_list
+        f'<a href="{url}"><img src="{url}" height=100 ></a>' for url in url_list
     ]
 
     return "\n".join(
