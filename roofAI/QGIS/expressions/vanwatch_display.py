@@ -12,6 +12,8 @@ def vanwatch_display(object_name, cameras, feature, parent):
         "cameras"
     )
     """
+    object_name = object_name.split(" ")[0]
+
     url_prefix = "https://kamangir-public.s3.ca-central-1.amazonaws.com"
 
     image_name_list = [url.split("/")[-1].split(".")[0] for url in cameras.split(",")]
