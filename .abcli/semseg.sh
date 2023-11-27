@@ -20,8 +20,9 @@ function roofAI_semseg() {
     fi
 
     local options=$2
-
-    local device=$(abcli_option "$options" device cpu)
+    local device=cpu
+    [[ "$abcli_gpu_status" == 1 ]] && local device=cuda
+    local device=$(abcli_option "$options" device $device)
     local do_dryrun=$(abcli_option_int "$options" dryrun 0)
     local do_download=$(abcli_option_int "$options" download $(abcli_not $do_dryrun))
     local do_register=$(abcli_option_int "$options" register 0)
