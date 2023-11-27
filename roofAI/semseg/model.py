@@ -3,7 +3,8 @@ Copied with modification from ../../notebooks/semseg.ipynb
 """
 
 import os
-from abcli import file, path
+import time
+from abcli import file, path, string
 import numpy as np
 import torch
 import cv2
@@ -111,19 +112,30 @@ class SemSegModel(object):
         )
 
         list_of_images = []
-        for n in tqdm(
+        index_list = (
             [np.random.choice(len(test_dataset))]
             if self.profile == Profile.VALIDATION
             else range(len(test_dataset))
-        ):
+        )
+        for n in tqdm(index_list):
             image_vis = test_dataset_vis[n][0].astype("uint8")
             image, gt_mask = test_dataset[n]
 
             gt_mask = gt_mask.squeeze()
 
+            start_time = time.time()
             x_tensor = torch.from_numpy(image).to(device).unsqueeze(0)
             pr_mask = self.model.predict(x_tensor)
             pr_mask = pr_mask.squeeze().cpu().numpy().round()
+            elapsed_time = time.time() - start_time
+            logger.info(
+                "took {}".format(
+                    string.pretty_duration(
+                        elapsed_time,
+                        include_ms=True,
+                    )
+                )
+            )
 
             label_mask, label_count = ndimage.label(pr_mask)
             logger.info(f"{label_count} object(s) found.")
@@ -166,6 +178,7 @@ class SemSegModel(object):
                 {
                     "count": label_count,
                     "contour": list_of_contours,
+                    "elapsed_time": elapsed_time,
                 },
             )
 
