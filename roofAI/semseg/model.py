@@ -7,6 +7,7 @@ from abcli import file, path
 import numpy as np
 import torch
 import cv2
+from tqdm import tqdm
 from scipy import ndimage
 from roofAI.semseg.augmentation import get_validation_augmentation, get_preprocessing
 from roofAI.semseg.dataloader import Dataset
@@ -110,7 +111,7 @@ class SemSegModel(object):
         )
 
         list_of_images = []
-        for n in (
+        for n in tqdm(
             [np.random.choice(len(test_dataset))]
             if self.profile == Profile.VALIDATION
             else range(len(test_dataset))
