@@ -196,6 +196,14 @@ class SemSegModel(object):
                 description=[
                     f"{n:05d}",
                     f"model: {self.object_name}",
+                    f"{label_count} object(s)",
+                    "took {}".format(
+                        string.pretty_duration(
+                            elapsed_time,
+                            include_ms=True,
+                            short=True,
+                        )
+                    ),
                 ],
                 list_of_contours=list_of_contours,
             )
