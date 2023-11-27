@@ -173,13 +173,11 @@ class SemSegModel(object):
                 )
 
             file.save_json(
-                os.path.join(
-                    output_path,
-                    f"predict-{n:05d}.png",
-                ),
+                os.path.join(output_path, f"predict-{n:05d}.json"),
                 {
                     "count": label_count,
                     "contour": list_of_contours,
+                    "device": self.device,
                     "elapsed_time": elapsed_time,
                 },
             )
@@ -196,6 +194,7 @@ class SemSegModel(object):
                 description=[
                     f"{n:05d}",
                     f"model: {self.object_name}",
+                    f"device: {self.device}",
                     f"{label_count} object(s)",
                     "took {}".format(
                         string.pretty_duration(
