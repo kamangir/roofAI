@@ -32,21 +32,24 @@ class SemSegModel(object):
         self,
         model_filename: str,
         profile: Profile = Profile.VALIDATION,
+        device="cpu",  # 'cuda'
         tolerance: float = 2,
     ):
         self.profile = profile
         self.filename = model_filename
         self.tolerance = tolerance
+        self.device = device
 
         logger.info(
-            "{}.load({}): {}".format(
+            "{}.load({}) on {}: {}".format(
                 self.__class__.__name__,
                 self.filename,
+                self.device,
                 self.profile,
             )
         )
 
-        self.model = torch.load(self.filename)
+        self.model = torch.load(self.filename).to(self.device)
 
         success, metadata = file.load_json(
             file.set_extension(
@@ -71,7 +74,6 @@ class SemSegModel(object):
         self,
         dataset_path,
         output_path,
-        device="cpu",  # 'cuda'
         in_notebook: bool = False,
     ):
         dataset = RoofAIDataset(dataset_path)
@@ -81,7 +83,7 @@ class SemSegModel(object):
                 self.__class__.__name__,
                 dataset.source,
                 dataset.dataset_path,
-                device,
+                self.device,
                 output_path,
             )
         )
@@ -124,7 +126,7 @@ class SemSegModel(object):
             gt_mask = gt_mask.squeeze()
 
             start_time = time.time()
-            x_tensor = torch.from_numpy(image).to(device).unsqueeze(0)
+            x_tensor = torch.from_numpy(image).to(self.device).unsqueeze(0)
             pr_mask = self.model.predict(x_tensor)
             pr_mask = pr_mask.squeeze().cpu().numpy().round()
             elapsed_time = time.time() - start_time

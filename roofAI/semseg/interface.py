@@ -17,12 +17,12 @@ def predict(
     model = SemSegModel(
         model_filename=os.path.join(model_path, "model.pth"),
         profile=profile,
+        device=device,
     )
 
     model.predict(
         dataset_path=dataset_path,
         output_path=prediction_path,
-        device=device,
         in_notebook=in_notebook,
     )
 
@@ -62,7 +62,6 @@ def train(
     model.predict(
         dataset_path=dataset_path,
         output_path=os.path.join(dataset_path, "_validation"),
-        device=device,
         in_notebook=in_notebook,
     )
 
