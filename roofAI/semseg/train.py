@@ -273,7 +273,10 @@ class SemSegModelTrainer(object):
             plt.show()
         plt.close()
 
-        semseg_model = SemSegModel(model_filename)
+        semseg_model = SemSegModel(
+            model_filename,
+            device=device,
+        )
 
         test_dataset = Dataset(
             self.x_test_dir,
