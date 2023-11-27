@@ -136,7 +136,7 @@ class SemSegModelTrainer(object):
             encoder_weights=encoder_weights,
             classes=len(classes),
             activation=activation,
-        )
+        ).to(device)
 
         preprocessing_fn = smp.encoders.get_preprocessing_fn(
             encoder_name,
