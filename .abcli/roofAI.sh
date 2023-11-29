@@ -68,6 +68,7 @@ function roofAI() {
 
     if [ "$task" == "pytest" ]; then
         abcli_pytest plugin=roofAI,$2 \
+            --ignore=$abcli_path_git/roofAI/notebooks/data/Scripts/ \
             "${@:3}"
         return
     fi
