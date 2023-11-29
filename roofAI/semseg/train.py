@@ -298,9 +298,22 @@ class SemSegModelTrainer(object):
         sign_filename(
             filename,
             header=[
-                "dataset: {}".format(path.name(self.dataset_path)),
+                "dataset: {}".format(
+                    [
+                        thing
+                        for thing in self.dataset_path.split(os.sep)
+                        if thing not in ["SegNet-Tutorial", "CamVid"] and thing
+                    ][0]
+                ),
                 "model: {}".format(path.name(self.model_path)),
                 semseg_model.signature,
+                "took {}".format(
+                    string.pretty_duration(
+                        elapsed_time,
+                        largest=True,
+                        short=True,
+                    )
+                ),
             ],
         )
 
