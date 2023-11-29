@@ -11,6 +11,7 @@ import torch
 from torch.utils.data import DataLoader
 from abcli import file
 from abcli import path
+from abcli import string
 from abcli.plugins import cache
 import segmentation_models_pytorch as smp
 from segmentation_models_pytorch import utils
@@ -228,12 +229,21 @@ class SemSegModelTrainer(object):
                 optimizer.param_groups[0]["lr"] = 1e-5
                 print("Decrease decoder learning rate to 1e-5!")
 
+        elapsed_time = time.time() - start_time
+        logger.info(
+            "took {}".format(
+                string.pretty_duration(
+                    elapsed_time,
+                    largest=True,
+                )
+            )
+        )
         file.save_json(
             os.path.join(self.model_path, "model.json"),
             {
                 "activation": activation,
                 "classes": classes,
-                "elapsed_time": time.time() - start_time,
+                "elapsed_time": elapsed_time,
                 "encoder_name": encoder_name,
                 "encoder_weights": encoder_weights,
                 "epics": epic_logs,
@@ -248,7 +258,15 @@ class SemSegModelTrainer(object):
                 [epic_logs[epic][subset]["dice_loss"] for epic in epic_list],
                 label=f"{subset} loss",
             )
-        plt.xlabel("epic")
+        plt.xlabel(
+            "epic | total: {}".format(
+                string.pretty_duration(
+                    elapsed_time,
+                    short=True,
+                    largest=True,
+                )
+            )
+        )
         plt.ylabel("dice-loss")
         plt.grid(True)
         plt.title(path.name(self.model_path))
