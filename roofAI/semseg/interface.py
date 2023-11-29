@@ -61,7 +61,7 @@ def train(
 
     model.predict(
         dataset_path=dataset_path,
-        output_path=os.path.join(model_path),
+        output_path=model_path,
         in_notebook=in_notebook,
     )
 
