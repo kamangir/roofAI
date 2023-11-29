@@ -303,7 +303,7 @@ class SemSegModelTrainer(object):
                         thing
                         for thing in self.dataset_path.split(os.sep)
                         if thing not in ["SegNet-Tutorial", "CamVid"] and thing
-                    ][0]
+                    ][-1]
                 ),
                 "model: {}".format(path.name(self.model_path)),
                 semseg_model.signature,
