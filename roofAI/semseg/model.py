@@ -194,6 +194,7 @@ class SemSegModel(object):
                 description=[
                     f"{n:05d}",
                     f"model: {self.object_name}",
+                    self.signature,
                     f"device: {self.device}",
                     f"{label_count} object(s)",
                     "took {}".format(
@@ -201,6 +202,7 @@ class SemSegModel(object):
                             elapsed_time,
                             include_ms=True,
                             short=True,
+                            largest=True,
                         )
                     ),
                 ],

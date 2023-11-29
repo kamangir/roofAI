@@ -70,24 +70,25 @@ def test_MatrixKind(
             "testannot/0001TP_008850.png",
             (360, 480),
         ),
-        (
-            "roofAI_ingest_AIRS_cache",
-            "RoofAIDataset[kind:DatasetKind.AIRS,source:AIRS](",
-            "test",
-            10,
-            MatrixKind.IMAGE,
-            "test/image/christchurch_162.tif",
-            (10000, 10000, 3),
-        ),
-        (
-            "roofAI_ingest_AIRS_cache",
-            "RoofAIDataset[kind:DatasetKind.AIRS,source:AIRS](",
-            "test",
-            10,
-            MatrixKind.MASK,
-            "test/label/christchurch_162.tif",
-            (10000, 10000),
-        ),
+        # roofAI_ingest_AIRS_cache is a large object cached by `roof ingest`.
+        #        (
+        #            "roofAI_ingest_AIRS_cache",
+        #            "RoofAIDataset[kind:DatasetKind.AIRS,source:AIRS](",
+        #            "test",
+        #            10,
+        #            MatrixKind.IMAGE,
+        #            "test/image/christchurch_162.tif",
+        #            (10000, 10000, 3),
+        #        ),
+        #        (
+        #            "roofAI_ingest_AIRS_cache",
+        #            "RoofAIDataset[kind:DatasetKind.AIRS,source:AIRS](",
+        #            "test",
+        #            10,
+        #            MatrixKind.MASK,
+        #            "test/label/christchurch_162.tif",
+        #            (10000, 10000),
+        #        ),
     ],
 )
 def test_RoofAIDataset(

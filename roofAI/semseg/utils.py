@@ -71,34 +71,46 @@ def visualize(
     if filename:
         file.prepare_for_saving(filename)
         plt.savefig(filename)
-        logger.info("-> {}".format(filename))
-
-        success, image = file.load_image(filename)
-        if success:
-            file.save_image(
-                filename,
-                add_signature(
-                    image,
-                    header=[
-                        " | ".join(
-                            [
-                                thing
-                                for thing in [path.name(file.path(filename))]
-                                + description
-                                if thing and thing != "_review"
-                            ]
-                        )
-                    ],
-                    footer=[
-                        " | ".join(thing)
-                        for thing in np.array_split(
-                            [f"{NAME}-{VERSION}"] + host_signature(),
-                            2,
-                        )
-                    ],
-                ),
-            )
+        success = sign_filename(
+            filename,
+            header=[path.name(file.path(filename))] + description,
+        )
 
     if in_notebook:
         plt.show()
     plt.close()
+
+
+def sign_filename(
+    filename: str,
+    header: List[str],
+) -> bool:
+    success, image = file.load_image(filename)
+    if not success:
+        return success
+
+    if not file.save_image(
+        filename,
+        add_signature(
+            image,
+            header=[
+                " | ".join(thing)
+                for thing in np.array_split(
+                    header,
+                    2,
+                )
+            ],
+            footer=[
+                " | ".join(thing)
+                for thing in np.array_split(
+                    [f"{NAME}-{VERSION}"] + host_signature(),
+                    2,
+                )
+            ],
+        ),
+    ):
+        return False
+
+    logger.info("-> {}".format(filename))
+
+    return True

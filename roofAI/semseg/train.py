@@ -23,7 +23,7 @@ from roofAI.semseg.augmentation import (
 from roofAI.semseg.dataloader import Dataset
 from roofAI.dataset import RoofAIDataset
 from roofAI.semseg.model import SemSegModel
-from roofAI.semseg.utils import visualize
+from roofAI.semseg.utils import visualize, sign_filename
 from roofAI.semseg import Profile
 import abcli.logging
 import logging
@@ -286,7 +286,6 @@ class SemSegModelTrainer(object):
         filename = os.path.join(self.model_path, "train-summary.png")
         file.prepare_for_saving(filename)
         plt.savefig(filename)
-        logger.info(f"-> {filename}")
         if in_notebook:
             plt.show()
         plt.close()
@@ -294,6 +293,28 @@ class SemSegModelTrainer(object):
         semseg_model = SemSegModel(
             model_filename,
             device=device,
+        )
+
+        sign_filename(
+            filename,
+            header=[
+                "dataset: {}".format(
+                    [
+                        thing
+                        for thing in self.dataset_path.split(os.sep)
+                        if thing not in ["SegNet-Tutorial", "CamVid"] and thing
+                    ][-1]
+                ),
+                "model: {}".format(path.name(self.model_path)),
+                semseg_model.signature,
+                "took {}".format(
+                    string.pretty_duration(
+                        elapsed_time,
+                        largest=True,
+                        short=True,
+                    )
+                ),
+            ],
         )
 
         test_dataset = Dataset(
