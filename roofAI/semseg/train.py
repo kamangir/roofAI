@@ -300,8 +300,8 @@ class SemSegModelTrainer(object):
             header=[
                 "dataset: {}".format(path.name(self.dataset_path)),
                 "model: {}".format(path.name(self.model_path)),
-            ]
-            + semseg_model.signature,
+                semseg_model.signature,
+            ],
         )
 
         test_dataset = Dataset(
