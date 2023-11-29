@@ -73,11 +73,7 @@ def visualize(
         plt.savefig(filename)
         success = sign_filename(
             filename,
-            header=[
-                thing
-                for thing in [path.name(file.path(filename))] + description
-                if thing and thing != "_review"
-            ],
+            header=[path.name(file.path(filename))] + description,
         )
 
     if in_notebook:
