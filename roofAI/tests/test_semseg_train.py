@@ -28,7 +28,7 @@ def test_semseg_train(dataset_source, classes):
             ),
             model_path=objects.object_path(objects.unique_object()),
             classes=classes,
-            register=True,
+            do_register=True,
             suffix="pytest",
         ),
         SemSegModel,
