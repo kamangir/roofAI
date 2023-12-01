@@ -10,6 +10,7 @@ function roofAI_semseg() {
     local task=$(abcli_unpack_keyword $1 help)
 
     if [ $task == "help" ]; then
+        roofAI_semseg list "$@"
         roofAI_semseg predict "$@"
         roofAI_semseg train "$@"
 
@@ -27,6 +28,24 @@ function roofAI_semseg() {
     local do_download=$(abcli_option_int "$options" download $(abcli_not $do_dryrun))
     local do_register=$(abcli_option_int "$options" register 0)
     local do_upload=$(abcli_option_int "$options" upload $do_register)
+
+    if [ "$task" == "list" ]; then
+        if [ $(abcli_option_int "$options" help 0) == 1 ]; then
+            abcli_show_usage "semseg list" \
+                "list registered semseg models."
+            return
+        fi
+
+        local reference
+        for reference in $(abcli_tag search \
+            registered_semseg_model \
+            --delim space \
+            --log 0); do
+            abcli_log "⚡️ $reference: $(abcli_cache read $reference)"
+        done
+
+        return
+    fi
 
     if [ "$task" == "predict" ]; then
         if [ $(abcli_option_int "$options" help 0) == 1 ]; then

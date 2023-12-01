@@ -13,6 +13,7 @@ from abcli import file
 from abcli import path
 from abcli import string
 from abcli.plugins import cache
+from abcli.plugins import tags
 import segmentation_models_pytorch as smp
 from segmentation_models_pytorch import utils
 from roofAI.semseg.augmentation import (
@@ -113,7 +114,7 @@ class SemSegModelTrainer(object):
         encoder_weights="imagenet",
         activation="sigmoid",  # could be None for logits or 'softmax2d' for multi-class segmentation
         device="cpu",  # 'cuda'
-        register: bool = False,
+        do_register: bool = False,
         suffix: str = "v1",
         in_notebook: bool = False,
     ):
@@ -340,10 +341,13 @@ class SemSegModelTrainer(object):
 
         # TODO: semseg_model.predict(...)
 
-        if register:
+        if do_register:
+            keyword = f"roofAI_semseg_model_{self.dataset.source}_{suffix}"
             cache.write(
-                f"roofAI_semseg_model_{self.dataset.source}_{suffix}",
+                keyword,
                 path.name(self.model_path),
             )
+
+            tags.set_(keyword, "registered_semseg_model")
 
         return semseg_model

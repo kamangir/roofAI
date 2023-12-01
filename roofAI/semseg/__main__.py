@@ -108,7 +108,7 @@ if success:
             classes=args.classes.split("+"),
             activation=args.activation,
             device=args.device,
-            register=bool(args.register),
+            do_register=bool(args.register),
             suffix=args.suffix,
             profile=profile,
         )
