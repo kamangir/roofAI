@@ -8,7 +8,7 @@ function roofAI_dataset_ingest() {
     if [ $(abcli_option_int "$options" help 0) == 1 ]; then
         local common_options="dryrun,open,register,suffix=<v1>,upload"
 
-        local options="cache,~from_cache,source=AIRS,$common_options"
+        local options="source=AIRS,$common_options"
         local args="[--test_count <10>]$ABCUL[--train_count <10>]$ABCUL[--val_count <10>]"
         abcli_show_usage "roofAI dataset ingest$ABCUL[$options]$ABCUL<object-name>$ABCUL$args" \
             "ingest AIRS -> <object-name>."
@@ -18,8 +18,6 @@ function roofAI_dataset_ingest() {
         return
     fi
 
-    local from_cache=$(abcli_option_int "$options" from_cache 1)
-    local do_cache=$(abcli_option_int "$options" cache $(abcli_not $from_cache))
     local do_dryrun=$(abcli_option_int "$options" dryrun 0)
     local do_open=$(abcli_option_int "$options" open 0)
     local do_register=$(abcli_option_int "$options" register 0)
@@ -63,24 +61,28 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
     fi
 
     if [ "$source" == "AIRS" ]; then
-        local cache_object_name=""
-        if [[ "$from_cache" == 1 ]]; then
-            local cache_object_name=$(abcli_cache read $cache_keyword)
-            abcli_log "cache: $cache_keyword -> $cache_object_name"
-            if [[ ! -z "$cache_object_name" ]]; then
-                abcli_download object $cache_object_name
+        local cache_object_name=$(abcli_cache read $cache_keyword)
 
-                if [[ ! -f $abcli_object_root/$cache_object_name/train.txt ]]; then
-                    abcli_log "cache not available: $cache_object_name"
-                    local cache_object_name=""
-                fi
-            fi
-        fi
-
+        local cache_from_source=0
         if [[ -z "$cache_object_name" ]]; then
             local cache_object_name=roofAI_ingest_${source}_cache_$(abcli_string_timestamp)
 
-            abcli_log "caching $source -> $cache_object_name"
+            abcli_cache write \
+                $cache_keyword \
+                $cache_object_name
+
+            local cache_from_source=1
+        else
+            abcli_download object $cache_object_name
+
+            if [[ ! -f $abcli_object_root/$cache_object_name/train.txt ]]; then
+                abcli_log "cache is empty: $cache_object_name"
+                local cache_from_source=1
+            fi
+        fi
+
+        if [[ "$cache_from_source" == 1 ]]; then
+            abcli_log "caching from $source -> $cache_object_name"
 
             # https://arash-kamangir.medium.com/roofai-1-airs-b440ebb54968
             abcli_eval dryrun=$do_dryrun,path=$abcli_object_root/$cache_object_name \
@@ -91,14 +93,9 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
                 rm -v aerialimageryforroofsegmentation.zip"
         fi
 
-        [[ "$do_cache" == 1 ]] &&
-            abcli_cache write \
-                $cache_keyword \
-                $cache_object_name
-
         local args="--cache_path $abcli_object_root/$cache_object_name"
 
-        abcli_log "using cache: $cache_object_name"
+        abcli_log "cache: $cache_keyword -> $cache_object_name"
     fi
 
     abcli_eval dryrun=$do_dryrun \
