@@ -66,6 +66,7 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
         local cache_object_name=""
         if [[ "$from_cache" == 1 ]]; then
             local cache_object_name=$(abcli_cache read $cache_keyword)
+            abcli_log "cache: $cache_keyword -> $cache_object_name"
             if [[ ! -z "$cache_object_name" ]]; then
                 abcli_download object $cache_object_name
 
