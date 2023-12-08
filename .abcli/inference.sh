@@ -23,7 +23,7 @@ function roofAI_inference() {
         [[ $? -ne 0 ]] && return 1
 
         abcli_eval dryrun=$do_dryrun \
-            docker pull image_name
+            docker pull $image_name
 
         return
     fi
