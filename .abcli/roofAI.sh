@@ -11,6 +11,7 @@ function roofAI() {
         roofAI version \\n
 
         roofAI_conda "$@"
+        roofAI_inference "$@"
         roofAI_QGIS "$@"
         roofAI_semseg "$@"
         roofAI dataset "$@"
