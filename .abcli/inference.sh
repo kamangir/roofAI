@@ -4,13 +4,13 @@ function roofAI_inference() {
     local task=$(abcli_unpack_keyword $1 help)
 
     if [ "$task" == "help" ]; then
-        local options="dryrun"
-        abcli_show_usage "roofAI inference start$ABCUL[$options]" \
-            "start the inference image."
+        local options="${ABCXOP}[dryrun]${ABCXOPE}"
+        abcli_show_usage "roofAI inference pull $options" \
+            "pull the inference image."
         return
     fi
 
-    if [ "$task" == "start" ]; then
+    if [ "$task" == "pull" ]; then
         local options=$2
         local do_dryrun=$(abcli_option_int "$options" dryrun 0)
 
