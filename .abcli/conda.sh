@@ -32,6 +32,7 @@ function roofAI_conda() {
         pip3 install pretrainedmodels
         pip3 install efficientnet_pytorch
         pip3 install segmentation_models_pytorch
+        pip3 install sagemaker
 
         [[ "$do_validate" == 1 ]] && roofAI_conda validate
 

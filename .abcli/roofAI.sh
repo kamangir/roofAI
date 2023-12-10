@@ -68,14 +68,20 @@ function roofAI() {
     fi
 
     if [ "$task" == "pytest" ]; then
-        local object_ref
-        for object_ref in \
-            roofAI_ingest_CamVid_v1 \
-            roofAI_semseg_model_CamVid_v1; do
-            abcli_download object $(abcli_cache read $object_ref)
-        done
+        local options=$2
+        local do_download=$(abcli_option_int "$options" download 1)
 
-        abcli_pytest plugin=roofAI,$2 \
+        if [[ "$do_download" == 1 ]]; then
+            local object_ref
+            for object_ref in \
+                roofAI_ingest_CamVid_v1 \
+                roofAI_semseg_model_AIRS_o2 \
+                roofAI_semseg_model_CamVid_v1; do
+                abcli_download object $(abcli_cache read $object_ref)
+            done
+        fi
+
+        abcli_pytest plugin=roofAI,$options \
             --ignore=$abcli_path_git/roofAI/notebooks/data/Scripts/ \
             "${@:3}"
         return
