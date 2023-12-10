@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 class InferenceObject(Enum):
     MODEL = auto()
     ENDPOINT_CONFIG = auto()
+    ENDPOINT = auto()
 
 
 class InferenceClient(object):
@@ -43,20 +44,30 @@ class InferenceClient(object):
         self,
         what: InferenceObject,
         name: str,
+        config_name: str = "",
         verify: bool = True,
     ) -> bool:
-        response = {}
         if not isinstance(what, InferenceObject):
             logger.error(f"create({name}): unknown object: {what}.")
             return False
 
-        logger.info(f"create({what},{name})...")
+        config_name = name if not config_name else config_name
+        logger.info(
+            "create({},{}{})...".format(
+                what,
+                "{}->".format(config_name) if what == InferenceObject.ENDPOINT else "",
+                name,
+            )
+        )
 
         if self.exists(what, name):
             logger.info(f"{what} {name} already exists, will delete first.")
-            self.delete(what, name)
+            if not self.delete(what, name):
+                return False
 
+        response = {}
         if what == InferenceObject.MODEL:
+            # https://docs.aws.amazon.com/sagemaker/latest/dg/serverless-endpoints-create.html#serverless-endpoints-create-model
             response = self.client.create_model(
                 ModelName=name,
                 ExecutionRoleArn=self.sagemaker_role,
@@ -86,6 +97,13 @@ class InferenceClient(object):
                 ],
             )
 
+        if what == InferenceObject.ENDPOINT:
+            # https://docs.aws.amazon.com/sagemaker/latest/dg/serverless-endpoints-create.html#serverless-endpoints-create-endpoint
+            response = self.client.create_endpoint(
+                EndpointName=name,
+                EndpointConfigName=config_name,
+            )
+
         if self.verbose:
             logger.info(f"create({what},{name}): {response}")
 
@@ -95,22 +113,32 @@ class InferenceClient(object):
         self,
         what: InferenceObject,
         name: str,
-    ):
+    ) -> bool:
         response = {}
         if not isinstance(what, InferenceObject):
             logger.error(f"delete({name}): unknown object: {what}.")
-            return
+            return False
 
         if what == InferenceObject.MODEL:
-            # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker/client/delete_model.html#
+            # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker/client/delete_model.html
             response = self.client.delete_model(ModelName=name)
 
         if what == InferenceObject.ENDPOINT_CONFIG:
             # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker/client/delete_endpoint_config.html
             response = self.client.delete_endpoint_config(EndpointConfigName=name)
 
+        if what == InferenceObject.ENDPOINT:
+            # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker/client/delete_endpoint.html
+            try:
+                response = self.client.delete_endpoint(EndpointName=name)
+            except Exception as e:
+                logger.error(e)
+                return False
+
         if self.verbose:
             logger.info(f"delete({what},{name}): {response}")
+
+        return True
 
     def exists(
         self,
@@ -132,6 +160,11 @@ class InferenceClient(object):
             # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker/client/list_endpoint_configs.html
             response = self.client.list_endpoint_configs(NameContains=name)
             output = bool(response["EndpointConfigs"])
+
+        if what == InferenceObject.ENDPOINT:
+            # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker/client/list_endpoints.html
+            response = self.client.list_endpoints(NameContains=name)
+            output = bool(response["Endpoints"])
 
         if self.verbose:
             logger.info(f"exists({what},{name}): {response}")
