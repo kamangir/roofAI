@@ -53,7 +53,7 @@ class InferenceClient(object):
         logger.info(f"create({what},{name})...")
 
         if self.exists(what, name):
-            logger.info(f"{name} already exists, will delete first.")
+            logger.info(f"{what} {name} already exists, will delete first.")
             self.delete(what, name)
 
         if what == InferenceObject.MODEL:
@@ -65,6 +65,23 @@ class InferenceClient(object):
                         "Image": self.container,
                         "Mode": "SingleModel",
                         "ModelDataUrl": f"s3://kamangir/bolt/{name}.tar.gz",
+                    }
+                ],
+            )
+
+        if what == InferenceObject.ENDPOINT_CONFIG:
+            # https://docs.aws.amazon.com/sagemaker/latest/dg/serverless-endpoints-create.html#serverless-endpoints-create-config
+            response = self.client.create_endpoint_config(
+                EndpointConfigName=name,
+                ProductionVariants=[
+                    {
+                        "ModelName": name,
+                        "VariantName": "AllTraffic",
+                        "ServerlessConfig": {
+                            "MemorySizeInMB": 2048,
+                            "MaxConcurrency": 20,
+                            # "ProvisionedConcurrency": 10,
+                        },
                     }
                 ],
             )
@@ -88,8 +105,12 @@ class InferenceClient(object):
             # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker/client/delete_model.html#
             response = self.client.delete_model(ModelName=name)
 
+        if what == InferenceObject.ENDPOINT_CONFIG:
+            # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker/client/delete_endpoint_config.html
+            response = self.client.delete_endpoint_config(EndpointConfigName=name)
+
         if self.verbose:
-            logger.info(f"delete_model({name}): {response}")
+            logger.info(f"delete({what},{name}): {response}")
 
     def exists(
         self,
