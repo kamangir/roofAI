@@ -33,16 +33,16 @@ class InferenceClient(object):
 
         logger.info(f"{self.__class__.__name__} created.")
 
-    def create(
+    def create_model(
         self,
         model_name: str,
         verify: bool = True,
     ) -> bool:
-        logger.info(f"creating {model_name}...")
+        logger.info(f"create_model({model_name})...")
 
-        if self.exists(model_name):
+        if self.model_exists(model_name):
             logger.info(f"{model_name} already exists, will delete first.")
-            self.delete(model_name)
+            self.delete_model(model_name)
 
         # Create the model
         response = self.client.create_model(
@@ -57,21 +57,21 @@ class InferenceClient(object):
             ],
         )
         if self.verbose:
-            logger.info(f"create({model_name}): {response}")
+            logger.info(f"create_model({model_name}): {response}")
 
-        return self.exists(model_name) if verify else True
+        return self.model_exists(model_name) if verify else True
 
-    def delete(self, model_name: str):
+    def delete_model(self, model_name: str):
         # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker/client/delete_model.html#
         response = self.client.delete_model(ModelName=model_name)
         if self.verbose:
-            logger.info(f"delete({model_name}): {response}")
+            logger.info(f"delete_model({model_name}): {response}")
 
-    def exists(self, model_name: str) -> bool:
+    def model_exists(self, model_name: str) -> bool:
         # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker/client/list_models.html
         response = self.client.list_models(NameContains=model_name)
 
         if self.verbose:
-            logger.info(f"exists({model_name}): {response}")
+            logger.info(f"model_exists({model_name}): {response}")
 
         return bool(response["Models"])
