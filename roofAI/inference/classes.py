@@ -39,62 +39,80 @@ class InferenceClient(object):
 
         logger.info(f"{self.__class__.__name__} created.")
 
-    def create_model(
+    def create(
         self,
-        model_name: str,
+        what: InferenceObject,
+        name: str,
         verify: bool = True,
     ) -> bool:
-        logger.info(f"create_model({model_name})...")
+        response = {}
+        if not isinstance(what, InferenceObject):
+            logger.error(f"create({name}): unknown object: {what}.")
+            return False
 
-        if self.exists(InferenceObject.MODEL, model_name):
-            logger.info(f"{model_name} already exists, will delete first.")
-            self.delete_model(model_name)
+        logger.info(f"create({what},{name})...")
 
-        # Create the model
-        response = self.client.create_model(
-            ModelName=model_name,
-            ExecutionRoleArn=self.sagemaker_role,
-            Containers=[
-                {
-                    "Image": self.container,
-                    "Mode": "SingleModel",
-                    "ModelDataUrl": f"s3://kamangir/bolt/{model_name}.tar.gz",
-                }
-            ],
-        )
+        if self.exists(what, name):
+            logger.info(f"{name} already exists, will delete first.")
+            self.delete(what, name)
+
+        if what == InferenceObject.MODEL:
+            response = self.client.create_model(
+                ModelName=name,
+                ExecutionRoleArn=self.sagemaker_role,
+                Containers=[
+                    {
+                        "Image": self.container,
+                        "Mode": "SingleModel",
+                        "ModelDataUrl": f"s3://kamangir/bolt/{name}.tar.gz",
+                    }
+                ],
+            )
+
         if self.verbose:
-            logger.info(f"create_model({model_name}): {response}")
+            logger.info(f"create({what},{name}): {response}")
 
-        return self.exists(InferenceObject.MODEL, model_name) if verify else True
+        return self.exists(what, name) if verify else True
 
-    def delete_model(self, model_name: str):
-        # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker/client/delete_model.html#
-        response = self.client.delete_model(ModelName=model_name)
+    def delete(
+        self,
+        what: InferenceObject,
+        name: str,
+    ):
+        response = {}
+        if not isinstance(what, InferenceObject):
+            logger.error(f"delete({name}): unknown object: {what}.")
+            return
+
+        if what == InferenceObject.MODEL:
+            # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker/client/delete_model.html#
+            response = self.client.delete_model(ModelName=name)
+
         if self.verbose:
-            logger.info(f"delete_model({model_name}): {response}")
+            logger.info(f"delete_model({name}): {response}")
 
     def exists(
         self,
         what: InferenceObject,
         name: str,
     ) -> bool:
+        output = False
+        response = {}
+        if not isinstance(what, InferenceObject):
+            logger.error(f"delete({name}): unknown object: {what}.")
+            return False
+
         if what == InferenceObject.MODEL:
             # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker/client/list_models.html
             response = self.client.list_models(NameContains=name)
-
-            if self.verbose:
-                logger.info(f"exists({what},{name}): {response}")
-
-            return bool(response["Models"])
+            output = bool(response["Models"])
 
         if what == InferenceObject.ENDPOINT_CONFIG:
             # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker/client/list_endpoint_configs.html
             response = self.client.list_endpoint_configs(NameContains=name)
+            output = bool(response["EndpointConfigs"])
 
-            if self.verbose:
-                logger.info(f"exists({what},{name}): {response}")
+        if self.verbose:
+            logger.info(f"exists({what},{name}): {response}")
 
-            return bool(response["EndpointConfigs"])
-
-        logger.error(f"exists({name}): unknown object: {what}.")
-        return False
+        return output
