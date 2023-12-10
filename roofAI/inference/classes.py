@@ -1,10 +1,16 @@
 import boto3
+from enum import Enum, auto
 from sagemaker import image_uris
 import sagemaker
 from abcli import logging
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+class InferenceObject(Enum):
+    MODEL = auto()
+    ENDPOINT_CONFIG = auto()
 
 
 class InferenceClient(object):
@@ -40,7 +46,7 @@ class InferenceClient(object):
     ) -> bool:
         logger.info(f"create_model({model_name})...")
 
-        if self.model_exists(model_name):
+        if self.exists(InferenceObject.MODEL, model_name):
             logger.info(f"{model_name} already exists, will delete first.")
             self.delete_model(model_name)
 
@@ -59,7 +65,7 @@ class InferenceClient(object):
         if self.verbose:
             logger.info(f"create_model({model_name}): {response}")
 
-        return self.model_exists(model_name) if verify else True
+        return self.exists(InferenceObject.MODEL, model_name) if verify else True
 
     def delete_model(self, model_name: str):
         # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker/client/delete_model.html#
@@ -67,11 +73,28 @@ class InferenceClient(object):
         if self.verbose:
             logger.info(f"delete_model({model_name}): {response}")
 
-    def model_exists(self, model_name: str) -> bool:
-        # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker/client/list_models.html
-        response = self.client.list_models(NameContains=model_name)
+    def exists(
+        self,
+        what: InferenceObject,
+        name: str,
+    ) -> bool:
+        if what == InferenceObject.MODEL:
+            # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker/client/list_models.html
+            response = self.client.list_models(NameContains=name)
 
-        if self.verbose:
-            logger.info(f"model_exists({model_name}): {response}")
+            if self.verbose:
+                logger.info(f"exists({what},{name}): {response}")
 
-        return bool(response["Models"])
+            return bool(response["Models"])
+
+        if what == InferenceObject.ENDPOINT_CONFIG:
+            # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker/client/list_endpoint_configs.html
+            response = self.client.list_endpoint_configs(NameContains=name)
+
+            if self.verbose:
+                logger.info(f"exists({what},{name}): {response}")
+
+            return bool(response["EndpointConfigs"])
+
+        logger.error(f"exists({name}): unknown object: {what}.")
+        return False
