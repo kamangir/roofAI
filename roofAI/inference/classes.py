@@ -136,6 +136,8 @@ class InferenceClient(object):
             logger.error(f"delete({name}): unknown object: {what}.")
             return False
 
+        logger.info(f"delete({what},{name})")
+
         if what == InferenceObject.MODEL:
             # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker/client/delete_model.html
             response = self.client.delete_model(ModelName=name)

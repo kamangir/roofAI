@@ -5,13 +5,41 @@ everything AI about roofs. 🏛️
 🔷 [datasets](./roofAI/dataset) 🔷 [notebooks](./notebooks/) 🔷 [semseg](./roofAI/semseg) 🔷
 
 ```bash
-🏛️  roofAI-3.205.1
-🏛️  everything AI about roofs.
-
+ > roof help
 roofAI conda create_env [validate,~recreate]
  . create conda environment.
 roofAI conda validate
  . validate conda environment.
+roofAI inference create \
+	[dryrun,model] \
+	[.|<object-name>] \
+	[--verbose 1] \
+	[--verify 0]
+ . create inference model.
+roofAI inference create \
+	[dryrun,endpoint_config,suffix=<suffix>] \
+	[.|<object-name>] \
+	[--verbose 1] \
+	[--verify 0]
+ . create inference endpoint config.
+roofAI inference create \
+	[dryrun,endpoint,config_suffix=<suffix>,suffix=<suffix>] \
+	[.|<object-name>] \
+	[--verbose 1] \
+	[--verify 0]
+ . create inference endpoint.
+roofAI inference delete \
+	[dryrun,model|endpoint_config|endpoint] \
+	<name> \
+	[--verbose 1]
+ . delete inference object.
+roofAI inference list \
+	[dryrun,model|endpoint_config|endpoint,contains=<string>] \
+	[--verbose 1]
+ . list inference objects.
+roofAI inference pull \
+	[dryrun]
+ . pull the inference image.
 QGIS seed
  . seed 🌱 QGIS.
 QGIS expressions pull
@@ -20,14 +48,16 @@ QGIS expressions push [push]
  . push QGIS expressions.
  📂 /Users/kamangir/Library/Application Support/QGIS/QGIS3/profiles/default/python/expressions
  📂 /Users/kamangir/git/roofAI/roofAI/QGIS/expressions
+semseg list
+ . list registered semseg models.
 semseg predict \
-	[device=cpu|cuda,~download,dryrun,profile=FULL|QUICK|VALIDATION,upload] \
+	[device=cpu|cuda,~download,dryrun,profile=FULL|DECENT|QUICK|DEBUG|VALIDATION,upload] \
 	<model-object-name> \
 	<dataset-object-name> \
 	<prediction-object-name>
  . semseg[<model-object-name>].predict(<dataset-object-name>) -> <prediction-object-name>.
 semseg train \
-	[device=cpu|cuda,~download,dryrun,profile=FULL|QUICK|VALIDATION,register,suffix=<v1>,upload] \
+	[device=cpu|cuda,~download,dryrun,profile=FULL|DECENT|QUICK|DEBUG|VALIDATION,register,suffix=<v1>,upload] \
 	<dataset-object-name> \
 	<model-object-name> \
 	[--activation <sigmoid>] \
@@ -36,7 +66,7 @@ semseg train \
 	[--encoder_weights <imagenet>]
  . semseg.train(<dataset-object-name>) -> <model-object-name>.
 roofAI dataset ingest \
-	[cache,~from_cache,source=AIRS,dryrun,open,register,suffix=<v1>,upload] \
+	[source=AIRS,dryrun,open,register,suffix=<v1>,upload] \
 	<object-name> \
 	[--test_count <10>] \
 	[--train_count <10>] \
@@ -54,7 +84,7 @@ roofAI dataset review \
 	[--subset <subset>]
  . review <object-name>.
 roofAI pytest \
-	[dryrun,list,~log,plugin=<plugin-name>,warning] \
+	[~download,dryrun,list,~log,plugin=<plugin-name>,warning] \
 	[filename.py|filename.py::test]
  . pytest roofAI.
 roofAI test [~dataset,dryrun,~semseg]

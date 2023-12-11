@@ -30,7 +30,7 @@ function roofAI_inference() {
         "delete")
             local args="[--verbose 1]"
             local options="dryrun,model|endpoint_config|endpoint"
-            abcli_show_usage "roofAI inference delete$ABCUL[$options]$ABCUL[.|<object-name>]$ABCUL$args" \
+            abcli_show_usage "roofAI inference delete$ABCUL[$options]$ABCUL<name>$ABCUL$args" \
                 "delete inference object."
             ;;
         "list")
@@ -53,18 +53,27 @@ function roofAI_inference() {
         local do_dryrun=$(abcli_option_int "$options" dryrun 0)
     fi
 
-    if [[ ",create,delete," == *",$task,"* ]]; then
+    if [[ "$task" == "create" ]]; then
         local object_name=$(abcli_clarify_object $3 .)
 
-        [[ "$task" == "create" ]] && [[ "$object_type" == "model" ]] &&
+        [[ "$object_type" == "model" ]] &&
             abcli_upload solid,~warn_if_exists $object_name
 
         abcli_eval dryrun=$do_dryrun \
-            python3 -m roofAI.inference $task \
+            python3 -m roofAI.inference create \
             --suffix $(abcli_option "$options" suffix -) \
             --config_suffix $(abcli_option "$options" config_suffix -) \
             --object_type "$object_type" \
             --object_name "$object_name" \
+            "${@:4}"
+        return
+    fi
+
+    if [[ "$task" == "delete" ]]; then
+        abcli_eval dryrun=$do_dryrun \
+            python3 -m roofAI.inference delete \
+            --object_type "$object_type" \
+            --object_name "$3" \
             "${@:4}"
         return
     fi

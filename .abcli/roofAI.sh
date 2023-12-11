@@ -8,8 +8,6 @@ function roofAI() {
     local task=$(abcli_unpack_keyword $1 help)
 
     if [ $task == "help" ]; then
-        roofAI version \\n
-
         roofAI_conda "$@"
         roofAI_inference "$@"
         roofAI_QGIS "$@"
@@ -88,7 +86,7 @@ function roofAI() {
     fi
 
     if [ "$task" == "version" ]; then
-        abcli_log "🏛️  $(python3 -m roofAI version --show_description 1)${@:2}"
+        python3 -m roofAI version "${@:2}"
         return
     fi
 
