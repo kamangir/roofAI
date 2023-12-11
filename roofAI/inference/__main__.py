@@ -20,9 +20,12 @@ parser.add_argument(
     help=list_of_tasks,
 )
 parser.add_argument(
-    "--config_name",
+    "--config_suffix",
     type=str,
-    help="required when creating an endpoint.",
+)
+parser.add_argument(
+    "--suffix",
+    type=str,
 )
 parser.add_argument(
     "--object_type",
@@ -40,6 +43,12 @@ parser.add_argument(
     default=0,
     help="0|1",
 )
+parser.add_argument(
+    "--verify",
+    type=int,
+    default=1,
+    help="0|1",
+)
 args = parser.parse_args()
 
 inference_client = InferenceClient(verbose=bool(args.verbose))
@@ -48,11 +57,25 @@ object_type = InferenceObject[args.object_type.upper()]
 
 success = args.task in list_of_tasks.split("|")
 if args.task == "create":
-    success = inference_client.create(
-        what=object_type,
-        name=args.object_name,
-        config_name=args.config_name,
-    )
+    if object_type == InferenceObject.MODEL:
+        success = inference_client.create_model(
+            name=args.object_name,
+            verify=bool(args.verify),
+        )
+    elif object_type == InferenceObject.ENDPOINT_CONFIG:
+        success = inference_client.create_endpoint_config(
+            name=f"config-{args.object_name}-{args.suffix}",
+            model_name=args.object_name,
+            verify=bool(args.verify),
+        )
+    elif object_type == InferenceObject.ENDPOINT:
+        success = inference_client.create_endpoint(
+            name=f"endpoint-{args.object_name}-{args.suffix}",
+            config_name=f"config-{args.object_name}-{args.config_suffix}",
+            verify=bool(args.verify),
+        )
+    else:
+        success = False
 elif args.task == "delete":
     sucess = inference_client.delete(
         what=object_type,

@@ -1,6 +1,6 @@
 import pytest
 from abcli import string
-from roofAI.inference.classes import InferenceClient, InferenceObject
+from roofAI.inference.classes import InferenceClient
 
 
 @pytest.mark.parametrize(
@@ -12,18 +12,18 @@ from roofAI.inference.classes import InferenceClient, InferenceObject
 def test_inference_client(model_name):
     inference_client = InferenceClient(verbose=True)
 
-    assert inference_client.create(
-        InferenceObject.MODEL,
-        model_name,
+    assert inference_client.create_model(
+        name=model_name,
     )
 
-    assert inference_client.create(
-        InferenceObject.ENDPOINT_CONFIG,
-        model_name,
+    config_name = "config-{}-{}".format(model_name, string.random_(8))
+    assert inference_client.create_endpoint_config(
+        name=config_name,
+        model_name=model_name,
     )
 
-    assert inference_client.create(
-        InferenceObject.ENDPOINT,
-        "{}-{}".format(model_name, string.random_(8)),
-        model_name,
+    endpoint_name = "endpoint-{}-{}".format(model_name, string.random_(8))
+    assert inference_client.create_endpoint(
+        name=endpoint_name,
+        config_name=config_name,
     )

@@ -41,74 +41,90 @@ class InferenceClient(object):
 
         logger.info(f"{self.__class__.__name__} created.")
 
-    def create(
+    def create_model(
         self,
-        what: InferenceObject,
+        name: str,
+        verify: bool = True,
+    ) -> bool:
+        object_type = InferenceObject.MODEL
+        logger.info(f"create_model({name})...")
+
+        if self.list_(object_type, name):
+            if not self.delete(object_type, name):
+                return False
+
+        # https://docs.aws.amazon.com/sagemaker/latest/dg/serverless-endpoints-create.html#serverless-endpoints-create-model
+        response = self.client.create_model(
+            ModelName=name,
+            ExecutionRoleArn=self.sagemaker_role,
+            Containers=[
+                {
+                    "Image": self.container,
+                    "Mode": "SingleModel",
+                    "ModelDataUrl": f"s3://kamangir/bolt/{name}.tar.gz",
+                }
+            ],
+        )
+        if self.verbose:
+            logger.info(response)
+
+        return bool(self.list_(object_type, name)) if verify else True
+
+    def create_endpoint_config(
+        self,
+        name: str,
+        model_name: str,
+        verify: bool = True,
+    ) -> bool:
+        object_type = InferenceObject.ENDPOINT_CONFIG
+        logger.info(f"create_endpoint_config({name}:{model_name})...")
+
+        if self.list_(object_type, name):
+            if not self.delete(object_type, name):
+                return False
+
+        # https://docs.aws.amazon.com/sagemaker/latest/dg/serverless-endpoints-create.html#serverless-endpoints-create-config
+        response = self.client.create_endpoint_config(
+            EndpointConfigName=name,
+            ProductionVariants=[
+                {
+                    "ModelName": model_name,
+                    "VariantName": "AllTraffic",
+                    "ServerlessConfig": {
+                        "MemorySizeInMB": 2048,
+                        "MaxConcurrency": 20,
+                        # "ProvisionedConcurrency": 10,
+                    },
+                }
+            ],
+        )
+        if self.verbose:
+            logger.info(response)
+
+        return bool(self.list_(object_type, name)) if verify else True
+
+    def create_endpoint(
+        self,
         name: str,
         config_name: str = "",
         verify: bool = True,
     ) -> bool:
-        if not isinstance(what, InferenceObject):
-            logger.error(f"create({name}): unknown object: {what}.")
-            return False
+        object_type = InferenceObject.ENDPOINT
+        logger.info(f"create_endpoint({name}:{config_name})...")
 
-        config_name = name if not config_name else config_name
-        logger.info(
-            "create({},{}{})...".format(
-                what,
-                "{}->".format(config_name) if what == InferenceObject.ENDPOINT else "",
-                name,
-            )
-        )
-
-        if self.list_(what, name):
-            logger.info(f"{what} {name} already exists, will delete first.")
-            if not self.delete(what, name):
+        if self.list_(object_type, name):
+            if not self.delete(object_type, name):
                 return False
 
-        response = {}
-        if what == InferenceObject.MODEL:
-            # https://docs.aws.amazon.com/sagemaker/latest/dg/serverless-endpoints-create.html#serverless-endpoints-create-model
-            response = self.client.create_model(
-                ModelName=name,
-                ExecutionRoleArn=self.sagemaker_role,
-                Containers=[
-                    {
-                        "Image": self.container,
-                        "Mode": "SingleModel",
-                        "ModelDataUrl": f"s3://kamangir/bolt/{name}.tar.gz",
-                    }
-                ],
-            )
-
-        if what == InferenceObject.ENDPOINT_CONFIG:
-            # https://docs.aws.amazon.com/sagemaker/latest/dg/serverless-endpoints-create.html#serverless-endpoints-create-config
-            response = self.client.create_endpoint_config(
-                EndpointConfigName=name,
-                ProductionVariants=[
-                    {
-                        "ModelName": name,
-                        "VariantName": "AllTraffic",
-                        "ServerlessConfig": {
-                            "MemorySizeInMB": 2048,
-                            "MaxConcurrency": 20,
-                            # "ProvisionedConcurrency": 10,
-                        },
-                    }
-                ],
-            )
-
-        if what == InferenceObject.ENDPOINT:
-            # https://docs.aws.amazon.com/sagemaker/latest/dg/serverless-endpoints-create.html#serverless-endpoints-create-endpoint
-            response = self.client.create_endpoint(
-                EndpointName=name,
-                EndpointConfigName=config_name,
-            )
-
+        # https://docs.aws.amazon.com/sagemaker/latest/dg/serverless-endpoints-create.html#serverless-endpoints-create-endpoint
+        response = self.client.create_endpoint(
+            EndpointName=name,
+            EndpointConfigName=config_name,
+        )
         if self.verbose:
-            logger.info(f"create({what},{name}): {response}")
+            logger.info(response)
 
-        return bool(self.list_(what, name)) if verify else True
+        return bool(self.list_(object_type, name)) if verify else True
 
     def delete(
         self,

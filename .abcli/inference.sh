@@ -12,23 +12,29 @@ function roofAI_inference() {
     local options=$2
 
     if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-        local args="[--verbose 1]"
         case $task in
         "create")
-            local options="dryrun,model|endpoint_config"
+            local args="[--verbose 1]$ABCUL[--verify 0]"
+            local options="dryrun,model"
             abcli_show_usage "roofAI inference create$ABCUL[$options]$ABCUL[.|<object-name>]$ABCUL$args" \
-                "create inference object."
+                "create inference model."
 
-            local options="dryrun,endpoint,config_name=<config-name>"
+            local options="dryrun,endpoint_config,suffix=<suffix>"
+            abcli_show_usage "roofAI inference create$ABCUL[$options]$ABCUL[.|<object-name>]$ABCUL$args" \
+                "create inference endpoint config."
+
+            local options="dryrun,endpoint,config_suffix=<suffix>,suffix=<suffix>"
             abcli_show_usage "roofAI inference create$ABCUL[$options]$ABCUL[.|<object-name>]$ABCUL$args" \
                 "create inference endpoint."
             ;;
         "delete")
+            local args="[--verbose 1]"
             local options="dryrun,model|endpoint_config|endpoint"
             abcli_show_usage "roofAI inference delete$ABCUL[$options]$ABCUL[.|<object-name>]$ABCUL$args" \
                 "delete inference object."
             ;;
         "list")
+            local args="[--verbose 1]"
             local options="dryrun,model|endpoint_config|endpoint,contains=<string>"
             abcli_show_usage "roofAI inference list$ABCUL[$options]$ABCUL$args" \
                 "list inference objects."
@@ -55,7 +61,8 @@ function roofAI_inference() {
 
         abcli_eval dryrun=$do_dryrun \
             python3 -m roofAI.inference $task \
-            --config_name $(abcli_option "$options" config_name void) \
+            --suffix $(abcli_option "$options" suffix -) \
+            --config_suffix $(abcli_option "$options" config_suffix -) \
             --object_type "$object_type" \
             --object_name "$object_name" \
             "${@:4}"
