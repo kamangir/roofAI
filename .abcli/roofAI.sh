@@ -15,7 +15,7 @@ function roofAI() {
         roofAI_QGIS "$@"
         roofAI_semseg "$@"
         roofAI dataset "$@"
-        roofAI pytest "$@"
+        roofAI pytest "~download,$@"
         roofAI_test "$@"
 
         if [ "$(abcli_keyword_is $2 verbose)" == true ]; then

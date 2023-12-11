@@ -1,5 +1,6 @@
 import boto3
 from enum import Enum, auto
+from typing import List, Any
 from sagemaker import image_uris
 import sagemaker
 from abcli import logging
@@ -60,7 +61,7 @@ class InferenceClient(object):
             )
         )
 
-        if self.exists(what, name):
+        if self.list_(what, name):
             logger.info(f"{what} {name} already exists, will delete first.")
             if not self.delete(what, name):
                 return False
@@ -107,7 +108,7 @@ class InferenceClient(object):
         if self.verbose:
             logger.info(f"create({what},{name}): {response}")
 
-        return self.exists(what, name) if verify else True
+        return bool(self.list_(what, name)) if verify else True
 
     def delete(
         self,
@@ -140,11 +141,11 @@ class InferenceClient(object):
 
         return True
 
-    def exists(
+    def list_(
         self,
         what: InferenceObject,
         name: str,
-    ) -> bool:
+    ) -> List[Any]:
         output = False
         response = {}
         if not isinstance(what, InferenceObject):
@@ -154,19 +155,19 @@ class InferenceClient(object):
         if what == InferenceObject.MODEL:
             # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker/client/list_models.html
             response = self.client.list_models(NameContains=name)
-            output = bool(response["Models"])
+            output = response["Models"]
 
         if what == InferenceObject.ENDPOINT_CONFIG:
             # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker/client/list_endpoint_configs.html
             response = self.client.list_endpoint_configs(NameContains=name)
-            output = bool(response["EndpointConfigs"])
+            output = response["EndpointConfigs"]
 
         if what == InferenceObject.ENDPOINT:
             # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker/client/list_endpoints.html
             response = self.client.list_endpoints(NameContains=name)
-            output = bool(response["Endpoints"])
+            output = response["Endpoints"]
 
         if self.verbose:
-            logger.info(f"exists({what},{name}): {response}")
+            logger.info(f"list({what},{name}): {response}")
 
         return output
