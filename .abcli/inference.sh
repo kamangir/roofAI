@@ -50,6 +50,9 @@ function roofAI_inference() {
     if [[ ",create,delete," == *",$task,"* ]]; then
         local object_name=$(abcli_clarify_object $3 .)
 
+        [[ "$task" == "create" ]] && [[ "$object_type" == "model" ]] &&
+            abcli_upload solid,~warn_if_exists $object_name
+
         abcli_eval dryrun=$do_dryrun \
             python3 -m roofAI.inference $task \
             --config_name $(abcli_option "$options" config_name void) \
