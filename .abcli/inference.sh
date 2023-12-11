@@ -12,24 +12,25 @@ function roofAI_inference() {
     local options=$2
 
     if [ $(abcli_option_int "$options" help 0) == 1 ]; then
+        local args="[--verbose 1]"
         case $task in
         "create")
             local options="dryrun,model|endpoint_config"
-            abcli_show_usage "roofAI inference create$ABCUL[$options]$ABCUL[.|<object-name>]" \
+            abcli_show_usage "roofAI inference create$ABCUL[$options]$ABCUL[.|<object-name>]$ABCUL$args" \
                 "create inference object."
 
             local options="dryrun,endpoint,config_name=<config-name>"
-            abcli_show_usage "roofAI inference create$ABCUL[$options]$ABCUL[.|<object-name>]" \
+            abcli_show_usage "roofAI inference create$ABCUL[$options]$ABCUL[.|<object-name>]$ABCUL$args" \
                 "create inference endpoint."
             ;;
         "delete")
             local options="dryrun,model|endpoint_config|endpoint"
-            abcli_show_usage "roofAI inference delete$ABCUL[$options]$ABCUL[.|<object-name>]" \
+            abcli_show_usage "roofAI inference delete$ABCUL[$options]$ABCUL[.|<object-name>]$ABCUL$args" \
                 "delete inference object."
             ;;
         "list")
             local options="dryrun,model|endpoint_config|endpoint,contains=<string>"
-            abcli_show_usage "roofAI inference list$ABCUL[$options]" \
+            abcli_show_usage "roofAI inference list$ABCUL[$options]$ABCUL$args" \
                 "list inference objects."
             ;;
         "pull")
@@ -61,7 +62,6 @@ function roofAI_inference() {
     if [[ "$task" == "list" ]]; then
         abcli_eval dryrun=$do_dryrun \
             python3 -m roofAI.inference $task \
-            --config_name $(abcli_option "$options" config_name void) \
             --object_type "$object_type" \
             --object_name $(abcli_option "$options" contains -) \
             "${@:3}"

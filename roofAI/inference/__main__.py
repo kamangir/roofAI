@@ -34,9 +34,15 @@ parser.add_argument(
     "--object_name",
     type=str,
 )
+parser.add_argument(
+    "--verbose",
+    type=int,
+    default=0,
+    help="0|1",
+)
 args = parser.parse_args()
 
-inference_client = InferenceClient(verbose=True)
+inference_client = InferenceClient(verbose=bool(args.verbose))
 
 object_type = InferenceObject[args.object_type.upper()]
 
