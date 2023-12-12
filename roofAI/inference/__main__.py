@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 NAME = f"{NAME}.inference"
 
-list_of_tasks = "create|delete|list"
+list_of_tasks = "create|delete|describe|list"
 
 parser = argparse.ArgumentParser(
     f"python3 -m {NAME}",
@@ -77,10 +77,17 @@ if args.task == "create":
     else:
         success = False
 elif args.task == "delete":
-    sucess = inference_client.delete(
+    success = inference_client.delete(
         what=object_type,
         name=args.object_name,
     )
+elif args.task == "describe":
+    success, response = inference_client.describe(
+        what=object_type,
+        name=args.object_name,
+    )
+    if success:
+        logger.info(response)
 elif args.task == "list":
     success = True
     output = inference_client.list_(

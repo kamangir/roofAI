@@ -33,6 +33,11 @@ roofAI inference delete \
 	<name> \
 	[--verbose 1]
  . delete inference object.
+roofAI inference describe \
+	[dryrun,endpoint] \
+	<name> \
+	[--verbose 1]
+ . describe inference endpoint.
 roofAI inference list \
 	[dryrun,model|endpoint_config|endpoint,contains=<string>] \
 	[--verbose 1]

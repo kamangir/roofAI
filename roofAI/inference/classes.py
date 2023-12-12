@@ -1,6 +1,6 @@
 import boto3
 from enum import Enum, auto
-from typing import List, Any
+from typing import List, Any, Tuple
 from sagemaker import image_uris
 import sagemaker
 from abcli import logging
@@ -158,6 +158,30 @@ class InferenceClient(object):
             logger.info(f"delete({what},{name}): {response}")
 
         return True
+
+    def describe(
+        self,
+        what: InferenceObject,
+        name: str,
+    ) -> Tuple[bool, Any]:
+        response = {}
+        if not isinstance(what, InferenceObject):
+            logger.error(f"describe({name}): unknown object: {what}.")
+            return False, response
+        if what != InferenceObject.ENDPOINT:
+            logger.error(f"describe({name}): cannot describe {what}.")
+            return False, response
+
+        logger.info(f"describe({what},{name})")
+
+        if what == InferenceObject.ENDPOINT:
+            # https://docs.aws.amazon.com/sagemaker/latest/dg/serverless-endpoints-describe.html
+            response = self.client.describe_endpoint(EndpointName=name)
+
+        if self.verbose:
+            logger.info(f"describe({what},{name}): {response}")
+
+        return True, response
 
     def list_(
         self,
