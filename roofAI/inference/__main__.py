@@ -1,6 +1,9 @@
 import argparse
 from roofAI import NAME, VERSION
 from roofAI.inference.classes import InferenceClient, InferenceObject
+from roofAI.inference.endpoints import invoke_endpoint
+from roofAI.semseg import Profile
+from abcli.logging import crash_report
 from abcli import logging
 import logging
 
@@ -8,8 +11,7 @@ logger = logging.getLogger(__name__)
 
 NAME = f"{NAME}.inference"
 
-list_of_tasks = "create|delete|describe|list"
-
+list_of_tasks = "create|delete|describe|invoke|list"
 parser = argparse.ArgumentParser(
     f"python3 -m {NAME}",
     description=f"{NAME}-{VERSION}",
@@ -21,6 +23,14 @@ parser.add_argument(
 )
 parser.add_argument(
     "--config_suffix",
+    type=str,
+)
+parser.add_argument(
+    "--dataset_path",
+    type=str,
+)
+parser.add_argument(
+    "--endpoint_name",
     type=str,
 )
 parser.add_argument(
@@ -38,6 +48,16 @@ parser.add_argument(
     type=str,
 )
 parser.add_argument(
+    "--prediction_path",
+    type=str,
+)
+parser.add_argument(
+    "--profile",
+    type=str,
+    default="VALIDATION",
+    help="FULL|QUICK|VALIDATION",
+)
+parser.add_argument(
     "--verbose",
     type=int,
     default=0,
@@ -50,6 +70,14 @@ parser.add_argument(
     help="0|1",
 )
 args = parser.parse_args()
+
+success = True
+try:
+    profile = Profile[args.profile]
+    logger.info(f"profile: {profile}")
+except:
+    crash_report(f"bad profile: {args.profile}")
+    success = False
 
 inference_client = InferenceClient(verbose=bool(args.verbose))
 
@@ -88,6 +116,14 @@ elif args.task == "describe":
     )
     if success:
         logger.info(response)
+elif args.task == "invoke":
+    success = invoke_endpoint(
+        endpoint_name=args.endpoint_name,
+        dataset_path=args.dataset_path,
+        prediction_path=args.prediction_path,
+        profile=profile,
+        verbose=bool(args.verbose),
+    )
 elif args.task == "list":
     success = True
     output = inference_client.list_(

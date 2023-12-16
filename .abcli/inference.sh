@@ -42,8 +42,9 @@ function roofAI_inference() {
         "invoke")
             local args="[--verbose 1]"
             local options="~download,dryrun,profile=$semseg_profiles,upload"
-            abcli_show_usage "roofAI inference invoke$ABCUL[$options]$ABCUL<endpoint-name>$ABCUL[..|<dataset-object-name>]$ABCUL[.|<prediction-object-name>]$ABCUL$args" \
-                "<dataset-object-name> -> inference endpoint -> <prediction-object-name>."
+            abcli_show_usage "roofAI inference invoke$ABCXOP$ABCUL[$options]$ABCUL[-|<endpoint-name>]$ABCUL[..|<dataset-object-name>]$ABCUL[.|<prediction-object-name>]$ABCUL$args$ABCXOPE" \
+                "<dataset-object-name> -> inference endpoint -> <prediction-object-name>." \
+                "default endpoint: $(roofAI_inference_default_endpoint)"
             ;;
         "list")
             local args="[--verbose 1]"
@@ -90,6 +91,35 @@ function roofAI_inference() {
         return
     fi
 
+    if [[ "$task" == "invoke" ]]; then
+        local do_dryrun=$(abcli_option_int "$options" dryrun 0)
+        local do_download=$(abcli_option_int "$options" download $(abcli_not $do_dryrun))
+        local do_upload=$(abcli_option_int "$options" upload $(abcli_not $do_dryrun))
+
+        local endpoint_name=$(abcli_clarify_input $3 $(roofAI_inference_default_endpoint))
+
+        local dataset_object_name=$(abcli_clarify_object $4 ..)
+        [[ "$do_download" == 1 ]] &&
+            abcli_download object $dataset_object_name
+
+        local prediction_object_name=$(abcli_clarify_object $5 .)
+
+        abcli_log "endpoint[$endpoint_name].invoke($dataset_object_name) -> $prediction_object_name."
+
+        abcli_eval dryrun=$do_dryrun \
+            python3 -m roofAI.inference $task \
+            --endpoint_name $endpoint_name \
+            --dataset_path $abcli_object_root/$dataset_object_name \
+            --prediction_path $abcli_object_root/$prediction_object_name \
+            --profile $(abcli_option "$options" profile VALIDATION) \
+            "${@:6}"
+
+        [[ "$do_upload" == 1 ]] &&
+            abcli_upload object $prediction_object_name
+
+        return
+    fi
+
     if [[ "$task" == "list" ]]; then
         abcli_eval dryrun=$do_dryrun \
             python3 -m roofAI.inference $task \
@@ -115,4 +145,8 @@ function roofAI_inference() {
     fi
 
     abcli_log_error "-roofAI: inference: $task: command not found."
+}
+
+function roofAI_inference_default_endpoint() {
+    echo endpoint-$(abcli_cache read roofAI_semseg_model_AIRS_o2)-v1
 }

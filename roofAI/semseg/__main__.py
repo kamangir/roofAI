@@ -1,4 +1,5 @@
 import argparse
+from abcli import path
 from roofAI import NAME, VERSION
 from roofAI.semseg.interface import predict, train
 from roofAI.semseg import Profile
@@ -92,13 +93,16 @@ except:
 if success:
     success = args.task in list_of_tasks.split("|")
     if args.task == "predict":
-        predict(
-            model_path=args.model_path,
-            dataset_path=args.dataset_path,
-            prediction_path=args.prediction_path,
-            device=args.device,
-            profile=profile,
-        )
+        if not path.create(args.prediction_path):
+            success = False
+        else:
+            predict(
+                model_path=args.model_path,
+                dataset_path=args.dataset_path,
+                prediction_path=args.prediction_path,
+                device=args.device,
+                profile=profile,
+            )
     elif args.task == "train":
         train(
             dataset_path=args.dataset_path,

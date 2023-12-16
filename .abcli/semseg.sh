@@ -66,15 +66,12 @@ function roofAI_semseg() {
 
         abcli_log "semseg[$model_object_name].predict($dataset_object_name) -$device-> $prediction_object_name."
 
-        local prediction_object_path=$abcli_object_root/$prediction_object_name
-        mkdir -pv $prediction_object_path
-
         abcli_eval dryrun=$do_dryrun \
             python3 -m roofAI.semseg predict \
             --device $device \
             --model_path $abcli_object_root/$model_object_name \
             --dataset_path $abcli_object_root/$dataset_object_name \
-            --prediction_path $prediction_object_path \
+            --prediction_path $abcli_object_root/$prediction_object_name \
             --profile $(abcli_option "$options" profile VALIDATION) \
             "${@:6}"
 
