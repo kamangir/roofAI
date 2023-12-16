@@ -49,7 +49,7 @@ function roofAI_semseg() {
     if [ "$task" == "predict" ]; then
         if [ $(abcli_option_int "$options" help 0) == 1 ]; then
             local options="device=cpu|cuda,~download,dryrun,profile=$semseg_profiles,upload"
-            abcli_show_usage "semseg predict$ABCUL[$options]$ABCUL<model-object-name>$ABCUL<dataset-object-name>$ABCUL<prediction-object-name>" \
+            abcli_show_usage "semseg predict$ABCUL[$options]$ABCUL[...|<model-object-name>]$ABCUL[..|<dataset-object-name>]$ABCUL[.|<prediction-object-name>]" \
                 "semseg[<model-object-name>].predict(<dataset-object-name>) -> <prediction-object-name>."
             return
         fi
