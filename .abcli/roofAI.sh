@@ -8,6 +8,7 @@ function roofAI() {
     local task=$(abcli_unpack_keyword $1 help)
 
     if [ $task == "help" ]; then
+        roofAI_cloudwatch "$@"
         roofAI_conda "$@"
         roofAI_inference "$@"
         roofAI_QGIS "$@"
