@@ -79,7 +79,9 @@ except:
     crash_report(f"bad profile: {args.profile}")
     success = False
 
-inference_client = InferenceClient(verbose=bool(args.verbose))
+inference_client = (
+    None if args.task == "invoke" else InferenceClient(verbose=bool(args.verbose))
+)
 
 object_type = InferenceObject[args.object_type.upper()]
 
