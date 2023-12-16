@@ -1,5 +1,6 @@
 import os
-from abcli import path
+import boto3
+from abcli import path, file
 from tqdm import tqdm
 from roofAI.semseg import Profile
 from roofAI.dataset import RoofAIDataset
@@ -25,6 +26,10 @@ def invoke_endpoint(
         )
     )
 
+    # https://docs.aws.amazon.com/sagemaker/latest/dg/serverless-endpoints-invoke.html
+    runtime = boto3.client("sagemaker-runtime")
+    logger.info(f"runtime: {runtime}")
+
     if not path.create(prediction_path):
         return False
 
@@ -34,8 +39,33 @@ def invoke_endpoint(
     if profile.data_count != -1:
         ids = ids[: profile.data_count]
 
+    metadata = {}
     for image_id in tqdm(ids):
+        metadata[image_id] = {}
         image_filename = os.path.join(image_dir, image_id)
-        logger.info(f"🪄 {image_filename}...")
 
-    return True
+        content_type = "<request-mime-type>"
+        payload = image_filename
+
+        response = runtime.invoke_endpoint(
+            EndpointName=endpoint_name,
+            ContentType=content_type,
+            Body=payload,
+        )
+        if verbose:
+            logger.info(response)
+
+        file.save_json(
+            os.path.join(
+                prediction_path,
+                f"{file.name(image_id)}.json",
+            ),
+            response,
+            log=True,
+        )
+
+    return file.save_json(
+        os.path.join(prediction_path, "metadata.json"),
+        metadata,
+        log=True,
+    )
