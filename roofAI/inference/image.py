@@ -11,7 +11,8 @@ NAME = f"{NAME}.image"
 
 # https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 repository_name = "pytorch-inference"
-image_tag = "2.1.0-gpu-py310-cu118-ubuntu20.04-ec2"
+# image_tag = "2.1.0-gpu-py310-cu118-ubuntu20.04-ec2"
+image_tag = "2.1.0-cpu-py310-ubuntu20.04-ec2"
 image_name = "763104351884.dkr.ecr.{}.amazonaws.com/{}:{}".format(
     aws.get_from_json("region", ""),
     repository_name,
