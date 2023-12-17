@@ -42,7 +42,7 @@ function roofAI_inference() {
         "invoke")
             local args="[--verbose 1]"
             local options="~download,dryrun,profile=$semseg_profiles,upload"
-            abcli_show_usage "roofAI inference invoke$ABCXOP$ABCUL[$options]$ABCUL[-|<endpoint-name>]$ABCUL[..|<dataset-object-name>]$ABCUL[.|<prediction-object-name>]$ABCUL$args$ABCXOPE" \
+            abcli_show_usage "roofAI inference invoke$ABCXOP$ABCUL[$options]$ABCUL[-|<endpoint-name>]$ABCUL[..|<dataset-object-name>]$ABCUL[-|<prediction-object-name>]$ABCUL$args$ABCXOPE" \
                 "<dataset-object-name> -> inference endpoint -> <prediction-object-name>." \
                 "default endpoint: $(roofAI_inference_default_endpoint)"
             ;;
@@ -102,7 +102,7 @@ function roofAI_inference() {
         [[ "$do_download" == 1 ]] &&
             abcli_download object $dataset_object_name
 
-        local prediction_object_name=$(abcli_clarify_object $5 .)
+        local prediction_object_name=$(abcli_clarify_object $5 $(abcli_string_timestamp))
 
         abcli_log "endpoint[$endpoint_name].invoke($dataset_object_name) -> $prediction_object_name."
 
