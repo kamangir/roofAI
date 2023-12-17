@@ -9,7 +9,7 @@ function roofAI_cloudwatch() {
 
     if [ "$task" == "help" ]; then
         local options="endpoint"
-        abcli_show_usage "roofAI cloudwatch browse$ABCXOP$ABCUL[$options]$ABCUL[<endpoint-name>]$ABCXOPE" \
+        abcli_show_usage "cloudwatch browse$ABCXOP$ABCUL[$options]$ABCUL[<endpoint-name>]$ABCXOPE" \
             "browse endpoint on cloudwatch." \
             "default endpoint: $(roofAI_inference_default_endpoint)"
         return
@@ -25,10 +25,8 @@ function roofAI_cloudwatch() {
         if [[ "$object_type" == endpoint ]]; then
             local endpoint_name=$(abcli_clarify_input $3 $(roofAI_inference_default_endpoint))
             url="https://$(abcli_aws_region).console.aws.amazon.com/cloudwatch/home?region=$(abcli_aws_region)#logEventViewer:group=/aws/sagemaker/Endpoints/$endpoint_name"
-        fi
-
-        if [[ -z "$url" ]]; then
-            abcli_log_error "-roofAI: cloudwatch: $task: $object_type: object type not found."
+        else
+            abcli_log_error "-cloudwatch: $task: $object_type: object type not found."
             return 1
         fi
 
