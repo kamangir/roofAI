@@ -130,7 +130,12 @@ function roofAI_inference() {
     fi
 
     if [ "$task" == "pull" ]; then
-        aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 763104351884.dkr.ecr.us-east-2.amazonaws.com
+        aws ecr get-login-password \
+            --region $(abcli_aws_region) |
+            docker login \
+                --username AWS \
+                --password-stdin \
+                763104351884.dkr.ecr.$(abcli_aws_region).amazonaws.com
         [[ $? -ne 0 ]] && return 1
 
         local image_name=$(python3 -m roofAI.inference.image get --what name)
@@ -145,5 +150,5 @@ function roofAI_inference() {
 }
 
 function roofAI_inference_default_endpoint() {
-    echo endpoint-$(abcli_cache read roofAI_semseg_model_AIRS_o2)-v1
+    echo endpoint-$(abcli_cache read roofAI_semseg_model_AIRS_o2)-pytorch
 }
