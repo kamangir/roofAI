@@ -130,14 +130,11 @@ function roofAI_inference() {
     fi
 
     if [ "$task" == "pull" ]; then
-        # https://github.com/aws/deep-learning-containers/blob/master/available_images.md
-        local repository_name=pytorch-inference
-        local image_tag=2.1.0-gpu-py310-cu118-ubuntu20.04-ec2
-        local image_name=763104351884.dkr.ecr.us-east-2.amazonaws.com/$repository_name:$image_tag
-
         aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 763104351884.dkr.ecr.us-east-2.amazonaws.com
         [[ $? -ne 0 ]] && return 1
 
+        local image_name=$(python3 -m roofAI.inference.image get --what name)
+        abcli_log "🔗 image name: $image_name"
         abcli_eval dryrun=$do_dryrun \
             docker pull $image_name
 

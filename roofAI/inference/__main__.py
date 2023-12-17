@@ -1,6 +1,7 @@
 import argparse
 from roofAI import NAME, VERSION
 from roofAI.inference.classes import InferenceClient, InferenceObject
+from roofAI.inference.image import image_name
 from roofAI.inference.endpoints import invoke_endpoint
 from roofAI.semseg import Profile
 from abcli.logging import crash_report
@@ -79,10 +80,11 @@ except:
     crash_report(f"bad profile: {args.profile}")
     success = False
 
-inference_client = (
-    None if args.task == "invoke" else InferenceClient(verbose=bool(args.verbose))
-)
-
+if args.task != "invoke":
+    inference_client = InferenceClient(
+        image_name=image_name,
+        verbose=bool(args.verbose),
+    )
 object_type = InferenceObject[args.object_type.upper()]
 
 success = args.task in list_of_tasks.split("|")

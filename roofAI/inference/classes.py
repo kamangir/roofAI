@@ -18,6 +18,7 @@ class InferenceObject(Enum):
 class InferenceClient(object):
     def __init__(
         self,
+        image_name: str = "",
         verbose: bool = False,
     ):
         self.verbose = verbose
@@ -36,10 +37,13 @@ class InferenceClient(object):
                 "Arn"
             ]
 
-        # Get container image (prebuilt example)
-        self.container = image_uris.retrieve("xgboost", self.region, "0.90-1")
+        self.image_name = (
+            image_uris.retrieve("xgboost", self.region, "0.90-1")
+            if not image_name
+            else image_name
+        )
 
-        logger.info(f"{self.__class__.__name__} created.")
+        logger.info(f"{self.__class__.__name__} created: {self.image_name}")
 
     def create_model(
         self,
@@ -59,7 +63,7 @@ class InferenceClient(object):
             ExecutionRoleArn=self.sagemaker_role,
             Containers=[
                 {
-                    "Image": self.container,
+                    "Image": self.image_name,
                     "Mode": "SingleModel",
                     "ModelDataUrl": f"s3://kamangir/bolt/{name}.tar.gz",
                 }
