@@ -9,7 +9,7 @@ function roofAI_cloudwatch() {
 
     if [ "$task" == "help" ]; then
         local options="endpoint"
-        abcli_show_usage "cloudwatch browse$ABCXOP$ABCUL[$options]$ABCUL[<endpoint-name>]$ABCXOPE" \
+        abcli_show_usage "cloudwatch browse$EOP$ABCUL[$options]$ABCUL[<endpoint-name>]$EOPE" \
             "browse endpoint on cloudwatch." \
             "default endpoint: $(roofAI_inference_default_endpoint)"
         return

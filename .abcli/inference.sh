@@ -42,7 +42,7 @@ function roofAI_inference() {
         "invoke")
             local args="[--verbose 1]"
             local options="~download,dryrun,profile=$semseg_profiles,upload"
-            abcli_show_usage "roofAI inference invoke$ABCXOP$ABCUL[$options]$ABCUL[-|<endpoint-name>]$ABCUL[..|<dataset-object-name>]$ABCUL[-|<prediction-object-name>]$ABCUL$args$ABCXOPE" \
+            abcli_show_usage "roofAI inference invoke$EOP$ABCUL[$options]$ABCUL[-|<endpoint-name>]$ABCUL[..|<dataset-object-name>]$ABCUL[-|<prediction-object-name>]$ABCUL$args$EOPE" \
                 "<dataset-object-name> -> inference endpoint -> <prediction-object-name>." \
                 "default endpoint: $(roofAI_inference_default_endpoint)"
             ;;
