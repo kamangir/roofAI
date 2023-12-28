@@ -115,7 +115,7 @@ function roofAI_inference() {
             "${@:6}"
 
         [[ "$do_upload" == 1 ]] &&
-            abcli_upload object $prediction_object_name
+            abcli_upload - $prediction_object_name
 
         return
     fi

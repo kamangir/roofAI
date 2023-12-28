@@ -76,7 +76,7 @@ function roofAI_semseg() {
             "${@:6}"
 
         [[ "$do_upload" == 1 ]] &&
-            abcli_upload object $prediction_object_name
+            abcli_upload - $prediction_object_name
 
         return
     fi
@@ -109,7 +109,7 @@ function roofAI_semseg() {
             "${@:5}"
 
         [[ "$do_upload" == 1 ]] &&
-            abcli_upload object $model_object_name
+            abcli_upload - $model_object_name
 
         return
     fi
