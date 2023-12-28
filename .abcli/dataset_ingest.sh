@@ -73,7 +73,7 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
 
             local cache_from_source=1
         else
-            abcli_download object $cache_object_name
+            abcli_download - $cache_object_name
 
             if [[ ! -f $abcli_object_root/$cache_object_name/train.txt ]]; then
                 abcli_log "cache is empty: $cache_object_name"

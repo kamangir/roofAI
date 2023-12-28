@@ -76,7 +76,7 @@ function roofAI() {
                 roofAI_ingest_CamVid_v1 \
                 roofAI_semseg_model_AIRS_o2 \
                 roofAI_semseg_model_CamVid_v1; do
-                abcli_download object $(abcli_cache read $object_ref)
+                abcli_download - $(abcli_cache read $object_ref)
             done
         fi
 

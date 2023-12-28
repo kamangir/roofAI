@@ -17,7 +17,7 @@ function roofAI_dataset_review() {
 
     local dataset_object_name=$(abcli_clarify_object $2 .)
     [[ "$do_download" == 1 ]] &&
-        abcli_download object $dataset_object_name
+        abcli_download - $dataset_object_name
 
     local dataset_object_path=$abcli_object_root/$dataset_object_name
     [[ "$do_open" == 1 ]] &&

@@ -56,11 +56,11 @@ function roofAI_semseg() {
 
         local model_object_name=$(abcli_clarify_object $3 ...)
         [[ "$do_download" == 1 ]] &&
-            abcli_download object $model_object_name
+            abcli_download - $model_object_name
 
         local dataset_object_name=$(abcli_clarify_object $4 ..)
         [[ "$do_download" == 1 ]] &&
-            abcli_download object $dataset_object_name
+            abcli_download - $dataset_object_name
 
         local prediction_object_name=$(abcli_clarify_object $5 $(abcli_string_timestamp))
 
@@ -92,7 +92,7 @@ function roofAI_semseg() {
 
         local dataset_object_name=$(abcli_clarify_object $3 ..)
         [[ "$do_download" == 1 ]] &&
-            abcli_download object $dataset_object_name
+            abcli_download - $dataset_object_name
 
         local model_object_name=$(abcli_clarify_object $4 .)
 

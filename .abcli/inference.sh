@@ -100,7 +100,7 @@ function roofAI_inference() {
 
         local dataset_object_name=$(abcli_clarify_object $4 ..)
         [[ "$do_download" == 1 ]] &&
-            abcli_download object $dataset_object_name
+            abcli_download - $dataset_object_name
 
         local prediction_object_name=$(abcli_clarify_object $5 $(abcli_string_timestamp))
 
