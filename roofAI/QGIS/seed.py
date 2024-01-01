@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.23.1"
+VERSION = "4.24.1"
 
 
 abcli_object_root = os.path.join(
@@ -77,6 +77,12 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
 
     def help(self):
         self.log("vanwatch.list()", "list vanwatch layers.")
+
+    def list(self):
+        ...
+        # TODO: generate the path to vanwatch.yaml
+        # if exist: load the file and return the content
+        # if doesn't exist: seed generation
 
 
 class ABCLI_QGIS(object):
