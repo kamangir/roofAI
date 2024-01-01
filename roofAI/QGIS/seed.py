@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.15.1"
+VERSION = "4.21.1"
 
 
 abcli_object_root = os.path.join(
@@ -61,13 +61,49 @@ class ABCLI_QGIS_Project(object):
         return QgsProject.instance().homePath()
 
 
+class ABCLI_QGIS_APPLICATION(object):
+    def __init__(self, name, icon):
+        self.name = name
+        self.icon = icon
+        log(self.name, "", icon=self.icon)
+
+    def log(self, message, note=""):
+        log(message, note, icon=self.icon)
+
+
+class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
+    def __init__(self):
+        super().__init__("vanwatch", "🌈")
+
+    def help(self):
+        self.log("vanwatch.list()", "list vanwatch layers.")
+
+
 class ABCLI_QGIS(object):
     def __init__(self):
         self.layer = ABCLI_QGIS_Layer()
         self.project = ABCLI_QGIS_Project()
+        self.app_list = []
+
+    def add_application(self, app):
+        self.app_list += [app]
 
     def intro(self):
-        log(f"{NAME}-{VERSION} initialized.")
+        log(
+            "{}-{}: {}".format(
+                NAME,
+                VERSION,
+                ", ".join(
+                    [
+                        "{} {}".format(
+                            app.name,
+                            app.icon,
+                        )
+                        for app in self.app_list
+                    ]
+                ),
+            )
+        )
         log(f"Type in Q.help() for help.")
 
     @property
@@ -95,24 +131,27 @@ class ABCLI_QGIS(object):
 
         log("Q.reload()", "reload all layers.")
 
+        for app in self.app_list:
+            app.help()
+
     def reload(self):
         # https://gis.stackexchange.com/a/449101/210095
         for layer in tqdm(QgsProject.instance().mapLayers().values()):
             layer.dataProvider().reloadData()
 
 
-def log(message, note="", error=False):
+def log(message, note="", icon="🌐"):
     print(
         "{} {}{}".format(
-            "❗️" if error else "🌐",
-            f"{message:.<20}" if note else message,
+            icon,
+            f"{message:.<32}" if note else message,
             note,
         )
     )
 
 
 def log_error(message, note=""):
-    log(message, note, error=True)
+    log(message, note, icon="❗️")
 
 
 def open_folder(path):
@@ -125,8 +164,12 @@ def open_folder(path):
 
 
 QGIS = ABCLI_QGIS()
-QGIS.intro()
 
 Q = QGIS
 layer = QGIS.layer
 project = QGIS.project
+
+vanwatch = ABCLI_QGIS_APPLICATION_VANWATCH()
+QGIS.add_application(vanwatch)
+
+QGIS.intro()
