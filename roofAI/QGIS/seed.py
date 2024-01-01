@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.1.1"
+VERSION = "4.8.1"
 
 
 abcli_object_root = os.path.join(
@@ -16,7 +16,6 @@ abcli_object_root = os.path.join(
 
 
 class ABCLI_QGIS_Layer(object):
-    @property
     def help(self):
         log("QGIS.layer.name", self.name)
         log("QGIS.layer.object", self.object)
@@ -45,7 +44,6 @@ class ABCLI_QGIS_Layer(object):
             log_error("no layer is selected.")
             return ""
 
-    @property
     def open(self):
         open_folder(self.path)
 
@@ -63,7 +61,6 @@ class ABCLI_QGIS_Project(object):
     def all(self):
         return self.help
 
-    @property
     def help(self):
         log("QGIS.project.name", self.name)
         log("QGIS.project.path", self.path)
@@ -73,7 +70,6 @@ class ABCLI_QGIS_Project(object):
     def name(self):
         return QgsProject.instance().homePath().split(os.sep)[-1]
 
-    @property
     def open(self):
         open_folder(self.path)
 
@@ -87,9 +83,9 @@ class ABCLI_QGIS(object):
         self.layer = ABCLI_QGIS_Layer()
         self.project = ABCLI_QGIS_Project()
 
-    @property
     def intro(self):
         log(f"{NAME}-{VERSION} initialized.")
+        log(f"Type in Q.help() for help.")
 
     @property
     def l(self):
@@ -99,7 +95,6 @@ class ABCLI_QGIS(object):
     def p(self):
         return self.project
 
-    @property
     def clear(self):
         # https://gis.stackexchange.com/a/216444/210095
         from qgis.PyQt.QtWidgets import QDockWidget
@@ -107,14 +102,13 @@ class ABCLI_QGIS(object):
         consoleWidget = iface.mainWindow().findChild(QDockWidget, "PythonConsole")
         consoleWidget.console.shellOut.clearConsole()
 
-        self.intro
+        self.intro()
 
-    @property
     def help(self):
-        log("QGIS.clear", "clear Python Console.")
+        log("QGIS.clear()", "clear Python Console.")
 
-        self.layer.help
-        self.project.help
+        self.layer.help()
+        self.project.help()
 
         log("QGIS.reload", "reload all layers.")
 
@@ -149,6 +143,8 @@ def open_folder(path):
 
 
 QGIS = ABCLI_QGIS()
-Q = QGIS
+QGIS.intro()
 
-QGIS.clear
+Q = QGIS
+layer = QGIS.layer
+project = QGIS.project
