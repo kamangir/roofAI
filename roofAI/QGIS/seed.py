@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.8.1"
+VERSION = "4.15.1"
 
 
 abcli_object_root = os.path.join(
@@ -17,54 +17,37 @@ abcli_object_root = os.path.join(
 
 class ABCLI_QGIS_Layer(object):
     def help(self):
-        log("QGIS.layer.name", self.name)
-        log("QGIS.layer.object", self.object)
-        log("QGIS.layer.open")
-        log("QGIS.layer.path", self.path)
+        log("Q.layer.open()", "open layer.")
+
+    @property
+    def filename(self):
+        try:
+            return iface.activeLayer().dataProvider().dataSourceUri()
+        except:
+            log_error("unknown layer.filename.")
+            return ""
 
     @property
     def name(self):
-        try:
-            return (
-                iface.activeLayer()
-                .dataProvider()
-                .dataSourceUri()
-                .split(os.sep)[-1]
-                .split(".")[0]
-            )
-        except:
-            log_error("no layer is selected.")
-            return ""
+        filename = self.filename
+        return filename.split(os.sep)[-1].split(".")[0] if filename else ""
 
     @property
-    def object(self):
-        try:
-            return iface.activeLayer().dataProvider().dataSourceUri().split(os.sep)[-2]
-        except:
-            log_error("no layer is selected.")
-            return ""
+    def object_name(self):
+        filename = self.filename
+        return filename.split(os.sep)[-2] if filename else ""
 
     def open(self):
         open_folder(self.path)
 
     @property
     def path(self):
-        try:
-            return os.path.dirname(iface.activeLayer().dataProvider().dataSourceUri())
-        except:
-            log_error("no layer is selected.")
-            return ""
+        return os.path.dirname(self.filename)
 
 
 class ABCLI_QGIS_Project(object):
-    @property
-    def all(self):
-        return self.help
-
     def help(self):
-        log("QGIS.project.name", self.name)
-        log("QGIS.project.path", self.path)
-        log("QGIS.project.open")
+        log("Q.project.open()", "open project.")
 
     @property
     def name(self):
@@ -105,14 +88,13 @@ class ABCLI_QGIS(object):
         self.intro()
 
     def help(self):
-        log("QGIS.clear()", "clear Python Console.")
+        log("Q.clear()", "clear Python Console.")
 
         self.layer.help()
         self.project.help()
 
-        log("QGIS.reload", "reload all layers.")
+        log("Q.reload()", "reload all layers.")
 
-    @property
     def reload(self):
         # https://gis.stackexchange.com/a/449101/210095
         for layer in tqdm(QgsProject.instance().mapLayers().values()):
