@@ -9,7 +9,7 @@ import glob
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.36.1"
+VERSION = "4.37.1"
 
 
 HOME = os.getenv("HOME", "")
@@ -82,7 +82,7 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
         super().__init__("vanwatch", "🌈")
 
     def help(self):
-        self.log("vanwatch.ingest()", "ingest a layer now 🌈")
+        self.log("vanwatch.ingest()", "ingest a layer now.")
         self.log("vanwatch.list()", "list vanwatch layers.")
 
     def ingest(self):
