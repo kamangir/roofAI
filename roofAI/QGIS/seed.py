@@ -5,15 +5,18 @@ import time
 import random
 import os
 from tqdm import tqdm
+import glob
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.29.1"
+VERSION = "4.34.1"
 
 
-abcli_object_root = os.path.join(os.getenv("HOME", ""), "storage/abcli")
-abcli_QGIS_path_cache = os.path.join(os.getenv("HOME", ""), "Downloads/QGIS")
-abcli_QGIS_path_server = os.path.join(abcli_QGIS_path_cache, "server")
+HOME = os.getenv("HOME", "")
+abcli_object_root = os.path.join(HOME, "storage/abcli")
+abcli_QGIS_path_cache = os.path.join(HOME, "git/vancouver-watching/QGIS")
+abcli_QGIS_path_shared = os.path.join(HOME, "Downloads/QGIS")
+abcli_QGIS_path_server = os.path.join(abcli_QGIS_path_shared, "server")
 
 os.makedirs(abcli_QGIS_path_server, exist_ok=True)
 
@@ -81,14 +84,16 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
     def help(self):
         self.log("vanwatch.list()", "list vanwatch layers.")
 
-    def list(self, update_cache: bool = False):
-        metadata_filename = os.path.join(abcli_QGIS_path_cache, "vanwatch.yaml")
-        if not os.path.isfile(metadata_filename) or update_cache:
-            QGIS.seed("vancouver_watching update_cache")
-            return
-
-        # load the file and return the content
-        print("wip")
+    def list(self):
+        return [
+            os.path.splitext(os.path.basename(filename))[0]
+            for filename in glob.glob(
+                os.path.join(
+                    abcli_QGIS_path_cache,
+                    "*.geojson",
+                )
+            )
+        ]
 
 
 class ABCLI_QGIS(object):
