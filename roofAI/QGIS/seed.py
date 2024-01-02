@@ -1,18 +1,21 @@
 # meant to be run inside Python Console in QGIS.
 # run `QGIS seed 🌱` to start.
 
+import time
+import random
 import os
 from tqdm import tqdm
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.24.1"
+VERSION = "4.28.1"
 
 
-abcli_object_root = os.path.join(
-    os.getenv("HOME", ""),
-    "storage/abcli",
-)
+abcli_object_root = os.path.join(os.getenv("HOME", ""), "storage/abcli")
+abcli_QGIS_path_cache = os.path.join(os.getenv("HOME", ""), "Downloads/QGIS")
+abcli_QGIS_path_server = os.path.join(abcli_QGIS_path_cache, "server")
+
+os.makedirs(abcli_QGIS_path_server, exist_ok=True)
 
 
 class ABCLI_QGIS_Layer(object):
@@ -78,11 +81,14 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
     def help(self):
         self.log("vanwatch.list()", "list vanwatch layers.")
 
-    def list(self):
-        ...
-        # TODO: generate the path to vanwatch.yaml
-        # if exist: load the file and return the content
-        # if doesn't exist: seed generation
+    def list(self, update_cache: bool = False):
+        metadata_filename = os.path.join(abcli_QGIS_path_cache, "vanwatch.yaml")
+        if not os.path.isfile(metadata_filename) or update_cache:
+            QGIS.seed("vancouver_watching init; vancouver_watching update_cache")
+            return
+
+        # load the file and return the content
+        print("wip")
 
 
 class ABCLI_QGIS(object):
@@ -144,6 +150,22 @@ class ABCLI_QGIS(object):
         # https://gis.stackexchange.com/a/449101/210095
         for layer in tqdm(QgsProject.instance().mapLayers().values()):
             layer.dataProvider().reloadData()
+
+    def seed(self, command):
+        hash_id = "{}-{:05d}".format(
+            time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime(time.time())),
+            random.randrange(100000),
+        )
+        with open(
+            os.path.join(
+                abcli_QGIS_path_server,
+                f"{hash_id}.command",
+            ),
+            "w",
+        ) as f:
+            f.write(command)
+
+        log(hash_id, command, icon="🌱")
 
 
 def log(message, note="", icon="🌐"):
