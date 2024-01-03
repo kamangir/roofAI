@@ -9,7 +9,7 @@ import glob
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.50.1"
+VERSION = "4.59.1"
 
 
 HOME = os.getenv("HOME", "")
@@ -84,7 +84,8 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
     def help(self):
         self.log("vanwatch.ingest()", "ingest a layer now.")
         self.log("vanwatch.list()", "list vanwatch layers.")
-        self.log("vanwatch.unload(prefix, refresh=True)", "unload prefix.")
+        self.log("vanwatch.load(prefix, count)", "load prefix*.")
+        self.log("vanwatch.unload(prefix)", "unload prefix*.")
         self.log("vanwatch.update[_cache](push=True)", "update cache.")
 
     def ingest(self):
@@ -92,20 +93,42 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
 
     def list(self):
         QGIS.log('to update the cache run "vanwatch update_cache".', icon="🌱")
-        return [
-            os.path.splitext(os.path.basename(filename))[0]
-            for filename in glob.glob(
-                os.path.join(
-                    abcli_QGIS_path_cache,
-                    "*.geojson",
+        return sorted(
+            [
+                os.path.splitext(os.path.basename(filename))[0]
+                for filename in glob.glob(
+                    os.path.join(
+                        abcli_QGIS_path_cache,
+                        "*.geojson",
+                    )
                 )
-            )
-        ]
+            ]
+        )
 
-    def load(self, prefix="", count=-1):
-        ...
+    def load(
+        self,
+        prefix="",
+        count=-1,
+        refresh=True,
+    ):
+        counter = 0
+        for layer_name in self.list():
+            if not layer_name.startswith(prefix):
+                continue
 
-    def unload(self, prefix, refresh=True):
+            filename = os.path.join(abcli_QGIS_path_cache, f"{layer_name}.geojson")
+
+            QGIS.load(filename, layer_name, "template-heatmap", refresh=False)
+            QGIS.load(filename, layer_name, "template-pin", refresh=False)
+
+            counter += 1
+            if counter > count and count != -1:
+                break
+
+        if refresh:
+            QGIS.refresh()
+
+    def unload(self, prefix="", refresh=True):
         QGIS.log(prefix, icon="🗑️")
 
         for layer_name in [
@@ -170,23 +193,36 @@ class ABCLI_QGIS(object):
 
         self.intro()
 
+    def find_layer(self, layer_name):
+        return QgsProject.instance().mapLayersByName(layer_name)
+
     def help(self):
         self.log("Q.clear()", "clear Python Console.")
 
         self.layer.help()
-        self.log("Q.list_of_layers()", "list of layers.")
+        if self.verbose:
+            self.log("Q.list_of_layers()", "list of layers.")
+            self.log("Q.load(filename,layer_name,template_name)", "load a layer.")
         self.project.help()
 
-        self.log("Q.refresh()", "refresh.")
-        self.log("Q.reload()", "reload all layers.")
-        self.log("Q.unload(layer_name, refresh=True)", "unload layer_name.")
+        if self.verbose:
+            self.log("Q.refresh()", "refresh.")
+            self.log("Q.reload()", "reload all layers.")
+            self.log("Q.unload(layer_name)", "unload layer_name.")
         self.log("Q.verbose=True|False", "set verbose state.")
 
         for app in self.app_list:
             app.help()
 
-    def list_of_layers(self):
+    def list_of_layers(self, aux=False):
         output = [layer.name() for layer in QgsProject.instance().mapLayers().values()]
+        if not aux:
+            output = [
+                layer_name
+                for layer_name in output
+                if not layer_name.startswith("Google")
+                and not layer_name.startswith("template")
+            ]
         self.log(
             "{} layer(s){}".format(
                 len(output),
@@ -195,6 +231,48 @@ class ABCLI_QGIS(object):
             icon="🔎",
         )
         return output
+
+    def load(
+        self,
+        filename,
+        layer_name,
+        template_name="",
+        refresh=True,
+    ):
+        if len(QGIS.find_layer(layer_name)) > 0:
+            print(f"✅ {layer_name}")
+            return True
+
+        if filename.endswith(".geojson"):
+            layer = QgsVectorLayer(filename, layer_name, "ogr")
+        elif filename.endswith(".tif"):
+            layer = QgsRasterLayer(filename, layer_name)
+        else:
+            self.log_error(f"cannot load {filename}.")
+            return False
+
+        if not layer.isValid():
+            QGIS.show_error(f"invalid layer: {filename}.")
+            return False
+
+        QgsProject.instance().addMapLayer(layer)
+
+        if template_name:
+            template_layer = QGIS.find_layer(template_name)
+            if not len(template_layer):
+                QGIS.log_error(f"template not found: {template_name}.")
+                return False
+
+            # https://gis.stackexchange.com/a/357206/210095
+            source_style = QgsMapLayerStyle()
+            source_style.readFromLayer(template_layer[0])
+            source_style.writeToLayer(layer)
+            layer.triggerRepaint()
+
+        self.log(layer_name, template_name, icon="🎨")
+
+        if refresh:
+            QGIS.refresh()
 
     def log(self, message, note="", icon="🌐"):
         print(
@@ -243,7 +321,7 @@ class ABCLI_QGIS(object):
     def unload(self, layer_name, refresh=True):
         self.log(layer_name, icon="🗑️")
 
-        for layer in QgsProject.instance().mapLayersByName(layer_name):
+        for layer in self.find_layer(layer_name):
             QgsProject.instance().removeMapLayer(layer.id())
 
         if refresh:
