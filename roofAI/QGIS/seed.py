@@ -9,7 +9,7 @@ import glob
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.46.1"
+VERSION = "4.50.1"
 
 
 HOME = os.getenv("HOME", "")
@@ -23,14 +23,14 @@ os.makedirs(abcli_QGIS_path_server, exist_ok=True)
 
 class ABCLI_QGIS_Layer(object):
     def help(self):
-        log("Q.layer.open()", "open layer.")
+        QGIS.log("Q.layer.open()", "open layer.")
 
     @property
     def filename(self):
         try:
             return iface.activeLayer().dataProvider().dataSourceUri()
         except:
-            log_error("unknown layer.filename.")
+            QGIS.log_error("unknown layer.filename.")
             return ""
 
     @property
@@ -44,7 +44,7 @@ class ABCLI_QGIS_Layer(object):
         return filename.split(os.sep)[-2] if filename else ""
 
     def open(self):
-        open_folder(self.path)
+        QGIS.open_folder(self.path)
 
     @property
     def path(self):
@@ -53,14 +53,14 @@ class ABCLI_QGIS_Layer(object):
 
 class ABCLI_QGIS_Project(object):
     def help(self):
-        log("Q.project.open()", "open project.")
+        QGIS.log("Q.project.open()", "open project.")
 
     @property
     def name(self):
         return QgsProject.instance().homePath().split(os.sep)[-1]
 
     def open(self):
-        open_folder(self.path)
+        QGIS.open_folder(self.path)
 
     @property
     def path(self):
@@ -71,10 +71,10 @@ class ABCLI_QGIS_APPLICATION(object):
     def __init__(self, name, icon):
         self.name = name
         self.icon = icon
-        log(self.name, "", icon=self.icon)
+        QGIS.log(self.name, "", icon=self.icon)
 
     def log(self, message, note=""):
-        log(message, note, icon=self.icon)
+        QGIS.log(message, note, icon=self.icon)
 
 
 class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
@@ -84,13 +84,14 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
     def help(self):
         self.log("vanwatch.ingest()", "ingest a layer now.")
         self.log("vanwatch.list()", "list vanwatch layers.")
+        self.log("vanwatch.unload(prefix, refresh=True)", "unload prefix.")
         self.log("vanwatch.update[_cache](push=True)", "update cache.")
 
     def ingest(self):
         QGIS.seed("abcli_aws_batch source - vanwatch/ingest - count=-1,publish")
 
     def list(self):
-        log('to update the cache run "vanwatch update_cache".', icon="🌱")
+        QGIS.log('to update the cache run "vanwatch update_cache".', icon="🌱")
         return [
             os.path.splitext(os.path.basename(filename))[0]
             for filename in glob.glob(
@@ -100,6 +101,22 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
                 )
             )
         ]
+
+    def load(self, prefix="", count=-1):
+        ...
+
+    def unload(self, prefix, refresh=True):
+        QGIS.log(prefix, icon="🗑️")
+
+        for layer_name in [
+            layer_name
+            for layer_name in QGIS.list_of_layers()
+            if layer_name.startswith(prefix)
+        ]:
+            QGIS.unload(layer_name, refresh=False)
+
+        if refresh:
+            QGIS.refresh()
 
     def update(self, push=False):
         self.update_cache(push)
@@ -113,12 +130,13 @@ class ABCLI_QGIS(object):
         self.layer = ABCLI_QGIS_Layer()
         self.project = ABCLI_QGIS_Project()
         self.app_list = []
+        self.verbose = False
 
     def add_application(self, app):
         self.app_list += [app]
 
     def intro(self):
-        log(
+        self.log(
             "{}-{}: {}".format(
                 NAME,
                 VERSION,
@@ -133,7 +151,7 @@ class ABCLI_QGIS(object):
                 ),
             )
         )
-        log(f"Type in Q.help() for help.")
+        self.log(f"Type in Q.help() for help.")
 
     @property
     def l(self):
@@ -153,15 +171,53 @@ class ABCLI_QGIS(object):
         self.intro()
 
     def help(self):
-        log("Q.clear()", "clear Python Console.")
+        self.log("Q.clear()", "clear Python Console.")
 
         self.layer.help()
+        self.log("Q.list_of_layers()", "list of layers.")
         self.project.help()
 
-        log("Q.reload()", "reload all layers.")
+        self.log("Q.refresh()", "refresh.")
+        self.log("Q.reload()", "reload all layers.")
+        self.log("Q.unload(layer_name, refresh=True)", "unload layer_name.")
+        self.log("Q.verbose=True|False", "set verbose state.")
 
         for app in self.app_list:
             app.help()
+
+    def list_of_layers(self):
+        output = [layer.name() for layer in QgsProject.instance().mapLayers().values()]
+        self.log(
+            "{} layer(s){}".format(
+                len(output),
+                ": {}".format(", ".join(output)) if self.verbose else "",
+            ),
+            icon="🔎",
+        )
+        return output
+
+    def log(self, message, note="", icon="🌐"):
+        print(
+            "{} {}{}".format(
+                icon,
+                f"{message:.<40}" if note else message,
+                note,
+            )
+        )
+
+    def log_error(self, message, note=""):
+        self.log(message, note, icon="❗️")
+
+    def open_folder(self, path):
+        if not path:
+            self.log_error("path not found.")
+            return
+
+        self.log(path)
+        os.system(f"open {path}")
+
+    def refresh(self):
+        iface.mapCanvas().refresh()
 
     def reload(self):
         # https://gis.stackexchange.com/a/449101/210095
@@ -182,30 +238,16 @@ class ABCLI_QGIS(object):
         ) as f:
             f.write(command)
 
-        log(hash_id, command, icon="🌱")
+        self.log(hash_id, command, icon="🌱")
 
+    def unload(self, layer_name, refresh=True):
+        self.log(layer_name, icon="🗑️")
 
-def log(message, note="", icon="🌐"):
-    print(
-        "{} {}{}".format(
-            icon,
-            f"{message:.<40}" if note else message,
-            note,
-        )
-    )
+        for layer in QgsProject.instance().mapLayersByName(layer_name):
+            QgsProject.instance().removeMapLayer(layer.id())
 
-
-def log_error(message, note=""):
-    log(message, note, icon="❗️")
-
-
-def open_folder(path):
-    if not path:
-        log_error("path not found.")
-        return
-
-    log(path)
-    os.system(f"open {path}")
+        if refresh:
+            QGIS.refresh()
 
 
 QGIS = ABCLI_QGIS()
