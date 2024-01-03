@@ -9,7 +9,7 @@ import glob
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.37.1"
+VERSION = "4.46.1"
 
 
 HOME = os.getenv("HOME", "")
@@ -84,11 +84,13 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
     def help(self):
         self.log("vanwatch.ingest()", "ingest a layer now.")
         self.log("vanwatch.list()", "list vanwatch layers.")
+        self.log("vanwatch.update[_cache](push=True)", "update cache.")
 
     def ingest(self):
         QGIS.seed("abcli_aws_batch source - vanwatch/ingest - count=-1,publish")
 
     def list(self):
+        log('to update the cache run "vanwatch update_cache".', icon="🌱")
         return [
             os.path.splitext(os.path.basename(filename))[0]
             for filename in glob.glob(
@@ -98,6 +100,12 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
                 )
             )
         ]
+
+    def update(self, push=False):
+        self.update_cache(push)
+
+    def update_cache(self, push=False):
+        QGIS.seed("vanwatch update_cache{}".format(" push" if push else ""))
 
 
 class ABCLI_QGIS(object):
@@ -181,7 +189,7 @@ def log(message, note="", icon="🌐"):
     print(
         "{} {}{}".format(
             icon,
-            f"{message:.<32}" if note else message,
+            f"{message:.<40}" if note else message,
             note,
         )
     )
