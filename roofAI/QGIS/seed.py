@@ -9,7 +9,7 @@ import glob
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.61.1"
+VERSION = "4.63.1"
 
 
 HOME = os.getenv("HOME", "")
@@ -274,7 +274,11 @@ class ABCLI_QGIS(object):
             source_style.writeToLayer(layer)
             layer.triggerRepaint()
 
-        self.log(layer_name, template_name, icon="🎨")
+        self.log(
+            layer_name,
+            template_name if self.verbose else "",
+            icon="🎨",
+        )
 
         if refresh:
             QGIS.refresh()
