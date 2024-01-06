@@ -9,7 +9,7 @@ import glob
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.63.1"
+VERSION = "4.69.1"
 
 
 HOME = os.getenv("HOME", "")
@@ -23,7 +23,7 @@ os.makedirs(abcli_QGIS_path_server, exist_ok=True)
 
 class ABCLI_QGIS_Layer(object):
     def help(self):
-        QGIS.log("Q.layer.open()", "open layer.")
+        pass
 
     @property
     def filename(self):
@@ -43,9 +43,6 @@ class ABCLI_QGIS_Layer(object):
         filename = self.filename
         return filename.split(os.sep)[-2] if filename else ""
 
-    def open(self):
-        QGIS.open_folder(self.path)
-
     @property
     def path(self):
         return os.path.dirname(self.filename)
@@ -53,14 +50,11 @@ class ABCLI_QGIS_Layer(object):
 
 class ABCLI_QGIS_Project(object):
     def help(self):
-        QGIS.log("Q.project.open()", "open project.")
+        pass
 
     @property
     def name(self):
         return QgsProject.instance().homePath().split(os.sep)[-1]
-
-    def open(self):
-        QGIS.open_folder(self.path)
 
     @property
     def path(self):
@@ -159,6 +153,7 @@ class ABCLI_QGIS(object):
         self.project = ABCLI_QGIS_Project()
         self.app_list = []
         self.verbose = False
+        self.object_name = ""
 
     def add_application(self, app):
         self.app_list += [app]
@@ -198,22 +193,41 @@ class ABCLI_QGIS(object):
 
         self.intro()
 
+    def export(self, filename=""):
+        if not self.object_name:
+            self.log_error('run "QGIS.select(<object-name>)" first.')
+            return False
+
+        filename = os.path.join(
+            self.object_path,
+            filename if filename else "{}.png".format(self.timestamp()),
+        )
+
+        qgis.utils.iface.mapCanvas().saveAsImage(filename)
+        self.log(filename, icon="🖼️")
+
     def find_layer(self, layer_name):
         return QgsProject.instance().mapLayersByName(layer_name)
 
     def help(self):
+        self.log("📂 object", self.object_name)
         self.log("Q.clear()", "clear Python Console.")
 
         self.layer.help()
         if self.verbose:
+            self.log("Q.export(filename)", "export to filename.")
             self.log("Q.list_of_layers()", "list of layers.")
             self.log("Q.load(filename,layer_name,template_name)", "load a layer.")
+        self.log('Q.open("|<object-name>|layer|object|project")', "upload.")
         self.project.help()
 
         if self.verbose:
             self.log("Q.refresh()", "refresh.")
             self.log("Q.reload()", "reload all layers.")
+        self.log('Q.select("<object-name>")', "select <object-name>.")
+        if self.verbose:
             self.log("Q.unload(layer_name)", "unload layer_name.")
+        self.log('Q.upload("|<object-name>|layer|project")', "upload.")
         self.log("Q.verbose=True|False", "set verbose state.")
 
         for app in self.app_list:
@@ -295,6 +309,21 @@ class ABCLI_QGIS(object):
     def log_error(self, message, note=""):
         self.log(message, note, icon="❗️")
 
+    @property
+    def object_path(self, object_name=""):
+        return os.path.join(
+            abcli_object_root, object_name if object_name else self.object_name
+        )
+
+    def open(self, what="object"):
+        self.open_folder(
+            layer.path
+            if what == "layer"
+            else self.object_path
+            if what == "object"
+            else project.path
+        )
+
     def open_folder(self, path):
         if not path:
             self.log_error("path not found.")
@@ -327,6 +356,18 @@ class ABCLI_QGIS(object):
 
         self.log(hash_id, command, icon="🌱")
 
+    def select(self, object_name=""):
+        self.object_name = object_name if object_name else QGIS.timestamp()
+        self.log("📂 object", self.object_name)
+
+        os.makedirs(self.object_path, exist_ok=True)
+
+    def timestamp(self):
+        return time.strftime(
+            f"%Y-%m-%d-%H-%M-%S-{random.randrange(100000):05d}",
+            time.localtime(time.time()),
+        )
+
     def unload(self, layer_name, refresh=True):
         self.log(layer_name, icon="🗑️")
 
@@ -335,6 +376,19 @@ class ABCLI_QGIS(object):
 
         if refresh:
             QGIS.refresh()
+
+    def upload(self, object_name=""):
+        self.seed(
+            "abcli upload - {}".format(
+                project.name
+                if object_name == "project"
+                else layer.object_name
+                if object_name == "layer"
+                else object_name
+                if object_name
+                else self.object_name
+            )
+        )
 
 
 QGIS = ABCLI_QGIS()
