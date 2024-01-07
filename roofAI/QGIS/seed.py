@@ -9,7 +9,7 @@ import glob
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.69.1"
+VERSION = "4.72.1"
 
 
 HOME = os.getenv("HOME", "")
@@ -75,9 +75,13 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
     def __init__(self):
         super().__init__("vanwatch", "🌈")
 
+    def animate(object_name=""):
+        ...
+
     def help(self):
+        self.log("vanwatch.animate([object_name])", "animate the layers.")
         self.log("vanwatch.ingest()", "ingest a layer now.")
-        self.log("vanwatch.list()", "list vanwatch layers.")
+        self.log("vanwatch.list_layers()", "list vanwatch layers.")
         self.log("vanwatch.load(prefix, count)", "load prefix*.")
         self.log("vanwatch.unload(prefix)", "unload prefix*.")
         self.log("vanwatch.update[_cache](push=True)", "update cache.")
@@ -85,7 +89,7 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
     def ingest(self):
         QGIS.seed("abcli_aws_batch source - vanwatch/ingest - count=-1,publish")
 
-    def list(self):
+    def list_layers(self):
         QGIS.log('to update the cache run "vanwatch update_cache".', icon="🌱")
         return sorted(
             [
@@ -106,7 +110,7 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
         refresh=True,
     ):
         counter = 0
-        for layer_name in self.list():
+        for layer_name in self.list_layers():
             if not layer_name.startswith(prefix):
                 continue
 
@@ -193,18 +197,22 @@ class ABCLI_QGIS(object):
 
         self.intro()
 
-    def export(self, filename=""):
-        if not self.object_name:
+    def export(self, filename="", object_name=""):
+        if not object_name:
+            object_name = self.object_name
+        if not object_name:
             self.log_error('run "QGIS.select(<object-name>)" first.')
             return False
 
         filename = os.path.join(
-            self.object_path,
+            self.object_path(object_name),
             filename if filename else "{}.png".format(self.timestamp()),
         )
 
         qgis.utils.iface.mapCanvas().saveAsImage(filename)
         self.log(filename, icon="🖼️")
+
+        return True
 
     def find_layer(self, layer_name):
         return QgsProject.instance().mapLayersByName(layer_name)
@@ -215,7 +223,7 @@ class ABCLI_QGIS(object):
 
         self.layer.help()
         if self.verbose:
-            self.log("Q.export(filename)", "export to filename.")
+            self.log("Q.export([filename],[object_name])", "export.")
             self.log("Q.list_of_layers()", "list of layers.")
             self.log("Q.load(filename,layer_name,template_name)", "load a layer.")
         self.log('Q.open("|<object-name>|layer|object|project")', "upload.")
@@ -312,7 +320,8 @@ class ABCLI_QGIS(object):
     @property
     def object_path(self, object_name=""):
         return os.path.join(
-            abcli_object_root, object_name if object_name else self.object_name
+            abcli_object_root,
+            object_name if object_name else self.object_name,
         )
 
     def open(self, what="object"):
