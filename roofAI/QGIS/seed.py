@@ -9,7 +9,7 @@ import glob
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.94.1"
+VERSION = "4.96.1"
 
 
 HOME = os.getenv("HOME", "")
@@ -115,13 +115,12 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
 
             filename = os.path.join(abcli_QGIS_path_cache, f"{layer_name}.geojson")
 
-            for view in "heatmap,pin".split(","):
-                QGIS.load(
-                    filename,
-                    f"{layer_name} - {view}",
-                    f"template-{view}",
-                    refresh=False,
-                )
+            QGIS.load(
+                filename,
+                layer_name,
+                "template-heatmap",
+                refresh=False,
+            )
 
             if animate:
                 QGIS.refresh(deep=True)
@@ -130,8 +129,7 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
                     object_name=object_name,
                 )
 
-                for view in "heatmap,pin".split(","):
-                    QGIS.unload(f"{layer_name} - {view}")
+                QGIS.unload(layer_name)
 
             frame_number += 1
             if frame_number > count and count != -1:
