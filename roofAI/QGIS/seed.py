@@ -9,7 +9,7 @@ import glob
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.76.1"
+VERSION = "4.80.1"
 
 
 HOME = os.getenv("HOME", "")
@@ -138,11 +138,10 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
                 )
 
             if animate:
-                if not QGIS.export(
+                QGIS.export(
                     filename=f"{frame_number:05d}.png",
                     object_name=object_name,
-                ):
-                    return False
+                )
 
             frame_number += 1
             if frame_number > count and count != -1:
@@ -150,7 +149,7 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
         self.log(
             "loaded {} layer(s){}.".format(
                 frame_number,
-                f"-> {gif_filename}" if animate else "",
+                ", animated" if animate else "",
             )
         )
 
@@ -161,8 +160,6 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
 
         if upload:
             QGIS.upload(object_name)
-
-        return True
 
     def unload(self, prefix="", refresh=True):
         QGIS.log(prefix, icon="🗑️")
@@ -345,7 +342,6 @@ class ABCLI_QGIS(object):
     def log_error(self, message, note=""):
         self.log(message, note, icon="❗️")
 
-    @property
     def object_path(self, object_name=""):
         return os.path.join(
             abcli_object_root,
@@ -356,7 +352,7 @@ class ABCLI_QGIS(object):
         self.open_folder(
             layer.path
             if what == "layer"
-            else self.object_path
+            else self.object_path()
             if what == "object"
             else project.path
         )
@@ -397,7 +393,7 @@ class ABCLI_QGIS(object):
         self.object_name = object_name if object_name else QGIS.timestamp()
         self.log("📂 object", self.object_name)
 
-        os.makedirs(self.object_path, exist_ok=True)
+        os.makedirs(self.object_path(), exist_ok=True)
 
     def timestamp(self):
         return time.strftime(
