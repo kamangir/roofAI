@@ -9,7 +9,7 @@ import glob
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.96.1"
+VERSION = "4.97.1"
 
 
 HOME = os.getenv("HOME", "")
@@ -118,7 +118,7 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
             QGIS.load(
                 filename,
                 layer_name,
-                "template-heatmap",
+                "template",
                 refresh=False,
             )
 
