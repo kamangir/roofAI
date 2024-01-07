@@ -9,7 +9,7 @@ import glob
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.75.1"
+VERSION = "4.76.1"
 
 
 HOME = os.getenv("HOME", "")
@@ -76,6 +76,7 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
         super().__init__("vanwatch", "🌈")
 
     def help(self):
+        self.log("vanwatch.animate([count])", "animate layers.")
         self.log("vanwatch.ingest()", "ingest a layer now.")
         self.log("vanwatch.list_layers()", "list vanwatch layers.")
         self.log("vanwatch.load([prefix], [count], [animate=True])", "load layers.")
@@ -97,6 +98,19 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
                     )
                 )
             ]
+        )
+
+    def animate(
+        self,
+        count=-1,
+        upload=True,
+        object_name="",
+    ):
+        return self.load(
+            count=count,
+            animate=True,
+            upload=upload,
+            object_name=object_name,
         )
 
     def load(
