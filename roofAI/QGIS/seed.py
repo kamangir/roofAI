@@ -9,7 +9,7 @@ import glob
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.73.1"
+VERSION = "4.75.1"
 
 
 HOME = os.getenv("HOME", "")
@@ -75,14 +75,10 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
     def __init__(self):
         super().__init__("vanwatch", "🌈")
 
-    def animate(object_name=""):
-        ...
-
     def help(self):
-        self.log("vanwatch.animate([object_name])", "animate the layers.")
         self.log("vanwatch.ingest()", "ingest a layer now.")
         self.log("vanwatch.list_layers()", "list vanwatch layers.")
-        self.log("vanwatch.load(prefix, count)", "load prefix*.")
+        self.log("vanwatch.load([prefix], [count], [animate=True])", "load layers.")
         self.log("vanwatch.unload(prefix)", "unload prefix*.")
         self.log("vanwatch.update[_cache](push=True)", "update cache.")
 
@@ -108,8 +104,11 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
         prefix="",
         count=-1,
         refresh=True,
-    ):
-        counter = 0
+        animate=False,
+        upload=True,
+        object_name="",
+    ) -> bool:
+        frame_number = 0
         for layer_name in self.list_layers():
             if not layer_name.startswith(prefix):
                 continue
@@ -124,13 +123,32 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
                     refresh=False,
                 )
 
-            counter += 1
-            if counter > count and count != -1:
+            if animate:
+                if not QGIS.export(
+                    filename=f"{frame_number:05d}.png",
+                    object_name=object_name,
+                ):
+                    return False
+
+            frame_number += 1
+            if frame_number > count and count != -1:
                 break
-        self.log(f"loaded {counter} layer(s).")
+        self.log(
+            "loaded {} layer(s){}.".format(
+                frame_number,
+                f"-> {gif_filename}" if animate else "",
+            )
+        )
 
         if refresh:
             QGIS.refresh()
+
+        # TODO: seed gif creation command.
+
+        if upload:
+            QGIS.upload(object_name)
+
+        return True
 
     def unload(self, prefix="", refresh=True):
         QGIS.log(prefix, icon="🗑️")
@@ -158,7 +176,7 @@ class ABCLI_QGIS(object):
         self.project = ABCLI_QGIS_Project()
         self.app_list = []
         self.verbose = False
-        self.object_name = ""
+        self.object_name = self.timestamp()
 
     def add_application(self, app):
         self.app_list += [app]
@@ -199,21 +217,16 @@ class ABCLI_QGIS(object):
         self.intro()
 
     def export(self, filename="", object_name=""):
-        if not object_name:
-            object_name = self.object_name
-        if not object_name:
-            self.log_error('run "QGIS.select(<object-name>)" first.')
-            return False
-
-        filename = os.path.join(
-            self.object_path(object_name),
-            filename if filename else "{}.png".format(self.timestamp()),
+        filename = self.file_path(
+            filename=filename if filename else "{}.png".format(self.timestamp()),
+            object_name=object_name,
         )
 
         qgis.utils.iface.mapCanvas().saveAsImage(filename)
         self.log(filename, icon="🖼️")
 
-        return True
+    def file_path(self, filename, object_name=""):
+        return os.path.join(self.object_path(object_name), filename)
 
     def find_layer(self, layer_name):
         return QgsProject.instance().mapLayersByName(layer_name)
