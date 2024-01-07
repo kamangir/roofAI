@@ -9,7 +9,7 @@ import glob
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.87.1"
+VERSION = "4.93.1"
 
 
 HOME = os.getenv("HOME", "")
@@ -231,6 +231,13 @@ class ABCLI_QGIS(object):
 
         self.intro()
 
+    def create_video(self, filename="QGIS", object_name=""):
+        self.seed(
+            "abcli create_video png,fps=2,filename={},gif {}".format(
+                filename, object_name if object_name else self.object_name
+            )
+        )
+
     def export(self, filename="", object_name=""):
         filename = self.file_path(
             filename=filename if filename else "{}.png".format(self.timestamp()),
@@ -249,7 +256,7 @@ class ABCLI_QGIS(object):
     def help(self):
         self.log("📂 object", self.object_name)
         self.log("Q.clear()", "clear Python Console.")
-
+        self.log("Q.create_video()", "create a video.")
         self.layer.help()
         if self.verbose:
             self.log("Q.export([filename],[object_name])", "export.")
@@ -257,7 +264,6 @@ class ABCLI_QGIS(object):
             self.log("Q.load(filename,layer_name,template_name)", "load a layer.")
         self.log('Q.open("|<object-name>|layer|object|project")', "upload.")
         self.project.help()
-
         if self.verbose:
             self.log("Q.refresh()", "refresh.")
             self.log("Q.reload()", "reload all layers.")
@@ -372,6 +378,7 @@ class ABCLI_QGIS(object):
         os.system(f"open {path}")
 
     def refresh(self, deep=False):
+        self.log("{}refresh.".format("deep" if deep else ""))
         if deep:
             # https://api.qgis.org/api/classQgsMapCanvas.html
             iface.mapCanvas().redrawAllLayers()
@@ -401,7 +408,8 @@ class ABCLI_QGIS(object):
 
     def select(self, object_name=""):
         self.object_name = object_name if object_name else QGIS.timestamp()
-        self.log("📂 object", self.object_name)
+        self.log("📂 object_name", self.object_name)
+        self.log("📂 object_path", self.object_path())
 
         os.makedirs(self.object_path(), exist_ok=True)
 
