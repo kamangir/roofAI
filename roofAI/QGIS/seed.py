@@ -9,7 +9,7 @@ import glob
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.82.1"
+VERSION = "4.85.1"
 
 
 HOME = os.getenv("HOME", "")
@@ -138,10 +138,14 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
                 )
 
             if animate:
+                QGIS.refresh()
                 QGIS.export(
                     filename=f"{frame_number:05d}.png",
                     object_name=object_name,
                 )
+
+                for view in "heatmap,pin".split(","):
+                    QGIS.unload(f"{layer_name} - {view}")
 
             frame_number += 1
             if frame_number > count and count != -1:
