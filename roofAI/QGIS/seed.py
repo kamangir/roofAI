@@ -9,7 +9,7 @@ import glob
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.72.1"
+VERSION = "4.73.1"
 
 
 HOME = os.getenv("HOME", "")
@@ -127,6 +127,7 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
             counter += 1
             if counter > count and count != -1:
                 break
+        self.log(f"loaded {counter} layer(s).")
 
         if refresh:
             QGIS.refresh()
