@@ -9,7 +9,7 @@ import glob
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.85.1"
+VERSION = "4.87.1"
 
 
 HOME = os.getenv("HOME", "")
@@ -138,7 +138,7 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
                 )
 
             if animate:
-                QGIS.refresh()
+                QGIS.refresh(deep=True)
                 QGIS.export(
                     filename=f"{frame_number:05d}.png",
                     object_name=object_name,
@@ -371,8 +371,12 @@ class ABCLI_QGIS(object):
         self.log(path)
         os.system(f"open {path}")
 
-    def refresh(self):
-        iface.mapCanvas().refresh()
+    def refresh(self, deep=False):
+        if deep:
+            # https://api.qgis.org/api/classQgsMapCanvas.html
+            iface.mapCanvas().redrawAllLayers()
+        else:
+            iface.mapCanvas().refresh()
 
     def reload(self):
         # https://gis.stackexchange.com/a/449101/210095
