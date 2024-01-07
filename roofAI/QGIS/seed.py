@@ -9,7 +9,7 @@ import glob
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.81.1"
+VERSION = "4.82.1"
 
 
 HOME = os.getenv("HOME", "")
@@ -237,9 +237,7 @@ class ABCLI_QGIS(object):
         self.log(filename, icon="🖼️")
 
     def file_path(self, filename, object_name=""):
-        output = os.path.join(self.object_path(object_name), filename)
-        os.makedirs(output, exist_ok=True)
-        return output
+        return os.path.join(self.object_path(object_name), filename)
 
     def find_layer(self, layer_name):
         return QgsProject.instance().mapLayersByName(layer_name)
@@ -345,10 +343,12 @@ class ABCLI_QGIS(object):
         self.log(message, note, icon="❗️")
 
     def object_path(self, object_name=""):
-        return os.path.join(
+        output = os.path.join(
             abcli_object_root,
             object_name if object_name else self.object_name,
         )
+        os.makedirs(output, exist_ok=True)
+        return output
 
     def open(self, what="object"):
         self.open_folder(
