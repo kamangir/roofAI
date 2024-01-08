@@ -9,7 +9,7 @@ import glob
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.100.1"
+VERSION = "4.104.1"
 
 
 HOME = os.getenv("HOME", "")
@@ -103,9 +103,13 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
         prefix="",
         count=-1,
         refresh=True,
+        timed=False,
     ) -> bool:
-        frame_number = 0
-        for layer_name in self.list_layers():
+        list_layers = self.list_layers()
+        if count != -1:
+            list_layers = list_layers[-count:]
+
+        for layer_name in list_layers:
             if not layer_name.startswith(prefix):
                 continue
 
@@ -114,14 +118,11 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
             QGIS.load(
                 filename,
                 layer_name,
-                "template",
+                "template-timed" if timed else "template",
                 refresh=False,
             )
 
-            frame_number += 1
-            if frame_number >= count and count != -1:
-                break
-        self.log(f"loaded {frame_number} layer(s).")
+        self.log(f"loaded {len(list_layers)} layer(s).")
 
         if refresh:
             QGIS.refresh()
