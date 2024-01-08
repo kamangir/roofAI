@@ -3,6 +3,7 @@ from qgis.gui import *
 
 # version 2.1.1
 
+
 @qgsfunction(args="auto", group="Custom", referenced_columns=[])
 def vanwatch_display(object_name, cameras, feature, parent):
     """
