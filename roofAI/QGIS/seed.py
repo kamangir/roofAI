@@ -9,7 +9,7 @@ import glob
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.97.1"
+VERSION = "4.98.1"
 
 
 HOME = os.getenv("HOME", "")
@@ -104,9 +104,6 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
         prefix="",
         count=-1,
         refresh=True,
-        animate=False,
-        upload=True,
-        object_name="",
     ) -> bool:
         frame_number = 0
         for layer_name in self.list_layers():
@@ -122,32 +119,13 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
                 refresh=False,
             )
 
-            if animate:
-                QGIS.refresh(deep=True)
-                QGIS.export(
-                    filename=f"{frame_number:05d}.png",
-                    object_name=object_name,
-                )
-
-                QGIS.unload(layer_name)
-
             frame_number += 1
             if frame_number > count and count != -1:
                 break
-        self.log(
-            "loaded {} layer(s){}.".format(
-                frame_number,
-                ", animated" if animate else "",
-            )
-        )
+        self.log(f"loaded {frame_number} layer(s).")
 
         if refresh:
             QGIS.refresh()
-
-        # TODO: seed gif creation command.
-
-        if upload:
-            QGIS.upload(object_name)
 
     def unload(self, prefix="", refresh=True):
         QGIS.log(prefix, icon="🗑️")
