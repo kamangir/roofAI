@@ -9,7 +9,7 @@ import glob
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.99.1"
+VERSION = "4.100.1"
 
 
 HOME = os.getenv("HOME", "")
@@ -119,7 +119,7 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
             )
 
             frame_number += 1
-            if frame_number > count and count != -1:
+            if frame_number >= count and count != -1:
                 break
         self.log(f"loaded {frame_number} layer(s).")
 
