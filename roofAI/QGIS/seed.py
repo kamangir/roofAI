@@ -9,12 +9,11 @@ import glob
 
 NAME = "roofAI.QGIS"
 
-VERSION = "4.98.1"
+VERSION = "4.99.1"
 
 
 HOME = os.getenv("HOME", "")
 abcli_object_root = os.path.join(HOME, "storage/abcli")
-abcli_QGIS_path_cache = os.path.join(HOME, "git/vancouver-watching/QGIS")
 abcli_QGIS_path_shared = os.path.join(HOME, "Downloads/QGIS")
 abcli_QGIS_path_server = os.path.join(abcli_QGIS_path_shared, "server")
 
@@ -92,7 +91,7 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
                 os.path.splitext(os.path.basename(filename))[0]
                 for filename in glob.glob(
                     os.path.join(
-                        abcli_QGIS_path_cache,
+                        QGIS.project.path,
                         "*.geojson",
                     )
                 )
@@ -110,7 +109,7 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
             if not layer_name.startswith(prefix):
                 continue
 
-            filename = os.path.join(abcli_QGIS_path_cache, f"{layer_name}.geojson")
+            filename = os.path.join(QGIS.project.path, f"{layer_name}.geojson")
 
             QGIS.load(
                 filename,
