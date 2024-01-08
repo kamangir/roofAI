@@ -2,6 +2,8 @@ import math
 from qgis.core import *
 from qgis.gui import *
 
+# version 2.1.1
+
 @qgsfunction(args='auto', group='Custom', referenced_columns=[])
 def vanwatch_label(row, webdings, feature, parent):
     """
