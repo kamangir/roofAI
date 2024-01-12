@@ -18,7 +18,7 @@ class ROOFAI_QGIS_APPLICATION_VANWATCH(ROOFAI_QGIS_APPLICATION):
         self.log("vanwatch.list_layers()", "list vanwatch layers.")
         self.log("vanwatch.load([prefix], [count])", "load layers.")
         self.log("vanwatch.unload(prefix)", "unload prefix*.")
-        self.log("vanwatch.update[_cache](push=True)", "update cache.")
+        self.log("vanwatch.update[_cache]()", "update cache.")
 
     def ingest(self):
         seed("abcli_aws_batch source - vanwatch/ingest - count=-1,publish")
@@ -82,5 +82,5 @@ class ROOFAI_QGIS_APPLICATION_VANWATCH(ROOFAI_QGIS_APPLICATION):
     def update(self, push=False):
         self.update_cache(push)
 
-    def update_cache(self, push=False):
-        seed("vanwatch update_cache{}".format(" push" if push else ""))
+    def update_cache(self):
+        seed("vanwatch update_cache")
