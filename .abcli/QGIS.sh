@@ -21,7 +21,7 @@ function roofAI_QGIS() {
     local task=$(abcli_unpack_keyword $1 help)
 
     if [ $task == "help" ]; then
-        abcli_show_usage "QGIS seed" \
+        abcli_show_usage "QGIS seed [screen]" \
             "seed 🌱 QGIS."
 
         roofAI_QGIS_expressions "$@"
@@ -36,7 +36,7 @@ function roofAI_QGIS() {
     fi
 
     if [ "$task" == "seed" ]; then
-        echo "exec(Path(f'{os.getenv(\"HOME\")}/git/roofAI/roofAI/QGIS/seed.py').read_text())"
+        python3 -m roofAI.QGIS generate_seed
         return
     fi
 
