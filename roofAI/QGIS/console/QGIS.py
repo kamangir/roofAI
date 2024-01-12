@@ -44,7 +44,11 @@ class ABCLI_QGIS(object):
                 ),
             )
         )
-        log(f"Type in Q.help() for help.")
+        log(
+            'Type in "{}.help()" for help.'.format(
+                "|".join(["Q"] + [app.name for app in self.app_list])
+            )
+        )
 
     def clear(self):
         # https://gis.stackexchange.com/a/216444/210095
@@ -77,8 +81,11 @@ class ABCLI_QGIS(object):
     def find_layer(self, layer_name):
         return QgsProject.instance().mapLayersByName(layer_name)
 
-    def help(self):
-        log("📂 object", self.object_name)
+    def help(self, clear=False):
+        if clear:
+            self.clear()
+
+        log("object", self.object_name, icon="📂")
         log("Q.clear()", "clear Python Console.")
         log("Q.create_video()", "create a video.")
         layer.help()
@@ -86,7 +93,7 @@ class ABCLI_QGIS(object):
             log("Q.export([filename],[object_name])", "export.")
             log("Q.list_of_layers()", "list of layers.")
             log("Q.load(filename,layer_name,template_name)", "load a layer.")
-        log('Q.open("|<object-name>|layer|object|project")', "upload.")
+        log('Q.open("|<object-name>|layer|object|project")', "open.")
         project.help()
         if verbose:
             log("Q.refresh()", "refresh.")
@@ -94,7 +101,7 @@ class ABCLI_QGIS(object):
         log('Q.select("<object-name>")', "select <object-name>.")
         if verbose:
             log("Q.unload(layer_name)", "unload layer_name.")
-        log('Q.upload("|<object-name>|layer|project")', "upload.")
+        log('Q.upload("|<object-name>|layer|project|qgz")', "upload.")
         log("verbose=True|False", "set verbose state.")
 
         for app in self.app_list:
@@ -228,14 +235,15 @@ class ABCLI_QGIS(object):
 
     def upload(self, object_name=""):
         seed(
-            "abcli upload - {}".format(
+            "abcli upload {} {}".format(
+                f"filename={project.name}.qgz" if object_name == "qgz" else "-",
                 project.name
-                if object_name == "project"
+                if object_name in ["project", "qgz"]
                 else layer.object_name
                 if object_name == "layer"
                 else object_name
                 if object_name
-                else self.object_name
+                else self.object_name,
             )
         )
 
