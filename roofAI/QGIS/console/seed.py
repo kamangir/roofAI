@@ -1,25 +1,30 @@
-# meant to be run inside Python Console in QGIS.
-# run `QGIS seed` 🌱 to start.
-
 import time
-import random
 import os
-from tqdm import tqdm
-import glob
+import random
 
-# TODO: if not in a seed
-from application import ABCLI_QGIS_APPLICATION
-from layer import ABCLI_QGIS_Layer
-from project import ABCLI_QGIS_Project
+if not QGIS_is_live:
+    from log import log
+
+roofAI_QGIS_path_server = os.path.join(
+    os.getenv("HOME", ""),
+    "Downloads/QGIS/server",
+)
+
+os.makedirs(roofAI_QGIS_path_server, exist_ok=True)
 
 
-QGIS = ABCLI_QGIS()
+def seed(command):
+    hash_id = "{}-{:05d}".format(
+        time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime(time.time())),
+        random.randrange(100000),
+    )
+    with open(
+        os.path.join(
+            roofAI_QGIS_path_server,
+            f"{hash_id}.command",
+        ),
+        "w",
+    ) as f:
+        f.write(command)
 
-Q = QGIS
-layer = QGIS.layer
-project = QGIS.project
-
-vanwatch = ABCLI_QGIS_APPLICATION_VANWATCH()
-QGIS.add_application(vanwatch)
-
-QGIS.intro()
+    log(hash_id, command, icon="🌱")

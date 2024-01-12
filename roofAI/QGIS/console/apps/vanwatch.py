@@ -1,7 +1,13 @@
-from application import ABCLI_QGIS_APPLICATION
+import os
+import glob
+from application import ROOFAI_QGIS_APPLICATION
+from log import log
+from project import project
+from QGIS import QGIS
+from seed import seed
 
 
-class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
+class ROOFAI_QGIS_APPLICATION_VANWATCH(ROOFAI_QGIS_APPLICATION):
     def __init__(self):
         super().__init__("vanwatch", "🌈")
 
@@ -13,16 +19,16 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
         self.log("vanwatch.update[_cache](push=True)", "update cache.")
 
     def ingest(self):
-        QGIS.seed("abcli_aws_batch source - vanwatch/ingest - count=-1,publish")
+        seed("abcli_aws_batch source - vanwatch/ingest - count=-1,publish")
 
     def list_layers(self):
-        QGIS.log('to update the cache run "vanwatch update_cache".', icon="🌱")
+        log('to update the cache run "vanwatch update_cache".', icon="🌱")
         return sorted(
             [
                 os.path.splitext(os.path.basename(filename))[0]
                 for filename in glob.glob(
                     os.path.join(
-                        QGIS.project.path,
+                        project.path,
                         "*.geojson",
                     )
                 )
@@ -44,7 +50,7 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
             if not layer_name.startswith(prefix):
                 continue
 
-            filename = os.path.join(QGIS.project.path, f"{layer_name}.geojson")
+            filename = os.path.join(project.path, f"{layer_name}.geojson")
 
             QGIS.load(
                 filename,
@@ -59,7 +65,7 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
             QGIS.refresh()
 
     def unload(self, prefix="", refresh=True):
-        QGIS.log(prefix, icon="🗑️")
+        log(prefix, icon="🗑️")
 
         for layer_name in [
             layer_name
@@ -75,4 +81,4 @@ class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
         self.update_cache(push)
 
     def update_cache(self, push=False):
-        QGIS.seed("vanwatch update_cache{}".format(" push" if push else ""))
+        seed("vanwatch update_cache{}".format(" push" if push else ""))

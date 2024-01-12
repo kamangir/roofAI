@@ -1,3 +1,9 @@
+import os
+
+if not QGIS_is_live:
+    from log import log_error
+
+
 class ABCLI_QGIS_Layer(object):
     def help(self):
         pass
@@ -7,7 +13,7 @@ class ABCLI_QGIS_Layer(object):
         try:
             return iface.activeLayer().dataProvider().dataSourceUri()
         except:
-            QGIS.log_error("unknown layer.filename.")
+            log_error("unknown layer.filename.")
             return ""
 
     @property
@@ -23,3 +29,6 @@ class ABCLI_QGIS_Layer(object):
     @property
     def path(self):
         return os.path.dirname(self.filename)
+
+
+layer = ABCLI_QGIS_Layer()

@@ -1,3 +1,6 @@
+import os
+
+
 class ABCLI_QGIS_Project(object):
     def help(self):
         pass
@@ -9,3 +12,6 @@ class ABCLI_QGIS_Project(object):
     @property
     def path(self):
         return QgsProject.instance().homePath()
+
+
+project = ABCLI_QGIS_Project()

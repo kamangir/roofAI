@@ -1,6 +1,7 @@
 import argparse
 from roofAI.QGIS import NAME
 from roofAI import VERSION
+from roofAI.QGIS.seed import generate_seed
 from abcli import logging
 import logging
 
@@ -19,17 +20,9 @@ args = parser.parse_args()
 
 success = False
 if args.task == "generate_seed":
-    list_of_files = ["seed.py"]  # TODO: add the rest of the files
-    seed = "; ".join(
-        [
-            'exec(Path(f\'{os.getenv("HOME")}/git/roofAI/roofAI/QGIS/console/'
-            + filename
-            + "').read_text())"
-            for filename in list_of_files
-        ]
-    )
-    print(seed)
-    success = True
+    success = seed = generate_seed()
+    if success:
+        print(seed)
 else:
     logger.error(f"-{NAME}: {args.task}: command not found.")
 
