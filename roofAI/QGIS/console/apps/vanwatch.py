@@ -1,10 +1,12 @@
 import os
 import glob
-from application import ROOFAI_QGIS_APPLICATION
-from log import log
-from project import project
-from QGIS import QGIS
-from seed import seed
+
+if not QGIS_is_live:
+    from application import ROOFAI_QGIS_APPLICATION
+    from log import log
+    from project import project
+    from QGIS import QGIS
+    from seed import seed
 
 
 class ROOFAI_QGIS_APPLICATION_VANWATCH(ROOFAI_QGIS_APPLICATION):
