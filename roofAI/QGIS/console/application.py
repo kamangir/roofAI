@@ -1,8 +1,10 @@
 class ABCLI_QGIS_APPLICATION(object):
-    def __init__(self, name, icon):
+    def __init__(self, QGIS, name, icon):
         self.name = name
         self.icon = icon
+        self.QGIS = QGIS
+
         QGIS.log(self.name, "", icon=self.icon)
 
     def log(self, message, note=""):
-        QGIS.log(message, note, icon=self.icon)
+        self.QGIS.log(message, note, icon=self.icon)
