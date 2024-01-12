@@ -1,6 +1,5 @@
 def generate_seed() -> str:
     list_of_modules = [
-        "init",
         "log",
         "project",
         "layer",
