@@ -79,8 +79,8 @@ class ROOFAI_QGIS_APPLICATION_VANWATCH(ROOFAI_QGIS_APPLICATION):
         if refresh:
             QGIS.refresh()
 
-    def update(self, push=False):
-        self.update_cache(push)
+    def update(self):
+        self.update_cache()
 
     def update_cache(self):
         seed("vanwatch update_cache")
