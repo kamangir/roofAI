@@ -1,5 +1,5 @@
 # meant to be run inside Python Console in QGIS.
-# run `QGIS seed 🌱` to start.
+# run `QGIS seed` 🌱 to start.
 
 import time
 import random
@@ -7,9 +7,14 @@ import os
 from tqdm import tqdm
 import glob
 
+# TODO: if not in a seed
+from application import ABCLI_QGIS_APPLICATION
+from layer import ABCLI_QGIS_Layer
+from project import ABCLI_QGIS_Project
+
 NAME = "roofAI.QGIS"
 
-VERSION = "4.104.1"
+VERSION = "5.2.1"
 
 
 HOME = os.getenv("HOME", "")
@@ -18,56 +23,6 @@ abcli_QGIS_path_shared = os.path.join(HOME, "Downloads/QGIS")
 abcli_QGIS_path_server = os.path.join(abcli_QGIS_path_shared, "server")
 
 os.makedirs(abcli_QGIS_path_server, exist_ok=True)
-
-
-class ABCLI_QGIS_Layer(object):
-    def help(self):
-        pass
-
-    @property
-    def filename(self):
-        try:
-            return iface.activeLayer().dataProvider().dataSourceUri()
-        except:
-            QGIS.log_error("unknown layer.filename.")
-            return ""
-
-    @property
-    def name(self):
-        filename = self.filename
-        return filename.split(os.sep)[-1].split(".")[0] if filename else ""
-
-    @property
-    def object_name(self):
-        filename = self.filename
-        return filename.split(os.sep)[-2] if filename else ""
-
-    @property
-    def path(self):
-        return os.path.dirname(self.filename)
-
-
-class ABCLI_QGIS_Project(object):
-    def help(self):
-        pass
-
-    @property
-    def name(self):
-        return QgsProject.instance().homePath().split(os.sep)[-1]
-
-    @property
-    def path(self):
-        return QgsProject.instance().homePath()
-
-
-class ABCLI_QGIS_APPLICATION(object):
-    def __init__(self, name, icon):
-        self.name = name
-        self.icon = icon
-        QGIS.log(self.name, "", icon=self.icon)
-
-    def log(self, message, note=""):
-        QGIS.log(message, note, icon=self.icon)
 
 
 class ABCLI_QGIS_APPLICATION_VANWATCH(ABCLI_QGIS_APPLICATION):
@@ -268,18 +223,18 @@ class ABCLI_QGIS(object):
             return True
 
         if filename.endswith(".geojson"):
-            layer = QgsVectorLayer(filename, layer_name, "ogr")
+            layer_ = QgsVectorLayer(filename, layer_name, "ogr")
         elif filename.endswith(".tif"):
-            layer = QgsRasterLayer(filename, layer_name)
+            layer_ = QgsRasterLayer(filename, layer_name)
         else:
             self.log_error(f"cannot load {filename}.")
             return False
 
-        if not layer.isValid():
-            QGIS.show_error(f"invalid layer: {filename}.")
+        if not layer_.isValid():
+            QGIS.log_error(f"invalid layer: {filename}.")
             return False
 
-        QgsProject.instance().addMapLayer(layer)
+        QgsProject.instance().addMapLayer(layer_)
 
         if template_name:
             template_layer = QGIS.find_layer(template_name)
@@ -290,8 +245,8 @@ class ABCLI_QGIS(object):
             # https://gis.stackexchange.com/a/357206/210095
             source_style = QgsMapLayerStyle()
             source_style.readFromLayer(template_layer[0])
-            source_style.writeToLayer(layer)
-            layer.triggerRepaint()
+            source_style.writeToLayer(layer_)
+            layer_.triggerRepaint()
 
         self.log(
             layer_name,
@@ -349,8 +304,8 @@ class ABCLI_QGIS(object):
 
     def reload(self):
         # https://gis.stackexchange.com/a/449101/210095
-        for layer in tqdm(QgsProject.instance().mapLayers().values()):
-            layer.dataProvider().reloadData()
+        for layer_ in tqdm(QgsProject.instance().mapLayers().values()):
+            layer_.dataProvider().reloadData()
 
     def seed(self, command):
         hash_id = "{}-{:05d}".format(
@@ -384,8 +339,8 @@ class ABCLI_QGIS(object):
     def unload(self, layer_name, refresh=True):
         self.log(layer_name, icon="🗑️")
 
-        for layer in self.find_layer(layer_name):
-            QgsProject.instance().removeMapLayer(layer.id())
+        for layer_ in self.find_layer(layer_name):
+            QgsProject.instance().removeMapLayer(layer_.id())
 
         if refresh:
             QGIS.refresh()
