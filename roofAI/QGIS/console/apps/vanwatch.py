@@ -14,24 +14,11 @@ class ROOFAI_QGIS_APPLICATION_VANWATCH(ROOFAI_QGIS_APPLICATION):
         super().__init__("vanwatch", "🌈")
 
     def help(self):
-        self.log(
-            "vanwatch.ingest()",
-            "ingest a layer now on aws batch.",
-        )
         self.log("vanwatch.list_layers()", "list vanwatch layers.")
         self.log("vanwatch.load([prefix], [count])", "load layers.")
-        self.log(
-            "vanwatch.process(<object-name>, dryrun=True)",
-            "process <object-name> on aws batch.",
-        )
         self.log("vanwatch.unload(prefix)", "unload prefix*.")
-        self.log("vanwatch.update[_cache]()", "update cache.")
-
-    def ingest(self):
-        seed("abcli_aws_batch source - vanwatch/ingest - count=-1,publish")
 
     def list_layers(self):
-        log('to update the cache run "vanwatch update_cache".', icon="🌱")
         return sorted(
             [
                 os.path.splitext(os.path.basename(filename))[0]
@@ -73,14 +60,6 @@ class ROOFAI_QGIS_APPLICATION_VANWATCH(ROOFAI_QGIS_APPLICATION):
         if refresh:
             QGIS.refresh()
 
-    def process(self, object_name="", dryrun=False):
-        seed(
-            "abcli_aws_batch source {} vanwatch/process - {}".format(
-                "dryrun" if dryrun else "-",
-                object_name if object_name else QGIS.object_name,
-            )
-        )
-
     def unload(self, prefix="", refresh=True):
         log(prefix, icon="🗑️")
 
@@ -93,9 +72,3 @@ class ROOFAI_QGIS_APPLICATION_VANWATCH(ROOFAI_QGIS_APPLICATION):
 
         if refresh:
             QGIS.refresh()
-
-    def update(self):
-        self.update_cache()
-
-    def update_cache(self):
-        seed("vanwatch update_cache")
