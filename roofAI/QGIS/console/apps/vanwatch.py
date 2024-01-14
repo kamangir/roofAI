@@ -76,7 +76,7 @@ class ROOFAI_QGIS_APPLICATION_VANWATCH(ROOFAI_QGIS_APPLICATION):
     def process(self, object_name="", dryrun=False):
         seed(
             "abcli_aws_batch source {} vanwatch/process - {}".format(
-                "dryrun" if dryrun else "",
+                "dryrun" if dryrun else "-",
                 object_name if object_name else QGIS.object_name,
             )
         )
