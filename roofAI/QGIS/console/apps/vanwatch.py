@@ -14,9 +14,16 @@ class ROOFAI_QGIS_APPLICATION_VANWATCH(ROOFAI_QGIS_APPLICATION):
         super().__init__("vanwatch", "🌈")
 
     def help(self):
-        self.log("vanwatch.ingest()", "ingest a layer now.")
+        self.log(
+            "vanwatch.ingest()",
+            "ingest a layer now on aws batch.",
+        )
         self.log("vanwatch.list_layers()", "list vanwatch layers.")
         self.log("vanwatch.load([prefix], [count])", "load layers.")
+        self.log(
+            "vanwatch.process(<object-name)",
+            "process <object-name> on aws batch.",
+        )
         self.log("vanwatch.unload(prefix)", "unload prefix*.")
         self.log("vanwatch.update[_cache]()", "update cache.")
 
