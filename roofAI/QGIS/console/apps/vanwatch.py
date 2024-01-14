@@ -21,7 +21,7 @@ class ROOFAI_QGIS_APPLICATION_VANWATCH(ROOFAI_QGIS_APPLICATION):
         self.log("vanwatch.list_layers()", "list vanwatch layers.")
         self.log("vanwatch.load([prefix], [count])", "load layers.")
         self.log(
-            "vanwatch.process(<object-name)",
+            "vanwatch.process(<object-name>, dryrun=True)",
             "process <object-name> on aws batch.",
         )
         self.log("vanwatch.unload(prefix)", "unload prefix*.")
@@ -72,6 +72,14 @@ class ROOFAI_QGIS_APPLICATION_VANWATCH(ROOFAI_QGIS_APPLICATION):
 
         if refresh:
             QGIS.refresh()
+
+    def process(self, object_name="", dryrun=False):
+        seed(
+            "abcli_aws_batch source {} vanwatch/process - {}".format(
+                "dryrun" if dryrun else "",
+                object_name if object_name else QGIS.object_name,
+            )
+        )
 
     def unload(self, prefix="", refresh=True):
         log(prefix, icon="🗑️")
