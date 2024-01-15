@@ -14,9 +14,18 @@ class ROOFAI_QGIS_APPLICATION_VANWATCH(ROOFAI_QGIS_APPLICATION):
         super().__init__("vanwatch", "🌈")
 
     def help(self):
-        self.log("vanwatch.list_layers()", "list vanwatch layers.")
-        self.log("vanwatch.load([prefix], [count])", "load layers.")
-        self.log("vanwatch.unload(prefix)", "unload prefix*.")
+        self.log(
+            "vanwatch.list_layers()",
+            "list vanwatch layers.",
+        )
+        self.log(
+            "vanwatch.load(count=<count>, timed=True, prefix=<prefix>)",
+            "load layers.",
+        )
+        self.log(
+            "vanwatch.unload(prefix)",
+            "unload prefix*.",
+        )
 
     def list_layers(self):
         return sorted(

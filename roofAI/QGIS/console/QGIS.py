@@ -12,7 +12,7 @@ if not QGIS_is_live:
 
 NAME = "roofAI.QGIS"
 
-VERSION = "5.8.1"
+VERSION = "5.9.1"
 
 abcli_object_root = os.path.join(
     os.getenv("HOME", ""),
