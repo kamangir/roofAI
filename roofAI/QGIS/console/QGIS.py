@@ -12,7 +12,7 @@ if not QGIS_is_live:
 
 NAME = "roofAI.QGIS"
 
-VERSION = "5.9.1"
+VERSION = "5.11.1"
 
 abcli_object_root = os.path.join(
     os.getenv("HOME", ""),
@@ -213,8 +213,8 @@ class ABCLI_QGIS(object):
 
     def select(self, object_name=""):
         self.object_name = object_name if object_name else self.timestamp()
-        log("📂 object_name", self.object_name)
-        log("📂 object_path", self.object_path())
+        log(f"object_name: {self.object_name}", icon="📂")
+        log(f"object_path: {self.object_path()}", icon="📂")
 
         os.makedirs(self.object_path(), exist_ok=True)
 
