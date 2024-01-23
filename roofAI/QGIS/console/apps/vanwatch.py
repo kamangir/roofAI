@@ -19,7 +19,7 @@ class ROOFAI_QGIS_APPLICATION_VANWATCH(ROOFAI_QGIS_APPLICATION):
             "list vanwatch layers.",
         )
         self.log(
-            "vanwatch.load(count=<count>, timed=True, prefix=<prefix>)",
+            "vanwatch.load(count=<count>, timed=True, offset=<offset>, prefix=<prefix>)",
             "load layers.",
         )
         self.log(
@@ -44,12 +44,17 @@ class ROOFAI_QGIS_APPLICATION_VANWATCH(ROOFAI_QGIS_APPLICATION):
         self,
         prefix="",
         count=-1,
+        offset=0,
         refresh=True,
         timed=False,
     ) -> bool:
         list_layers = self.list_layers()
+
+        list_layers = list(reversed(list_layers))
+        if offset:
+            list_layers = list_layers[offset:]
         if count != -1:
-            list_layers = list_layers[-count:]
+            list_layers = list_layers[:count]
 
         for layer_name in list_layers:
             if not layer_name.startswith(prefix):
