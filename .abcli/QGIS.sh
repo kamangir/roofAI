@@ -13,8 +13,10 @@ function QGIS() {
     roofAI_QGIS "$@"
 }
 
+# internal function to abcli_seed.
 function QGIS_seed() {
-    roofAI_QGIS seed "$@"
+    # seed is NOT local
+    seed=$(python3 -m roofAI.QGIS generate_seed)
 }
 
 function roofAI_QGIS() {
@@ -36,7 +38,7 @@ function roofAI_QGIS() {
     fi
 
     if [ "$task" == "seed" ]; then
-        python3 -m roofAI.QGIS generate_seed
+        abcli_seed QGIS "${@:2}"
         return
     fi
 
