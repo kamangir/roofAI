@@ -124,6 +124,7 @@ function roofAI_semseg_cache() {
 
     abcli_eval - \
         curl \
+        --insecure \
         -L http://data.lip6.fr/cadene/pretrainedmodels/se_resnext50_32x4d-a260b3a4.pth \
         -o $filename
 }
