@@ -8,7 +8,7 @@ function roofAI_dataset_ingest() {
     if [ $(abcli_option_int "$options" help 0) == 1 ]; then
         local common_options="dryrun,open,register,suffix=<v1>,upload"
 
-        local options="source=AIRS,$common_options"
+        local options="source=AIRS,$common_options,target=sagemaker|torch"
         local args="[--test_count <10>]$ABCUL[--train_count <10>]$ABCUL[--val_count <10>]"
         abcli_show_usage "roofAI dataset ingest$ABCUL[$options]$ABCUL<object-name>$ABCUL$args" \
             "ingest AIRS -> <object-name>."
@@ -24,6 +24,7 @@ function roofAI_dataset_ingest() {
     local do_upload=$(abcli_option_int "$options" upload 0)
     local suffix=$(abcli_option "$options" suffix v1)
     local source=$(abcli_option "$options" source)
+    local target=$(abcli_option "$options" target torch)
 
     local cache_keyword=roofAI_ingest_${source}_cache
 
@@ -38,7 +39,7 @@ function roofAI_dataset_ingest() {
     [[ "$do_open" == 1 ]] &&
         open $object_path
 
-    abcli_log "ingesting $source -> $object_name"
+    abcli_log "ingesting $source -> $target:$object_name"
 
     local args=""
 
@@ -101,6 +102,7 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
     abcli_eval dryrun=$do_dryrun \
         python3 -m roofAI.dataset ingest \
         --source $source \
+        --target $target \
         --ingest_path $object_path \
         "$args" \
         "${@:3}"

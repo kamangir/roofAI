@@ -26,9 +26,10 @@ def ingest_AIRS(
     chip_overlap: float = 0.5,
     log: bool = False,
     in_notebook: bool = False,
+    target: str = "torch",
 ) -> bool:
     logger.info(
-        "ingesting AIRS {} -{}-{}x{}-@{:.0f}%-> {}".format(
+        "ingesting AIRS {} -{}-{}x{}-@{:.0f}%-> {}:{}".format(
             path.name(cache_path),
             " + ".join(
                 ["{} X {:,d}".format(subset, count) for subset, count in counts.items()]
@@ -36,6 +37,7 @@ def ingest_AIRS(
             chip_height,
             chip_width,
             chip_overlap * 100,
+            target,
             path.name(ingest_path),
         )
     )
@@ -118,11 +120,13 @@ def slice_matrix(
                 chip_overlap * 100,
                 output_path,
                 prefix,
-                ""
-                if kind == MatrixKind.MASK
-                else ": {} record_id(s): {}".format(
-                    len(record_id_list),
-                    ", ".join(record_id_list[:3] + ["..."]),
+                (
+                    ""
+                    if kind == MatrixKind.MASK
+                    else ": {} record_id(s): {}".format(
+                        len(record_id_list),
+                        ", ".join(record_id_list[:3] + ["..."]),
+                    )
                 ),
             )
         )

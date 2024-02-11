@@ -65,6 +65,12 @@ parser.add_argument(
     help="AIRS|CamVid",
 )
 parser.add_argument(
+    "--target",
+    type=str,
+    default="torch",
+    help="torch|sagemaker",
+)
+parser.add_argument(
     "--subset",
     type=str,
     default="test",
@@ -90,13 +96,14 @@ success = False
 if args.task == "ingest":
     if args.source == "AIRS":
         success = ingest_AIRS(
-            args.cache_path,
-            args.ingest_path,
-            {
+            cache_path=args.cache_path,
+            ingest_path=args.ingest_path,
+            counts={
                 "test": args.test_count,
                 "train": args.train_count,
                 "val": args.val_count,
             },
+            target=args.target,
             log=args.log,
         )
     elif args.source == "CamVid":
