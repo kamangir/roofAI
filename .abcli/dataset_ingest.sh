@@ -72,13 +72,13 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
                 $cache_keyword \
                 $cache_object_name
 
-            local cache_from_source=1
+            cache_from_source=1
         else
             abcli_download - $cache_object_name
 
             if [[ ! -f $abcli_object_root/$cache_object_name/train.txt ]]; then
                 abcli_log "cache is empty: $cache_object_name"
-                local cache_from_source=1
+                cache_from_source=1
             fi
         fi
 
@@ -89,9 +89,10 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
             abcli_eval dryrun=$do_dryrun,path=$abcli_object_root/$cache_object_name \
                 "kaggle datasets download \
                 -d atilol/aerialimageryforroofsegmentation \
-                -p ./; \
-                unzip aerialimageryforroofsegmentation.zip;
-                rm -v aerialimageryforroofsegmentation.zip"
+                -p ./"
+
+            abcli_eval dryrun=$do_dryrun,path=$abcli_object_root/$cache_object_name \
+                "unzip aerialimageryforroofsegmentation.zip"
         fi
 
         local args="--cache_path $abcli_object_root/$cache_object_name"
