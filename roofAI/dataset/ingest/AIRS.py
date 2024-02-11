@@ -10,6 +10,7 @@ import numpy as np
 from typing import Dict
 import matplotlib.pyplot as plt
 from abcli import path
+from roofAI.dataset.classes import DatasetTarget
 from roofAI.semseg.model import chip_width, chip_height
 from abcli import logging
 import logging
@@ -26,7 +27,7 @@ def ingest_AIRS(
     chip_overlap: float = 0.5,
     log: bool = False,
     in_notebook: bool = False,
-    target: str = "torch",
+    target: DatasetTarget = DatasetTarget.TORCH,
 ) -> bool:
     logger.info(
         "ingesting AIRS {} -{}-{}x{}-@{:.0f}%-> {}:{}".format(
@@ -37,7 +38,7 @@ def ingest_AIRS(
             chip_height,
             chip_width,
             chip_overlap * 100,
-            target,
+            target.name.lower(),
             path.name(ingest_path),
         )
     )
@@ -45,7 +46,11 @@ def ingest_AIRS(
     cache_dataset = RoofAIDataset(cache_path)
     ingest_dataset = RoofAIDataset(
         ingest_path,
-        kind=DatasetKind.CAMVID,
+        kind=(
+            DatasetKind.CAMVID
+            if target == DatasetTarget.TORCH
+            else DatasetKind.SAGEMAKER
+        ),
     ).create(log=log)
 
     for subset in tqdm(counts.keys()):
@@ -81,9 +86,10 @@ def ingest_AIRS(
         os.path.join(ingest_path, "metadata.yaml"),
         {
             "classes": ingest_dataset.classes,
-            "kind": "CamVid",
+            "kind": "CamVid" if target == DatasetTarget.TORCH else "SageMaker",
             "source": "AIRS",
             "ingested-by": f"{NAME}-{VERSION}",
+            "counts": counts,
         },
         log=True,
     )

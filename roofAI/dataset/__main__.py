@@ -1,4 +1,5 @@
 import argparse
+from roofAI.dataset.classes import DatasetTarget
 from roofAI.dataset.ingest.AIRS import ingest_AIRS
 from roofAI.dataset.ingest.CamVid import ingest_CamVid
 from tqdm import trange
@@ -103,7 +104,7 @@ if args.task == "ingest":
                 "train": args.train_count,
                 "val": args.val_count,
             },
-            target=args.target,
+            target=DatasetTarget[args.target.upper()],
             log=args.log,
         )
     elif args.source == "CamVid":
