@@ -4,58 +4,55 @@ function roofAI_test() {
     local options=$1
 
     if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-        abcli_show_usage "roofAI test [~dataset,dryrun,~semseg]" \
+        abcli_show_usage "roofAI test [dryrun]" \
             "test roofAI."
         return
     fi
 
     local do_dryrun=$(abcli_option_int "$options" dryrun 0)
-    local test_dataset=$(abcli_option_int "$options" dataset 1)
-    local test_semseg=$(abcli_option_int "$options" semseg 1)
 
-    if [ "$test_dataset" == 1 ]; then
-        abcli_log "testing dataset..."
-        local dataset_object_name=dataset-$(@timestamp)
+    local source
+    for source in AIRS CamVid; do
+        abcli_log "📜 ingesting $source..."
+
+        abcli_cache write roofAI_ingest_${source}_test void
 
         abcli_eval dryrun=$do_dryrun \
             roofAI dataset ingest \
-            source=AIRS \
-            $dataset_object_name \
-            --test_count 5 \
-            --train_count 5 \
-            --val_count 5
+            source=$source,register,suffix=test \
+            roofAI_dataset_$(abcli_string_timestamp) \
+            --test_count 16 \
+            --train_count 16 \
+            --val_count 16
 
         abcli_eval dryrun=$do_dryrun \
             roofAI dataset review - \
-            $dataset_object_name \
+            $(abcli_cache read roofAI_ingest_${source}_test) \
             --count 1 \
             --index 1 \
             --subset test
-    fi
 
-    if [ "$test_semseg" == 1 ]; then
-        local dataset_source
-        for dataset_source in AIRS CamVid; do
-            abcli_log "testing semseg on $dataset_source..."
+        abcli_log "📜 training on $source..."
 
-            local classes=car
-            [[ "$dataset_source" == AIRS ]] && local classes=roof
+        local classes=car
+        [[ "$source" == AIRS ]] && local classes=roof
 
-            abcli_cache write roofAI_semseg_model_${dataset_source}_test void
+        abcli_cache write roofAI_semseg_model_${source}_test void
 
-            abcli_eval dryrun=$do_dryrun \
-                roofAI semseg train \
-                profile=VALIDATION,register,suffix=test \
-                $(@ref roofAI_ingest_${dataset_source}_v1) \
-                roofAI-${dataset_source}-semseg-model-$(@timestamp) \
-                --classes $classes
+        abcli_eval dryrun=$do_dryrun \
+            roofAI semseg train \
+            profile=VALIDATION,register,suffix=test,~upload \
+            $(abcli_cache read roofAI_ingest_${source}_test) \
+            roofAI-${source}-semseg-model-$(abcli_string_timestamp) \
+            --classes $classes
 
-            abcli_eval dryrun=$do_dryrun \
-                roofAI semseg predict \
-                profile=VALIDATION \
-                $(@ref roofAI_semseg_model_${dataset_source}_test) \
-                $(@ref roofAI_ingest_${dataset_source}_v1) \
-                roofAI-${dataset_source}-semseg-prediction-$(@timestamp)
-        done
-    fi
+        abcli_log "📜 predicting on $source..."
+
+        abcli_eval dryrun=$do_dryrun \
+            roofAI semseg predict \
+            profile=VALIDATION \
+            $(abcli_cache read roofAI_semseg_model_${source}_test) \
+            $(abcli_cache read roofAI_ingest_${source}_test) \
+            roofAI-${source}-semseg-prediction-$(abcli_string_timestamp)
+    done
 }
