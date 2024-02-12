@@ -15,19 +15,19 @@ function roofAI_test() {
     for source in AIRS CamVid; do
         abcli_log "📜 ingesting $source..."
 
-        abcli_cache write roofAI_ingest_${source}_test void
+        local dataset_object_name=roofAI_dataset_${source}_$(abcli_string_timestamp)
 
         abcli_eval dryrun=$do_dryrun \
             roofAI dataset ingest \
-            source=$source,register,suffix=test \
-            roofAI_dataset_$(abcli_string_timestamp) \
+            source=$source \
+            $dataset_object_name \
             --test_count 16 \
             --train_count 16 \
             --val_count 16
 
         abcli_eval dryrun=$do_dryrun \
             roofAI dataset review - \
-            $(abcli_cache read roofAI_ingest_${source}_test) \
+            $dataset_object_name \
             --count 1 \
             --index 1 \
             --subset test
@@ -37,22 +37,24 @@ function roofAI_test() {
         local classes=car
         [[ "$source" == AIRS ]] && local classes=roof
 
-        abcli_cache write roofAI_semseg_model_${source}_test void
+        local model_object_name=roofAI_semseg_model_${source}_$(abcli_string_timestamp)
 
         abcli_eval dryrun=$do_dryrun \
             roofAI semseg train \
-            profile=VALIDATION,register,suffix=test,~upload \
-            $(abcli_cache read roofAI_ingest_${source}_test) \
-            roofAI-${source}-semseg-model-$(abcli_string_timestamp) \
+            profile=VALIDATION \
+            $dataset_object_name \
+            $model_object_name \
             --classes $classes
 
         abcli_log "📜 predicting on $source..."
 
+        local prediction_object_name=roofAI_semseg_${source}_prediction_$(abcli_string_timestamp)
+
         abcli_eval dryrun=$do_dryrun \
             roofAI semseg predict \
             profile=VALIDATION \
-            $(abcli_cache read roofAI_semseg_model_${source}_test) \
-            $(abcli_cache read roofAI_ingest_${source}_test) \
-            roofAI-${source}-semseg-prediction-$(abcli_string_timestamp)
+            $model_object_name \
+            $dataset_object_name \
+            $prediction_object_name
     done
 }
