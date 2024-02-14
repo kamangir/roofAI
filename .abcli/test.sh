@@ -59,6 +59,8 @@ function roofAI_test() {
 
         [[ "$source" != AIRS ]] && continue
 
+        abcli_log "📜 ingesting $source for training on SageMaker ..."
+
         local dataset_object_name=roofAI_dataset_${source}_for_sagemaker_$(abcli_string_timestamp)
 
         abcli_eval dryrun=$do_dryrun \
