@@ -56,5 +56,17 @@ function roofAI_test() {
             $model_object_name \
             $dataset_object_name \
             $prediction_object_name
+
+        [[ "$source" != AIRS ]] && continue
+
+        local dataset_object_name=roofAI_dataset_${source}_for_sagemaker_$(abcli_string_timestamp)
+
+        abcli_eval dryrun=$do_dryrun \
+            roofAI dataset ingest \
+            source=$source,target=sagemaker \
+            $dataset_object_name \
+            --test_count 16 \
+            --train_count 16 \
+            --val_count 16
     done
 }
