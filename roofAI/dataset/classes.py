@@ -53,11 +53,19 @@ class MatrixKind(Enum):
         dataset_kind,
         subset,
     ) -> str:
+        sagemaker_val_adapter = lambda subset: (
+            "validation" if subset == "val" else subset
+        )
+
         return (
             (subset if self == MatrixKind.IMAGE else f"{subset}annot")
             if dataset_kind == DatasetKind.CAMVID
             else (
-                (subset if self == MatrixKind.IMAGE else f"{subset}_annotation")
+                (
+                    sagemaker_val_adapter(subset)
+                    if self == MatrixKind.IMAGE
+                    else f"{sagemaker_val_adapter(subset)}_annotation"
+                )
                 if dataset_kind == DatasetKind.SAGEMAKER
                 else (
                     f"{subset}/image" if self == MatrixKind.IMAGE else f"{subset}/label"
