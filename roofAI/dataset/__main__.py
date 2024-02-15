@@ -60,6 +60,12 @@ parser.add_argument(
     help="0|1",
 )
 parser.add_argument(
+    "--verbose",
+    type=int,
+    default=0,
+    help="0|1",
+)
+parser.add_argument(
     "--source",
     type=str,
     default="",
@@ -106,6 +112,7 @@ if args.task == "ingest":
             },
             target=DatasetTarget[args.target.upper()],
             log=args.log,
+            verbose=args.verbose,
         )
     elif args.source == "CamVid":
         success = ingest_CamVid(args.ingest_path)

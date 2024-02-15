@@ -26,6 +26,7 @@ def ingest_AIRS(
     chip_width: int = chip_width,
     chip_overlap: float = 0.5,
     log: bool = False,
+    verbose: bool = False,
     in_notebook: bool = False,
     target: DatasetTarget = DatasetTarget.TORCH,
 ) -> bool:
@@ -75,7 +76,7 @@ def ingest_AIRS(
                     record_id_list=record_id_list,
                     output_path=ingest_dataset.subset_path(subset, matrix_kind),
                     prefix=record_id,
-                    log=False,
+                    log=verbose,
                 )
                 chip_count -= slice_count
                 record_id_list = list(set(record_id_list + slice_record_id_list))
