@@ -75,6 +75,7 @@ def ingest_AIRS(
                     max_chip_count=chip_count,
                     record_id_list=record_id_list,
                     output_path=ingest_dataset.subset_path(subset, matrix_kind),
+                    target=target,
                     prefix=record_id,
                     log=verbose,
                 )
@@ -114,6 +115,7 @@ def slice_matrix(
     record_id_list: List[str],
     output_path: str,
     prefix: str,
+    target: DatasetTarget = DatasetTarget.TORCH,
     log: bool = False,
 ) -> Tuple[int, List[str]]:
     if log:
@@ -161,6 +163,9 @@ def slice_matrix(
             ):
                 continue
             record_id_list_output += [record_id]
+
+            if (kind == MatrixKind.MASK) and (target == DatasetTarget.SAGEMAKER):
+                chip = ((chip == 0) * 255 + (chip != 0) * (chip - 1)).astype(chip.dtype)
 
             assert file.save_image(
                 os.path.join(output_path, f"{record_id}.png"),
