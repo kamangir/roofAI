@@ -274,7 +274,7 @@ class RoofAIDataset(object):
         visualize(
             {
                 "image": image,
-                "mask": mask / np.max(mask),
+                "mask": mask,
             },
             filename=(
                 os.path.join(
