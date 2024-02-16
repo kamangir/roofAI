@@ -180,7 +180,7 @@ def slice_matrix(
                         f"{path.name(output_path)}-colored",
                         f"{record_id}.png",
                     ),
-                    (plt.cm.viridis(chip * 255) * 255).astype(np.uint8)[:, :, :3],
+                    (plt.cm.viridis(chip) * 255).astype(np.uint8)[:, :, :3],
                     log=log,
                 )
 
