@@ -288,6 +288,7 @@ class RoofAIDataset(object):
             description=[
                 self.object_name,
                 f"{subset}/#{index}:{record_id}",
+                f"kind: {self.kind.name.lower()}",
             ]
             + description,
         )
