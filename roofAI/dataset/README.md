@@ -93,14 +93,21 @@ roofAI dataset ingest \
 
 from [Semantic Segmentation on AWS Sagemaker](https://github.com/aws/amazon-sagemaker-examples/blob/main/introduction_to_amazon_algorithms/semantic_segmentation_pascalvoc/semantic_segmentation_pascalvoc.ipynb).
 
-directory structure...,
+example datasets: `pascal-voc-v1-full-v2`,
 
 ```bash
-root
-|-train/
-|-train_annotation/
-|-validation/
-|-validation_annotation/
+sagesemseg upload_dataset - suffix=full-v2
 ```
 
-... images in the `_annotation` directory are ... indexed PNG files ... `[0, 1 ... c-1, 255]` for ... `c` class[es] ... `255` ... 'ignore' ... any mode that is a [recognized standard](https://pillow.readthedocs.io/en/3.0.x/handbook/concepts.html#concept-modes) [and] ... read as integers ...
+and `pascal-voc-v1-debug-v2`,
+
+```bash
+sagesemseg upload_dataset - suffix=debug-v2 --count 16
+```
+
+for `subset` in `[train, validation]`,
+
+- `{subset}` contains `.jpg`s.
+- `{subset}_annotation` contains ... indexed `.png` files ... `[0, 1 ... c-1, 255]` for ... `c` class[es] ... `255` ... 'ignore' ... any mode that is a [recognized standard](https://pillow.readthedocs.io/en/3.0.x/handbook/concepts.html#concept-modes) [and] ... read as integers ...
+
+image width = 500, and height = 375, while height seems to be flexible.
