@@ -71,6 +71,8 @@ function roofAI_test() {
             --train_count 16 \
             --val_count 16
 
+        abcli_log "📜 training $source on SageMaker ..."
+
         abcli_eval dryrun=$do_dryrun \
             sagesemseg train - \
             $dataset_object_name
