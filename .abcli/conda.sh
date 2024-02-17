@@ -26,7 +26,8 @@ function roofAI_conda() {
             return
         fi
 
-        abcli_conda create_env name=$environment_name
+        abcli_conda create_env \
+            name=$environment_name,repo=roofAI
 
         pip3 install pymysql==0.10.1
 
