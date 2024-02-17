@@ -3,14 +3,13 @@ from tqdm import tqdm
 from typing import List, Tuple
 from abcli import file
 from roofAI.dataset import RoofAIDataset, DatasetKind, MatrixKind
-from roofAI.semseg.model import chip_width, chip_height
 from roofAI import NAME, VERSION
 from abcli import string
 import numpy as np
 from typing import Dict
 import matplotlib.pyplot as plt
 from abcli import path
-from roofAI.semseg.model import chip_width, chip_height
+from roofAI.dataset.classes import DatasetTarget
 from abcli import logging
 import logging
 
@@ -21,13 +20,15 @@ def ingest_AIRS(
     cache_path: str,
     ingest_path: str,
     counts: Dict[str, int],
-    chip_height: int = chip_height,
-    chip_width: int = chip_width,
     chip_overlap: float = 0.5,
     log: bool = False,
+    verbose: bool = False,
     in_notebook: bool = False,
-    target: str = "torch",
+    target: DatasetTarget = DatasetTarget.TORCH,
 ) -> bool:
+    chip_height = target.chip_height
+    chip_width = target.chip_width
+
     logger.info(
         "ingesting AIRS {} -{}-{}x{}-@{:.0f}%-> {}:{}".format(
             path.name(cache_path),
@@ -37,7 +38,7 @@ def ingest_AIRS(
             chip_height,
             chip_width,
             chip_overlap * 100,
-            target,
+            target.name.lower(),
             path.name(ingest_path),
         )
     )
@@ -45,7 +46,11 @@ def ingest_AIRS(
     cache_dataset = RoofAIDataset(cache_path)
     ingest_dataset = RoofAIDataset(
         ingest_path,
-        kind=DatasetKind.CAMVID,
+        kind=(
+            DatasetKind.CAMVID
+            if target == DatasetTarget.TORCH
+            else DatasetKind.SAGEMAKER
+        ),
     ).create(log=log)
 
     for subset in tqdm(counts.keys()):
@@ -69,8 +74,9 @@ def ingest_AIRS(
                     max_chip_count=chip_count,
                     record_id_list=record_id_list,
                     output_path=ingest_dataset.subset_path(subset, matrix_kind),
+                    target=target,
                     prefix=record_id,
-                    log=False,
+                    log=verbose,
                 )
                 chip_count -= slice_count
                 record_id_list = list(set(record_id_list + slice_record_id_list))
@@ -81,9 +87,10 @@ def ingest_AIRS(
         os.path.join(ingest_path, "metadata.yaml"),
         {
             "classes": ingest_dataset.classes,
-            "kind": "CamVid",
+            "kind": "CamVid" if target == DatasetTarget.TORCH else "SageMaker",
             "source": "AIRS",
             "ingested-by": f"{NAME}-{VERSION}",
+            "counts": counts,
         },
         log=True,
     )
@@ -107,6 +114,7 @@ def slice_matrix(
     record_id_list: List[str],
     output_path: str,
     prefix: str,
+    target: DatasetTarget = DatasetTarget.TORCH,
     log: bool = False,
 ) -> Tuple[int, List[str]]:
     if log:
@@ -155,8 +163,22 @@ def slice_matrix(
                 continue
             record_id_list_output += [record_id]
 
+            if (kind == MatrixKind.MASK) and (target == DatasetTarget.SAGEMAKER):
+                chip = ((chip == 0) * 255 + (chip != 0) * (chip - 1)).astype(chip.dtype)
+
             assert file.save_image(
-                os.path.join(output_path, f"{record_id}.png"),
+                os.path.join(
+                    output_path,
+                    "{}.{}".format(
+                        record_id,
+                        (
+                            "jpg"
+                            if (kind == MatrixKind.IMAGE)
+                            and (target == DatasetTarget.SAGEMAKER)
+                            else "png"
+                        ),
+                    ),
+                ),
                 chip,
                 log=log,
             )
@@ -168,7 +190,7 @@ def slice_matrix(
                         f"{path.name(output_path)}-colored",
                         f"{record_id}.png",
                     ),
-                    (plt.cm.viridis(chip * 255) * 255).astype(np.uint8)[:, :, :3],
+                    (plt.cm.viridis(chip) * 255).astype(np.uint8)[:, :, :3],
                     log=log,
                 )
 

@@ -2,6 +2,9 @@ NAME = "roofAI.semseg"
 
 from enum import Enum, auto
 
+chip_width = 480
+chip_height = 384
+
 
 class Profile(Enum):
     FULL = auto()

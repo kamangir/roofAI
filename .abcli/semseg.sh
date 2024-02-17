@@ -116,3 +116,19 @@ function roofAI_semseg() {
 
     abcli_log_error "-semseg: $task: command not found."
 }
+
+function roofAI_semseg_cache() {
+    local filename="/root/.cache/torch/hub/checkpoints/se_resnext50_32x4d-a260b3a4.pth"
+
+    [[ -f "$filename" ]] && return
+
+    abcli_eval - \
+        curl \
+        --insecure \
+        -L http://data.lip6.fr/cadene/pretrainedmodels/se_resnext50_32x4d-a260b3a4.pth \
+        -o $filename
+}
+
+[[ "$abcli_is_sagemaker" == true ]] &&
+    [[ "$abcli_is_sagemaker_system" == false ]] &&
+    roofAI_semseg_cache

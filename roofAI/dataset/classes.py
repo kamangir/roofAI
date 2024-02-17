@@ -1,6 +1,14 @@
 import os
 from enum import Enum, auto
 from roofAI.dataset.ingest.CamVid import CLASSES as CAMVID_CLASSES
+from roofAI.semseg import (
+    chip_width as semseg_chip_width,
+    chip_height as semseg_chip_height,
+)
+from roofAI.semseg.sagemaker import (
+    chip_width as sagesemseg_chip_width,
+    chip_height as sagesemseg_chip_height,
+)
 from typing import List, Tuple
 import numpy as np
 from abcli import path
@@ -13,17 +21,25 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class DatasetKind(Enum):
-    AIRS = auto()
-    CAMVID = auto()
+class DatasetTarget(Enum):
+    TORCH = auto()
+    SAGEMAKER = auto()
 
     @property
-    def file_extension(self):
-        return "png" if self == DatasetKind.CAMVID else "tif"
+    def chip_height(self) -> int:
+        if self == DatasetTarget.TORCH:
+            return semseg_chip_height
+
+        assert self == DatasetTarget.SAGEMAKER
+        return sagesemseg_chip_height
 
     @property
-    def prefix_path(self):
-        return "SegNet-Tutorial/CamVid/" if self == DatasetKind.CAMVID else ""
+    def chip_width(self) -> int:
+        if self == DatasetTarget.TORCH:
+            return semseg_chip_width
+
+        assert self == DatasetTarget.SAGEMAKER
+        return sagesemseg_chip_width
 
 
 class MatrixKind(Enum):
@@ -39,7 +55,7 @@ class MatrixKind(Enum):
         return "{}/{}.{}".format(
             self.subset_path(dataset_kind, subset),
             record_id,
-            dataset_kind.file_extension,
+            dataset_kind.file_extension(self),
         )
 
     def subset_path(
@@ -47,11 +63,49 @@ class MatrixKind(Enum):
         dataset_kind,
         subset,
     ) -> str:
+        sagemaker_val_adapter = lambda subset: (
+            "validation" if subset == "val" else subset
+        )
+
         return (
             (subset if self == MatrixKind.IMAGE else f"{subset}annot")
             if dataset_kind == DatasetKind.CAMVID
-            else (f"{subset}/image" if self == MatrixKind.IMAGE else f"{subset}/label")
+            else (
+                (
+                    sagemaker_val_adapter(subset)
+                    if self == MatrixKind.IMAGE
+                    else f"{sagemaker_val_adapter(subset)}_annotation"
+                )
+                if dataset_kind == DatasetKind.SAGEMAKER
+                else (
+                    f"{subset}/image" if self == MatrixKind.IMAGE else f"{subset}/label"
+                )
+            )
         )
+
+
+class DatasetKind(Enum):
+    AIRS = auto()
+    CAMVID = auto()
+    SAGEMAKER = auto()
+
+    def file_extension(self, kind: MatrixKind) -> str:
+        if self == DatasetKind.AIRS:
+            return "tif"
+
+        if self == DatasetKind.CAMVID:
+            return "png"
+
+        assert self == DatasetKind.SAGEMAKER
+        if kind == MatrixKind.MASK:
+            return "png"
+
+        assert kind == MatrixKind.IMAGE
+        return "jpg"
+
+    @property
+    def prefix_path(self) -> str:
+        return "SegNet-Tutorial/CamVid/" if self == DatasetKind.CAMVID else ""
 
 
 class RoofAIDataset(object):
@@ -70,11 +124,11 @@ class RoofAIDataset(object):
         self.kind = DatasetKind[
             self.metadata.get(
                 "kind",
-                self.source
-                if kind is None
-                else kind.name
-                if isinstance(kind, DatasetKind)
-                else kind,
+                (
+                    self.source
+                    if kind is None
+                    else kind.name if isinstance(kind, DatasetKind) else kind
+                ),
             ).upper()
         ]
 
@@ -119,7 +173,7 @@ class RoofAIDataset(object):
                 for filename in file.list_of(
                     os.path.join(
                         self.subset_path(subset, matrix_kind),
-                        f"*.{self.kind.file_extension}",
+                        f"*.{self.kind.file_extension(matrix_kind)}",
                     )
                 )
             ]
@@ -198,12 +252,14 @@ class RoofAIDataset(object):
                     record_id,
                     kind,
                     string.pretty_shape_of_matrix(matrix),
-                    "{} unique value(s): {}".format(
-                        len(unique_value),
-                        unique_value,
-                    )
-                    if kind == MatrixKind.MASK
-                    else "",
+                    (
+                        "{} unique value(s): {}".format(
+                            len(unique_value),
+                            unique_value,
+                        )
+                        if kind == MatrixKind.MASK
+                        else ""
+                    ),
                 )
             )
 
@@ -252,18 +308,21 @@ class RoofAIDataset(object):
         visualize(
             {
                 "image": image,
-                "mask": mask / np.max(mask),
+                "mask": mask,
             },
-            filename=os.path.join(
-                self.path,
-                f"_review/{record_id}.png",
-            )
-            if filename == "auto"
-            else filename,
+            filename=(
+                os.path.join(
+                    self.path,
+                    f"_review/{record_id}.png",
+                )
+                if filename == "auto"
+                else filename
+            ),
             in_notebook=in_notebook,
             description=[
                 self.object_name,
                 f"{subset}/#{index}:{record_id}",
+                f"kind: {self.kind.name.lower()}",
             ]
             + description,
         )

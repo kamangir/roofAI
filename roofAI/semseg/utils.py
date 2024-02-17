@@ -48,13 +48,15 @@ def visualize(
             "{} - {}{}".format(
                 name,
                 string.pretty_shape_of_matrix(image),
-                " - {} levels: {}..{}".format(
-                    len(np.unique(image)),
-                    int(np.min(image)),
-                    int(np.max(image)),
-                )
-                if name in "prediction,mask,groundtruth".split(",")
-                else "",
+                (
+                    " - {} levels: {}..{}".format(
+                        len(np.unique(image)),
+                        int(np.min(image)),
+                        int(np.max(image)),
+                    )
+                    if name in "prediction,mask,groundtruth".split(",")
+                    else ""
+                ),
             )
         )
         ax.imshow(image)

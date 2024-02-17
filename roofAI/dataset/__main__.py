@@ -1,4 +1,5 @@
 import argparse
+from roofAI.dataset.classes import DatasetTarget
 from roofAI.dataset.ingest.AIRS import ingest_AIRS
 from roofAI.dataset.ingest.CamVid import ingest_CamVid
 from tqdm import trange
@@ -59,6 +60,12 @@ parser.add_argument(
     help="0|1",
 )
 parser.add_argument(
+    "--verbose",
+    type=int,
+    default=0,
+    help="0|1",
+)
+parser.add_argument(
     "--source",
     type=str,
     default="",
@@ -103,8 +110,9 @@ if args.task == "ingest":
                 "train": args.train_count,
                 "val": args.val_count,
             },
-            target=args.target,
+            target=DatasetTarget[args.target.upper()],
             log=args.log,
+            verbose=args.verbose,
         )
     elif args.source == "CamVid":
         success = ingest_CamVid(args.ingest_path)

@@ -4,26 +4,26 @@ function roofAI_test() {
     local options=$1
 
     if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-        abcli_show_usage "roofAI test [~dataset,dryrun,~semseg]" \
+        abcli_show_usage "roofAI test [dryrun]" \
             "test roofAI."
         return
     fi
 
     local do_dryrun=$(abcli_option_int "$options" dryrun 0)
-    local test_dataset=$(abcli_option_int "$options" dataset 1)
-    local test_semseg=$(abcli_option_int "$options" semseg 1)
 
-    if [ "$test_dataset" == 1 ]; then
-        abcli_log "testing dataset..."
-        local dataset_object_name=dataset-$(@timestamp)
+    local source
+    for source in AIRS CamVid; do
+        abcli_log "📜 ingesting $source..."
+
+        local dataset_object_name=roofAI_dataset_${source}_$(abcli_string_timestamp)
 
         abcli_eval dryrun=$do_dryrun \
             roofAI dataset ingest \
-            source=AIRS \
+            source=$source \
             $dataset_object_name \
-            --test_count 5 \
-            --train_count 5 \
-            --val_count 5
+            --test_count 16 \
+            --train_count 16 \
+            --val_count 16
 
         abcli_eval dryrun=$do_dryrun \
             roofAI dataset review - \
@@ -31,31 +31,44 @@ function roofAI_test() {
             --count 1 \
             --index 1 \
             --subset test
-    fi
 
-    if [ "$test_semseg" == 1 ]; then
-        local dataset_source
-        for dataset_source in AIRS CamVid; do
-            abcli_log "testing semseg on $dataset_source..."
+        abcli_log "📜 training on $source..."
 
-            local classes=car
-            [[ "$dataset_source" == AIRS ]] && local classes=roof
+        local classes=car
+        [[ "$source" == AIRS ]] && local classes=roof
 
-            abcli_cache write roofAI_semseg_model_${dataset_source}_test void
+        local model_object_name=roofAI_semseg_model_${source}_$(abcli_string_timestamp)
 
-            abcli_eval dryrun=$do_dryrun \
-                roofAI semseg train \
-                profile=VALIDATION,register,suffix=test \
-                $(@ref roofAI_ingest_${dataset_source}_v1) \
-                roofAI-${dataset_source}-semseg-model-$(@timestamp) \
-                --classes $classes
+        abcli_eval dryrun=$do_dryrun \
+            roofAI semseg train \
+            profile=VALIDATION \
+            $dataset_object_name \
+            $model_object_name \
+            --classes $classes
 
-            abcli_eval dryrun=$do_dryrun \
-                roofAI semseg predict \
-                profile=VALIDATION \
-                $(@ref roofAI_semseg_model_${dataset_source}_test) \
-                $(@ref roofAI_ingest_${dataset_source}_v1) \
-                roofAI-${dataset_source}-semseg-prediction-$(@timestamp)
-        done
-    fi
+        abcli_log "📜 predicting on $source..."
+
+        local prediction_object_name=roofAI_semseg_${source}_prediction_$(abcli_string_timestamp)
+
+        abcli_eval dryrun=$do_dryrun \
+            roofAI semseg predict \
+            profile=VALIDATION \
+            $model_object_name \
+            $dataset_object_name \
+            $prediction_object_name
+
+        [[ "$source" != AIRS ]] && continue
+
+        abcli_log "📜 ingesting $source for training on SageMaker ..."
+
+        local dataset_object_name=roofAI_dataset_${source}_for_sagemaker_$(abcli_string_timestamp)
+
+        abcli_eval dryrun=$do_dryrun \
+            roofAI dataset ingest \
+            source=$source,target=sagemaker \
+            $dataset_object_name \
+            --test_count 16 \
+            --train_count 16 \
+            --val_count 16
+    done
 }
