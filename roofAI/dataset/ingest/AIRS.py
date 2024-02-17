@@ -3,7 +3,6 @@ from tqdm import tqdm
 from typing import List, Tuple
 from abcli import file
 from roofAI.dataset import RoofAIDataset, DatasetKind, MatrixKind
-from roofAI.semseg.model import chip_width, chip_height
 from roofAI import NAME, VERSION
 from abcli import string
 import numpy as np
@@ -11,7 +10,6 @@ from typing import Dict
 import matplotlib.pyplot as plt
 from abcli import path
 from roofAI.dataset.classes import DatasetTarget
-from roofAI.semseg.model import chip_width, chip_height
 from abcli import logging
 import logging
 
@@ -22,14 +20,15 @@ def ingest_AIRS(
     cache_path: str,
     ingest_path: str,
     counts: Dict[str, int],
-    chip_height: int = chip_height,
-    chip_width: int = chip_width,
     chip_overlap: float = 0.5,
     log: bool = False,
     verbose: bool = False,
     in_notebook: bool = False,
     target: DatasetTarget = DatasetTarget.TORCH,
 ) -> bool:
+    chip_height = target.chip_height
+    chip_width = target.chip_width
+
     logger.info(
         "ingesting AIRS {} -{}-{}x{}-@{:.0f}%-> {}:{}".format(
             path.name(cache_path),

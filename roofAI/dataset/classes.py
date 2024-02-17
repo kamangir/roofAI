@@ -1,6 +1,14 @@
 import os
 from enum import Enum, auto
 from roofAI.dataset.ingest.CamVid import CLASSES as CAMVID_CLASSES
+from roofAI.semseg import (
+    chip_width as semseg_chip_width,
+    chip_height as semseg_chip_height,
+)
+from roofAI.semseg.sagemaker import (
+    chip_width as sagesemseg_chip_width,
+    chip_height as sagesemseg_chip_height,
+)
 from typing import List, Tuple
 import numpy as np
 from abcli import path
@@ -16,6 +24,22 @@ logger = logging.getLogger(__name__)
 class DatasetTarget(Enum):
     TORCH = auto()
     SAGEMAKER = auto()
+
+    @property
+    def chip_height(self) -> int:
+        if self == DatasetTarget.TORCH:
+            return semseg_chip_height
+
+        assert self == DatasetTarget.SAGEMAKER
+        return sagesemseg_chip_height
+
+    @property
+    def chip_width(self) -> int:
+        if self == DatasetTarget.TORCH:
+            return semseg_chip_width
+
+        assert self == DatasetTarget.SAGEMAKER
+        return sagesemseg_chip_width
 
 
 class MatrixKind(Enum):
