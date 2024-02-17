@@ -65,10 +65,14 @@ function roofAI_test() {
 
         abcli_eval dryrun=$do_dryrun \
             roofAI dataset ingest \
-            source=$source,target=sagemaker \
+            source=$source,target=sagemaker,upload \
             $dataset_object_name \
-            --test_count 16 \
+            --test_count 0 \
             --train_count 16 \
             --val_count 16
+
+        abcli_eval dryrun=$do_dryrun \
+            sagesemseg train - \
+            $dataset_object_name
     done
 }
