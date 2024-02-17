@@ -15,7 +15,7 @@ function roofAI_conda() {
         local options=$2
         local do_recreate=$(abcli_option_int "$options" recreate 1)
         local do_validate=$(abcli_option_int "$options" validate 1)
-        local target=$(abcli_option_choice "$options" sagemaker,semseg sagemaker)
+        local target=$(abcli_option_choice "$options" sagemaker,semseg semseg)
 
         local environment_name=roofAI-$target
 
@@ -32,7 +32,8 @@ function roofAI_conda() {
         pip3 install pymysql==0.10.1
 
         if [[ "$target" == sagemaker ]]; then
-            pip3 install 'sagemaker>=2,<3'
+            [[ "$abcli_is_sagemaker" == false ]] &&
+                pip3 install 'sagemaker>=2,<3'
         else
             pip3 install -U albumentations[imgaug]
             pip3 install timm
