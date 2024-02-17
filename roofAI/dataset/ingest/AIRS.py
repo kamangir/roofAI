@@ -53,7 +53,6 @@ def ingest_AIRS(
         ),
     ).create(log=log)
 
-    subset_count: Dict[str:int] = {}
     for subset in tqdm(counts.keys()):
         record_id_list = []
         for matrix_kind in [MatrixKind.MASK, MatrixKind.IMAGE]:  # order is critical.
@@ -84,8 +83,6 @@ def ingest_AIRS(
 
                 record_id_list = list(set(record_id_list + slice_record_id_list))
 
-                subset_count[subset] = subset_count.get(subset, 0) + slice_count
-
                 if chip_count <= 0:
                     break
 
@@ -97,7 +94,6 @@ def ingest_AIRS(
             "kind": "CamVid" if target == DatasetTarget.TORCH else "SageMaker",
             "source": "AIRS",
             "ingested-by": f"{NAME}-{VERSION}",
-            "counts": counts,
             # SageMaker
             "bucket": "kamangir",
             "channel": {
@@ -107,7 +103,7 @@ def ingest_AIRS(
                 "validation": f"s3://kamangir/bolt/{ingest_object_name}/validation",
                 "validation_annotation": f"s3://kamangir/bolt/{ingest_object_name}/validation_annotation",
             },
-            "num": subset_count,
+            "num": counts,
             "prefix": f"bolt/{ingest_object_name}",
         },
         log=True,
