@@ -65,8 +65,8 @@ function roofAI() {
 
         abcli_init roofAI "${@:2}"
 
-        local target=$(abcli_option_choice "$options" sagemaker,semseg semseg)
-        conda activate roofAI-$target
+        local environment_name=$(roofAI_conda environment_name $options)
+        conda activate $environment_name
         return
     fi
 
