@@ -111,3 +111,5 @@ for `subset` in `[train, validation]`,
 - `{subset}_annotation` contains ... indexed `.png` files ... `[0, 1 ... c-1, 255]` for ... `c` class[es] ... `255` ... 'ignore' ... any mode that is a [recognized standard](https://pillow.readthedocs.io/en/3.0.x/handbook/concepts.html#concept-modes) [and] ... read as integers ...
 
 image width = 500, and height = 375, while height seems to be flexible.
+
+![image](https://github.com/kamangir/assets/blob/main/roofAI/christchurch_1011-00000-00000.png?raw=true)
