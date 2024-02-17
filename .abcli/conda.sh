@@ -26,13 +26,13 @@ function roofAI_conda() {
         abcli_conda create_env name=$environment_name
 
         pip3 install pymysql==0.10.1
+        pip3 install 'sagemaker>=2,<3'
         pip3 install -U albumentations[imgaug]
         pip3 install timm
         pip3 install kaggle
         pip3 install pretrainedmodels
         pip3 install efficientnet_pytorch
         pip3 install segmentation_models_pytorch
-        pip3 install sagemaker
 
         abcli_plugins install notebooks_and_scripts
 
