@@ -13,7 +13,8 @@ function roofAI_test() {
 
     local source
     for source in AIRS CamVid; do
-        conda activate $(roofAI_conda environment_name semseg)
+        abcli_eval dryrun=$do_dryrun \
+            conda activate $(roofAI_conda environment_name semseg)
 
         abcli_log "📜 ingesting $source..."
 
@@ -77,7 +78,8 @@ function roofAI_test() {
 
         local model_object_name=roofAI_sagemaker_semseg_${source}_$(abcli_string_timestamp)
 
-        conda activate $(roofAI_conda environment_name sagemaker)
+        abcli_eval dryrun=$do_dryrun \
+            conda activate $(roofAI_conda environment_name sagemaker)
 
         abcli_eval dryrun=$do_dryrun \
             sagesemseg train - \
