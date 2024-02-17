@@ -73,8 +73,11 @@ function roofAI_test() {
 
         abcli_log "📜 training $source on SageMaker ..."
 
+        local model_object_name=roofAI_sagemaker_semseg_${source}_$(abcli_string_timestamp)
+
         abcli_eval dryrun=$do_dryrun \
             sagesemseg train - \
-            $dataset_object_name
+            $dataset_object_name \
+            $model_object_name
     done
 }
