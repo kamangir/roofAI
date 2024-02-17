@@ -17,17 +17,24 @@ function roofAI_conda() {
         local do_validate=$(abcli_option_int "$options" validate 1)
         local target=$(abcli_option_choice "$options" sagemaker,semseg semseg)
 
-        local environment_name=roofAI-$target
+        local environment_name
+        if [[ "$target" == sagemaker ]] && [[ "$abcli_is_sagemaker" == true ]]; then
+            environment_name=base
 
-        abcli_log "creating conda environment: $environment_name"
+            abcli_log "using: $environment_name"
+        else
+            environment_name=roofAI-$target
 
-        if [[ "$do_recreate" == 0 ]] && [[ $(abcli_conda exists $environment_name) == 1 ]]; then
-            abcli_eval - conda activate $environment_name
-            return
+            if [[ "$do_recreate" == 0 ]] && [[ $(abcli_conda exists $environment_name) == 1 ]]; then
+                abcli_eval - conda activate $environment_name
+                return
+            fi
+
+            abcli_log "creating: $environment_name"
+
+            abcli_conda create_env \
+                name=$environment_name,repo=roofAI
         fi
-
-        abcli_conda create_env \
-            name=$environment_name,repo=roofAI
 
         pip3 install pymysql==0.10.1
 
