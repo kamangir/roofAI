@@ -76,7 +76,7 @@ function roofAI_test() {
 
         abcli_log "📜 training $source on SageMaker ..."
 
-        local model_object_name=roofAI_sagemaker_semseg_${source}_$(abcli_string_timestamp)
+        local model_object_name=roofAI-sagemaker-semseg-${source}-$(abcli_string_timestamp)
 
         abcli_eval dryrun=$do_dryrun \
             conda activate $(roofAI_conda environment_name sagemaker)
