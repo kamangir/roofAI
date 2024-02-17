@@ -49,6 +49,7 @@ function roofAI_conda() {
             pip3 install pretrainedmodels
             pip3 install efficientnet_pytorch
             pip3 install segmentation_models_pytorch
+            pip3 install shapely
         fi
 
         abcli_plugins install notebooks_and_scripts
