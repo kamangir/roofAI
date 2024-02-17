@@ -34,6 +34,8 @@ function roofAI_conda() {
         pip3 install segmentation_models_pytorch
         pip3 install sagemaker
 
+        abcli_plugins install notebooks_and_scripts
+
         [[ "$do_validate" == 1 ]] && roofAI_conda validate
 
         return
