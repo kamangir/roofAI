@@ -36,6 +36,7 @@ function roofAI_conda() {
 
         pip3 install pymysql==0.10.1
         pip3 install matplotlib
+        pip3 install boto3
 
         if [[ "$target" == sagemaker ]]; then
             [[ "$abcli_is_sagemaker" == false ]] &&
