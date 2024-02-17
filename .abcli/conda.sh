@@ -69,8 +69,12 @@ function roofAI_conda() {
 
     if [ "$task" == validate ]; then
         abcli_eval - aws --version
-        python3 -c "import torch; print(f'pytorch-{torch.__version__}')"
-        python3 -c "import sagemaker; print(f'sagemaker-{sagemaker.__version__}')"
+
+        if [[ "$CONDA_DEFAULT_ENV" == "roofAI-semseg" ]]; then
+            python3 -c "import torch; print(f'pytorch-{torch.__version__}')"
+        else
+            python3 -c "import sagemaker; print(f'sagemaker-{sagemaker.__version__}')"
+        fi
         return
     fi
 
