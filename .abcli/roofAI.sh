@@ -61,8 +61,12 @@ function roofAI() {
     fi
 
     if [ "$task" == "init" ]; then
+        local options=$2
+
         abcli_init roofAI "${@:2}"
-        conda activate roofAI
+
+        local target=$(abcli_option_choice "$options" sagemaker,semseg sagemaker)
+        conda activate roofAI-$target
         return
     fi
 

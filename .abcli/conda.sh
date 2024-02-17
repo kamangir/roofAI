@@ -4,7 +4,7 @@ function roofAI_conda() {
     local task=$(abcli_unpack_keyword $1 help)
 
     if [ "$task" == "help" ]; then
-        abcli_show_usage "roofAI conda create_env [validate,~recreate]" \
+        abcli_show_usage "roofAI conda create_env [~validate,~recreate,sagemaker|semseg]" \
             "create conda environment."
         abcli_show_usage "roofAI conda validate" \
             "validate conda environment."
@@ -14,9 +14,12 @@ function roofAI_conda() {
     if [ "$task" == "create_env" ]; then
         local options=$2
         local do_recreate=$(abcli_option_int "$options" recreate 1)
-        local do_validate=$(abcli_option_int "$options" validate 0)
+        local do_validate=$(abcli_option_int "$options" validate 1)
+        local target=$(abcli_option_choice "$options" sagemaker,semseg sagemaker)
 
-        local environment_name=roofAI
+        local environment_name=roofAI-$target
+
+        abcli_log "creating conda environment: $environment_name"
 
         if [[ "$do_recreate" == 0 ]] && [[ $(abcli_conda exists $environment_name) == 1 ]]; then
             abcli_eval - conda activate $environment_name
@@ -26,13 +29,17 @@ function roofAI_conda() {
         abcli_conda create_env name=$environment_name
 
         pip3 install pymysql==0.10.1
-        pip3 install 'sagemaker>=2,<3'
-        pip3 install -U albumentations[imgaug]
-        pip3 install timm
-        pip3 install kaggle
-        pip3 install pretrainedmodels
-        pip3 install efficientnet_pytorch
-        pip3 install segmentation_models_pytorch
+
+        if [[ "$target" == sagemaker ]]; then
+            pip3 install 'sagemaker>=2,<3'
+        else
+            pip3 install -U albumentations[imgaug]
+            pip3 install timm
+            pip3 install kaggle
+            pip3 install pretrainedmodels
+            pip3 install efficientnet_pytorch
+            pip3 install segmentation_models_pytorch
+        fi
 
         abcli_plugins install notebooks_and_scripts
 
@@ -44,6 +51,7 @@ function roofAI_conda() {
     if [ "$task" == validate ]; then
         abcli_eval - aws --version
         python3 -c "import torch; print(f'pytorch-{torch.__version__}')"
+        python3 -c "import sagemaker; print(f'sagemaker-{sagemaker.__version__}')"
         return
     fi
 
