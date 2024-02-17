@@ -22,6 +22,7 @@ function roofAI_conda() {
 
         if [[ "$environment_name" == base ]]; then
             abcli_log "using: $environment_name"
+            abcli_eval - conda activate $environment_name
         else
             if [[ "$do_recreate" == 0 ]] && [[ $(abcli_conda exists $environment_name) == 1 ]]; then
                 abcli_eval - conda activate $environment_name
