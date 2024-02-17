@@ -65,8 +65,9 @@ function roofAI() {
 
         abcli_init roofAI "${@:2}"
 
-        local environment_name=$(roofAI_conda environment_name $options)
-        conda activate $environment_name
+        abcli_eval - \
+            conda activate \
+            $(roofAI_conda environment_name $options)
         return
     fi
 
