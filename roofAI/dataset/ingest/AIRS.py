@@ -168,7 +168,18 @@ def slice_matrix(
                 chip = ((chip == 0) * 255 + (chip != 0) * (chip - 1)).astype(chip.dtype)
 
             assert file.save_image(
-                os.path.join(output_path, f"{record_id}.png"),
+                os.path.join(
+                    output_path,
+                    "{}.{}".format(
+                        record_id,
+                        (
+                            "jpg"
+                            if (kind == MatrixKind.IMAGE)
+                            and (target == DatasetTarget.SAGEMAKER)
+                            else "png"
+                        ),
+                    ),
+                ),
                 chip,
                 log=log,
             )

@@ -13,20 +13,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class DatasetKind(Enum):
-    AIRS = auto()
-    CAMVID = auto()
-    SAGEMAKER = auto()
-
-    @property
-    def file_extension(self):
-        return "tif" if self == DatasetKind.AIRS else "png"
-
-    @property
-    def prefix_path(self):
-        return "SegNet-Tutorial/CamVid/" if self == DatasetKind.CAMVID else ""
-
-
 class DatasetTarget(Enum):
     TORCH = auto()
     SAGEMAKER = auto()
@@ -45,7 +31,7 @@ class MatrixKind(Enum):
         return "{}/{}.{}".format(
             self.subset_path(dataset_kind, subset),
             record_id,
-            dataset_kind.file_extension,
+            dataset_kind.file_extension(self),
         )
 
     def subset_path(
@@ -72,6 +58,30 @@ class MatrixKind(Enum):
                 )
             )
         )
+
+
+class DatasetKind(Enum):
+    AIRS = auto()
+    CAMVID = auto()
+    SAGEMAKER = auto()
+
+    def file_extension(self, kind: MatrixKind) -> str:
+        if self == DatasetKind.AIRS:
+            return "tif"
+
+        if self == DatasetKind.CAMVID:
+            return "png"
+
+        assert self == DatasetKind.SAGEMAKER
+        if kind == MatrixKind.MASK:
+            return "png"
+
+        assert kind == MatrixKind.IMAGE
+        return "jpg"
+
+    @property
+    def prefix_path(self) -> str:
+        return "SegNet-Tutorial/CamVid/" if self == DatasetKind.CAMVID else ""
 
 
 class RoofAIDataset(object):
@@ -139,7 +149,7 @@ class RoofAIDataset(object):
                 for filename in file.list_of(
                     os.path.join(
                         self.subset_path(subset, matrix_kind),
-                        f"*.{self.kind.file_extension}",
+                        f"*.{self.kind.file_extension(matrix_kind)}",
                     )
                 )
             ]
