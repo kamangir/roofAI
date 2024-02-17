@@ -1,5 +1,5 @@
 import argparse
-from notebooks_and_scripts import VERSION
+from roofAI import VERSION
 from roofAI.semseg.sagemaker.dataset import upload as upload_dataset
 from roofAI.semseg.sagemaker.model import SageSemSegModel
 from abcli import logging
