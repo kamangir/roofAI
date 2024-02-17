@@ -53,6 +53,7 @@ def ingest_AIRS(
         ),
     ).create(log=log)
 
+    subset_count: Dict[str:int] = {}
     for subset in tqdm(counts.keys()):
         record_id_list = []
         for matrix_kind in [MatrixKind.MASK, MatrixKind.IMAGE]:  # order is critical.
@@ -78,11 +79,17 @@ def ingest_AIRS(
                     prefix=record_id,
                     log=verbose,
                 )
+
                 chip_count -= slice_count
+
                 record_id_list = list(set(record_id_list + slice_record_id_list))
+
+                subset_count[subset] = subset_count.get(subset, 0) + slice_count
 
                 if chip_count <= 0:
                     break
+
+    ingest_object_name = path.name(ingest_path)
     file.save_yaml(
         os.path.join(ingest_path, "metadata.yaml"),
         {
@@ -91,6 +98,17 @@ def ingest_AIRS(
             "source": "AIRS",
             "ingested-by": f"{NAME}-{VERSION}",
             "counts": counts,
+            # SageMaker
+            "bucket": "kamangir",
+            "channel": {
+                "label_map": f"s3://kamangir/bolt/{ingest_object_name}/label_map/train_label_map.json",
+                "train": f"s3://kamangir/bolt/{ingest_object_name}/train",
+                "train_annotation": f"s3://kamangir/bolt/{ingest_object_name}/train_annotation",
+                "validation": f"s3://kamangir/bolt/{ingest_object_name}/validation",
+                "validation_annotation": f"s3://kamangir/bolt/{ingest_object_name}/validation_annotation",
+            },
+            "num": subset_count,
+            "prefix": f"bolt/{ingest_object_name}",
         },
         log=True,
     )
