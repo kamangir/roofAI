@@ -18,7 +18,7 @@ function roofAI_test() {
 
         abcli_log "📜 ingesting $source..."
 
-        local dataset_object_name=roofAI_dataset_${source}_$(abcli_string_timestamp)
+        local dataset_object_name=roofAI-dataset-${source}-$(abcli_string_timestamp)
 
         abcli_eval dryrun=$do_dryrun \
             roofAI dataset ingest \
@@ -40,7 +40,7 @@ function roofAI_test() {
         local classes=car
         [[ "$source" == AIRS ]] && local classes=roof
 
-        local model_object_name=roofAI_semseg_model_${source}_$(abcli_string_timestamp)
+        local model_object_name=roofAI-semseg-model-${source}-$(abcli_string_timestamp)
 
         abcli_eval dryrun=$do_dryrun \
             roofAI semseg train \
@@ -51,7 +51,7 @@ function roofAI_test() {
 
         abcli_log "📜 predicting on $source..."
 
-        local prediction_object_name=roofAI_semseg_${source}_prediction_$(abcli_string_timestamp)
+        local prediction_object_name=roofAI-semseg-prediction-${source}-$(abcli_string_timestamp)
 
         abcli_eval dryrun=$do_dryrun \
             roofAI semseg predict \
@@ -64,7 +64,7 @@ function roofAI_test() {
 
         abcli_log "📜 ingesting $source for training on SageMaker ..."
 
-        local dataset_object_name=roofAI_dataset_${source}_for_sagemaker_$(abcli_string_timestamp)
+        local dataset_object_name=roofAI-sagemaker-dataset-${source}-$(abcli_string_timestamp)
 
         abcli_eval dryrun=$do_dryrun \
             roofAI dataset ingest \
