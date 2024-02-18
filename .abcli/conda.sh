@@ -42,6 +42,8 @@ function roofAI_conda() {
         if [[ "$target" == sagemaker ]]; then
             [[ "$abcli_is_sagemaker" == false ]] &&
                 pip3 install 'sagemaker>=2,<3'
+
+            abcli_plugins install roofAI
         else
             pip3 install -U albumentations[imgaug]
             pip3 install timm
