@@ -4,6 +4,8 @@ function roofAI_conda() {
     local task=$(abcli_unpack_keyword $1 help)
 
     if [ "$task" == "help" ]; then
+        abcli_show_usage "roofAI conda activate [sagemaker|semseg]" \
+            "activate conda environment."
         abcli_show_usage "roofAI conda create_env [~validate,~recreate,sagemaker|semseg]" \
             "create conda environment."
         abcli_show_usage "roofAI conda environment_name [sagemaker|semseg]" \
@@ -13,8 +15,17 @@ function roofAI_conda() {
         return
     fi
 
+    local options=$2
+    local do_dryrun=$(abcli_option_int "$options" dryrun 0)
+
+    if [ "$task" == "activate" ]; then
+        abcli_eval dryrun=$do_dryrun \
+            conda activate \
+            $(roofAI_conda environment_name $options)
+        return
+    fi
+
     if [ "$task" == "create_env" ]; then
-        local options=$2
         local do_recreate=$(abcli_option_int "$options" recreate 1)
         local do_validate=$(abcli_option_int "$options" validate 1)
         local target=$(abcli_option_choice "$options" sagemaker,semseg semseg)
@@ -22,10 +33,12 @@ function roofAI_conda() {
 
         if [[ "$environment_name" == base ]]; then
             abcli_log "using: $environment_name"
-            abcli_eval - conda activate $environment_name
+            abcli_eval dryrun=$do_dryrun \
+                conda activate $environment_name
         else
             if [[ "$do_recreate" == 0 ]] && [[ $(abcli_conda exists $environment_name) == 1 ]]; then
-                abcli_eval - conda activate $environment_name
+                abcli_eval dryrun=$do_dryrun \
+                    conda activate $environment_name
                 return
             fi
 
@@ -62,7 +75,6 @@ function roofAI_conda() {
     fi
 
     if [ "$task" == "environment_name" ]; then
-        local options=$2
         local target=$(abcli_option_choice "$options" sagemaker,semseg sagemaker)
 
         if [[ "$target" == sagemaker ]] && [[ "$abcli_is_sagemaker" == true ]]; then
@@ -74,7 +86,8 @@ function roofAI_conda() {
     fi
 
     if [ "$task" == validate ]; then
-        abcli_eval - aws --version
+        abcli_eval dryrun=$do_dryrun \
+            aws --version
 
         if [[ "$CONDA_DEFAULT_ENV" == "roofAI-semseg" ]]; then
             python3 -c "import torch; print(f'pytorch-{torch.__version__}')"
