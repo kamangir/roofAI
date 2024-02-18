@@ -93,8 +93,8 @@ function roofAI_test() {
             abcli_eval dryrun=$do_dryrun \
                 sagesemseg train - \
                 $dataset_object_name \
-                $model_object_name
-
+                $model_object_name \
+                --instance_type ml.g4dn.2xlarge
         fi
 
     done
