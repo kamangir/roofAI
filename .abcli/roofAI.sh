@@ -14,6 +14,7 @@ function roofAI() {
         roofAI_QGIS "$@"
         roofAI_semseg "$@"
         roofAI dataset "$@"
+        roofAI pylint "$@"
         roofAI pytest "~download,$@"
         roofAI_test "$@"
 
@@ -68,6 +69,12 @@ function roofAI() {
         abcli_eval - \
             conda activate \
             $(roofAI_conda environment_name $options)
+        return
+    fi
+
+    if [ "$task" == "pylint" ]; then
+        abcli_pylint plugin=roofAI,$2 \
+            "${@:3}"
         return
     fi
 
