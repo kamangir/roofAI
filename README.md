@@ -2,7 +2,7 @@
 
 everything AI about roofs. 🏛️
 
-🔷 [datasets](./roofAI/dataset) 🔷 [notebooks](./notebooks/) 🔷 [semseg](./roofAI/semseg) 🔷 [inference](./roofAI/inference) 🔷 [QGIS](./roofAI/QGIS/console/) 🔷
+🔷 [datasets](./roofAI/dataset) 🔷 [notebooks](./notebooks/) 🔷 [semseg](./roofAI/semseg) 🔷 [inference](./roofAI/inference) 🔷 [QGIS](./roofAI/QGIS/console/) 🔷 [sagemaker](./roofAI/semseg/sagemaker/) 🔷
 
 ```bash
  > roof help
