@@ -122,7 +122,7 @@ class SageSemSegModel(object):
         num_classes = (
             21
             if "classes" not in self.dataset_metadata
-            else len(self.dataset_metadata["classes"]) - 1
+            else len(self.dataset_metadata["classes"])
         )
         logger.info(f"num_classes: {num_classes}")
 

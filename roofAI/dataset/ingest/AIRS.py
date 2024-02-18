@@ -177,9 +177,6 @@ def slice_matrix(
                 continue
             record_id_list_output += [record_id]
 
-            if (kind == MatrixKind.MASK) and (target == DatasetTarget.SAGEMAKER):
-                chip = ((chip == 0) * 255 + (chip != 0) * (chip - 1)).astype(chip.dtype)
-
             assert file.save_image(
                 os.path.join(
                     output_path,
