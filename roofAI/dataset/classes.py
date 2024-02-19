@@ -108,7 +108,7 @@ class DatasetKind(Enum):
         return "SegNet-Tutorial/CamVid/" if self == DatasetKind.CAMVID else ""
 
 
-class RoofAIDataset(object):
+class RoofAIDataset:
     SUBSETS = "test,train,val".split(",")
 
     def __init__(self, dataset_path, kind=None):
