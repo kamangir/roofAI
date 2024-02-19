@@ -8,10 +8,10 @@ def input_fn(request_body, request_content_type):
     """An input_fn that loads a pickled tensor"""
     if request_content_type == "application/python-pickle":
         return torch.load(BytesIO(request_body))
-    else:
-        # Handle other content-types here or raise an Exception
-        # if the content type is not supported.
-        pass
+
+    # Handle other content-types here or raise an Exception
+    # if the content type is not supported.
+    raise NameError(f"{request_content_type} content type not supported.")
 
 
 def predict_fn(input_data, model):
@@ -23,4 +23,5 @@ def predict_fn(input_data, model):
 
 
 def output_fn(prediction, content_type, context):
-    return  # a byte array of data serialized to content_type.
+    print(f"prediction={prediction}, content_type={content_type}, context={context}")
+    # return a byte array of data serialized to content_type.

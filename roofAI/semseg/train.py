@@ -32,7 +32,7 @@ import logging
 logger = logging.getLogger()
 
 
-class SemSegModelTrainer(object):
+class SemSegModelTrainer:
     def __init__(
         self,
         dataset_path: str,
@@ -251,7 +251,7 @@ class SemSegModelTrainer(object):
             },
         )
 
-        fig = plt.figure(figsize=(10, 5))
+        plt.figure(figsize=(10, 5))
         plt.subplot(1, 2, 1)
         for subset in "train,valid".split(","):
             plt.plot(
@@ -337,7 +337,7 @@ class SemSegModelTrainer(object):
             device=device,
         )
 
-        logs = test_epoch.run(test_dataloader)
+        test_epoch.run(test_dataloader)  # logs
 
         # TODO: semseg_model.predict(...)
 

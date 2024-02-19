@@ -24,7 +24,7 @@ import logging
 logger = logging.getLogger()
 
 
-class SemSegModel(object):
+class SemSegModel:
     def __init__(
         self,
         model_filename: str,

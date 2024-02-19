@@ -15,7 +15,7 @@ class InferenceObject(Enum):
     ENDPOINT = auto()
 
 
-class InferenceClient(object):
+class InferenceClient:
     def __init__(
         self,
         image_name: str = "",

@@ -43,7 +43,7 @@ class ImageDeserializer(sagemaker.deserializers.BaseDeserializer):
             stream.close()
 
 
-class SageSemSegModel(object):
+class SageSemSegModel:
     def __init__(self):
         self.dataset_object_name = ""
         self.dataset_metadata = {}
