@@ -73,8 +73,15 @@ function roofAI() {
     fi
 
     if [ "$task" == "pylint" ]; then
-        abcli_pylint plugin=roofAI,$2 \
-            "${@:3}"
+        pip3 install pylint
+
+        pushd $abcli_path_git/roofAI >/dev/null
+        pylint \
+            -d $abcli_pylint_ignored \
+            $(git ls-files '*.py' | grep -v roofAI/QGIS) \
+            "${@:2}"
+        popd >/dev/null
+
         return
     fi
 
