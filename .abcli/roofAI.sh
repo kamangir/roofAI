@@ -73,7 +73,13 @@ function roofAI() {
     fi
 
     if [ "$task" == "pylint" ]; then
-        pip3 install pylint
+        if [[ "$2" == "help" ]]; then
+            abcli_show_usage "roofAI pylint [<args>]" \
+                "pylint roofAI."
+            return
+        fi
+
+        abcli_pip install pylint
 
         pushd $abcli_path_git/roofAI >/dev/null
         pylint \
