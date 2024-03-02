@@ -131,11 +131,11 @@ function roofAI_inference() {
 
     if [ "$task" == "pull" ]; then
         aws ecr get-login-password \
-            --region $(abcli_aws_region) |
+            --region $abcli_aws_region |
             docker login \
                 --username AWS \
                 --password-stdin \
-                763104351884.dkr.ecr.$(abcli_aws_region).amazonaws.com
+                763104351884.dkr.ecr.$abcli_aws_region.amazonaws.com
         [[ $? -ne 0 ]] && return 1
 
         local image_name=$(python3 -m roofAI.inference.image get --what name)
