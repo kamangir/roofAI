@@ -1,5 +1,5 @@
 import argparse
-from abcli.plugins import aws
+from abcli import env
 from roofAI import VERSION
 from roofAI.inference import NAME
 from abcli import logging
@@ -14,7 +14,7 @@ repository_name = "pytorch-inference"
 # image_tag = "2.1.0-gpu-py310-cu118-ubuntu20.04-ec2"
 image_tag = "2.1.0-cpu-py310-ubuntu20.04-ec2"
 image_name = "763104351884.dkr.ecr.{}.amazonaws.com/{}:{}".format(
-    aws.get_from_json("region", ""),
+    env.abcli_aws_region,
     repository_name,
     image_tag,
 )
@@ -42,11 +42,11 @@ if __name__ == "__main__":
         print(
             image_name
             if args.what == "name"
-            else repository_name
-            if args.what == "repo"
-            else image_tag
-            if args.what == "tag"
-            else f"unknown-{args.what}"
+            else (
+                repository_name
+                if args.what == "repo"
+                else image_tag if args.what == "tag" else f"unknown-{args.what}"
+            )
         )
     else:
         logger.error(f"-{NAME}: {args.task}: command not found.")

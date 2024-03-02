@@ -3,8 +3,7 @@ import glob
 import json
 from tqdm import tqdm
 import sagemaker
-import shutil
-from abcli import file
+from abcli import env, file
 from abcli.modules import objects
 from abcli import logging
 import logging
@@ -167,13 +166,9 @@ def upload(
 
     sess = sagemaker.Session()
 
-    abcli_s3_object_prefix = os.getenv(
-        "$abcli_s3_object_prefix",
-        "s3://kamangir/bolt",
-    )
-    bucket = abcli_s3_object_prefix.split("s3://", 1)[1].split("/")[0]
+    bucket = env.abcli_s3_object_prefix.split("s3://", 1)[1].split("/")[0]
     prefix = "{}/{}".format(
-        abcli_s3_object_prefix.split("s3://", 1)[1].split("/", 1)[1],
+        env.abcli_s3_object_prefix.split("s3://", 1)[1].split("/", 1)[1],
         object_name,
     )
 
