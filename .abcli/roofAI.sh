@@ -15,7 +15,7 @@ function roofAI() {
         roofAI_semseg "$@"
         roofAI dataset "$@"
         roofAI pylint "$@"
-        roofAI pytest "~download,$@"
+        roofAI pytest "$@"
         roofAI_test "$@"
 
         if [ "$(abcli_keyword_is $2 verbose)" == true ]; then
@@ -93,9 +93,8 @@ function roofAI() {
 
     if [ "$task" == "pytest" ]; then
         local options=$2
-        local do_download=$(abcli_option_int "$options" download 1)
 
-        if [[ "$do_download" == 1 ]]; then
+        if [ $(abcli_option_int "$options" help 0) == 0 ]; then
             local object_ref
             for object_ref in \
                 roofAI_ingest_CamVid_v1 \
