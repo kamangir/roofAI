@@ -14,9 +14,10 @@ function roofAI() {
         roofAI_QGIS "$@"
         roofAI_semseg "$@"
         roofAI dataset "$@"
+
         roofAI pylint "$@"
         roofAI pytest "$@"
-        roofAI_test "$@"
+        roofAI test "$@"
 
         if [ "$(abcli_keyword_is $2 verbose)" == true ]; then
             python3 -m roofAI --help
@@ -73,21 +74,8 @@ function roofAI() {
     fi
 
     if [ "$task" == "pylint" ]; then
-        if [[ "$2" == "help" ]]; then
-            abcli_show_usage "roofAI pylint [<args>]" \
-                "pylint roofAI."
-            return
-        fi
-
-        abcli_pip install pylint
-
-        pushd $abcli_path_git/roofAI >/dev/null
-        pylint \
-            -d $abcli_pylint_ignored \
-            $(git ls-files '*.py' | grep -v roofAI/QGIS) \
-            "${@:2}"
-        popd >/dev/null
-
+        abcli_${task} ignore=roofAI/QGIS,plugin=roofAI,$2 \
+            "${@:3}"
         return
     fi
 
@@ -104,8 +92,14 @@ function roofAI() {
             done
         fi
 
-        abcli_pytest plugin=roofAI,$options \
+        abcli_${task} plugin=roofAI,$options \
             --ignore=$abcli_path_git/roofAI/notebooks/data/Scripts/ \
+            "${@:3}"
+        return
+    fi
+
+    if [ "$task" == "test" ]; then
+        abcli_${task} plugin=roofAI,$2 \
             "${@:3}"
         return
     fi
@@ -119,3 +113,6 @@ function roofAI() {
         "$task" \
         "${@:2}"
 }
+
+abcli_source_path \
+    $abcli_path_git/roofAI/.abcli/tests
