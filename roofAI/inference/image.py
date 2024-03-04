@@ -2,12 +2,10 @@ import argparse
 from abcli import env
 from roofAI import VERSION
 from roofAI.inference import NAME
-from abcli import logging
-import logging
-
-logger = logging.getLogger(__name__)
+from roofAI.logger import logger
 
 NAME = f"{NAME}.image"
+
 
 # https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 repository_name = "pytorch-inference"

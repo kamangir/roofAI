@@ -15,9 +15,10 @@ function roofAI() {
         roofAI_semseg "$@"
         roofAI dataset "$@"
 
-        roofAI pylint "$@"
-        roofAI pytest "$@"
-        roofAI test "$@"
+        local task
+        for task in pylint pytest test; do
+            roofAI $task "$@"
+        done
 
         if [ "$(abcli_keyword_is $2 verbose)" == true ]; then
             python3 -m roofAI --help

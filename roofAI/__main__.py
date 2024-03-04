@@ -1,9 +1,6 @@
 import argparse
 from roofAI import NAME, VERSION, DESCRIPTION
-from abcli import logging
-import logging
-
-logger = logging.getLogger(__name__)
+from roofAI.logger import logger
 
 parser = argparse.ArgumentParser(
     f"python3 -m {NAME}",

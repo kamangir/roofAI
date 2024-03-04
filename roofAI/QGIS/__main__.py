@@ -2,10 +2,8 @@ import argparse
 from roofAI.QGIS import NAME
 from roofAI import VERSION
 from roofAI.QGIS.seed import generate_seed
-from abcli import logging
-import logging
+from roofAI.logger import logger
 
-logger = logging.getLogger(__name__)
 
 parser = argparse.ArgumentParser(
     f"python3 -m {NAME}",

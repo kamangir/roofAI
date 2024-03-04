@@ -4,24 +4,21 @@ Copied with modification from ../../notebooks/semseg.ipynb
 
 import os
 import time
-from abcli import file, path, string
 import numpy as np
 import torch
 import cv2
 from tqdm import tqdm
 from scipy import ndimage
-from roofAI.semseg.augmentation import get_validation_augmentation, get_preprocessing
-from roofAI.semseg.dataloader import Dataset
+from abcli import file, path, string
 import segmentation_models_pytorch as smp
 from shapely.geometry import Polygon
 from roofAI.dataset import RoofAIDataset
+from roofAI.semseg.augmentation import get_validation_augmentation, get_preprocessing
+from roofAI.semseg.dataloader import Dataset
 from roofAI.semseg.utils import visualize
 from abcli.plugins.graphics.gif import generate_animated_gif
 from roofAI.semseg import Profile
-import abcli.logging
-import logging
-
-logger = logging.getLogger()
+from roofAI.logger import logger
 
 
 class SemSegModel:

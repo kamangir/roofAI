@@ -3,10 +3,7 @@ from enum import Enum, auto
 from typing import List, Any, Tuple
 from sagemaker import image_uris
 import sagemaker
-from abcli import logging
-import logging
-
-logger = logging.getLogger(__name__)
+from roofAI.logger import logger
 
 
 class InferenceObject(Enum):

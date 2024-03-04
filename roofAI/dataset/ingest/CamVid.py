@@ -1,10 +1,7 @@
 import os
 from roofAI import NAME, VERSION
 from abcli import file
-from abcli import logging
-import logging
-
-logger = logging.getLogger(__name__)
+from roofAI.logger import logger
 
 CLASSES = [
     "sky",

@@ -1,5 +1,10 @@
 import os
+from typing import List, Tuple
+import numpy as np
 from enum import Enum, auto
+from abcli import path
+from abcli import string
+from abcli import file
 from roofAI.dataset.ingest.CamVid import CLASSES as CAMVID_CLASSES
 from roofAI.semseg import (
     chip_width as semseg_chip_width,
@@ -9,16 +14,8 @@ from roofAI.semseg.sagemaker import (
     chip_width as sagesemseg_chip_width,
     chip_height as sagesemseg_chip_height,
 )
-from typing import List, Tuple
-import numpy as np
-from abcli import path
-from abcli import string
-from abcli import file
 from roofAI.semseg.utils import visualize
-from abcli import logging
-import logging
-
-logger = logging.getLogger(__name__)
+from roofAI.logger import logger
 
 
 class DatasetTarget(Enum):

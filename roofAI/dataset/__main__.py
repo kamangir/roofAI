@@ -1,17 +1,13 @@
 import argparse
+from tqdm import trange
+from roofAI import VERSION
+from roofAI.dataset import NAME
+from roofAI.dataset import RoofAIDataset
 from roofAI.dataset.classes import DatasetTarget
 from roofAI.dataset.ingest.AIRS import ingest_AIRS
 from roofAI.dataset.ingest.CamVid import ingest_CamVid
-from tqdm import trange
-from roofAI.dataset import RoofAIDataset
-from abcli.modules import objects
-from roofAI import NAME, VERSION
-from abcli import logging
-import logging
+from roofAI.logger import logger
 
-logger = logging.getLogger(__name__)
-
-NAME = f"{NAME}.dataset"
 
 parser = argparse.ArgumentParser(
     f"python3 -m {NAME}",

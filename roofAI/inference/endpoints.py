@@ -4,10 +4,7 @@ from abcli import path, file
 from tqdm import tqdm
 from roofAI.semseg import Profile
 from roofAI.dataset import RoofAIDataset
-from abcli import logging
-import logging
-
-logger = logging.getLogger(__name__)
+from roofAI.logger import logger
 
 
 def invoke_endpoint(

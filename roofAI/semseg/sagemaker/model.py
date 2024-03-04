@@ -13,10 +13,7 @@ from abcli import path
 from abcli import file
 from abcli.plugins.storage import instance as storage
 from notebooks_and_scripts.sagemaker import role
-from abcli import logging
-import logging
-
-logger = logging.getLogger(__name__)
+from roofAI.logger import logger
 
 
 class ImageDeserializer(sagemaker.deserializers.BaseDeserializer):

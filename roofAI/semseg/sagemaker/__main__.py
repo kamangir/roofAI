@@ -1,13 +1,10 @@
 import argparse
 from roofAI import VERSION
+from roofAI.semseg.sagemaker import NAME
 from roofAI.semseg.sagemaker.dataset import upload as upload_dataset
 from roofAI.semseg.sagemaker.model import SageSemSegModel
-from abcli import logging
-import logging
+from roofAI.logger import logger
 
-logger = logging.getLogger(__name__)
-
-NAME = "roofAI.semseg.sagemaker"
 
 parser = argparse.ArgumentParser(NAME, description=f"{NAME}-{VERSION}")
 parser.add_argument(

@@ -3,7 +3,6 @@ Copied with modification from ../../notebooks/semseg.ipynb
 """
 
 import os
-import numpy as np
 import matplotlib.pyplot as plt
 import time
 from typing import List
@@ -26,10 +25,7 @@ from roofAI.dataset import RoofAIDataset
 from roofAI.semseg.model import SemSegModel
 from roofAI.semseg.utils import visualize, sign_filename
 from roofAI.semseg import Profile
-import abcli.logging
-import logging
-
-logger = logging.getLogger()
+from roofAI.logger import logger
 
 
 class SemSegModelTrainer:

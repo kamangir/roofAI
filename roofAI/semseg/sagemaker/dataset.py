@@ -5,10 +5,7 @@ from tqdm import tqdm
 import sagemaker
 from abcli import env, file
 from abcli.modules import objects
-from abcli import logging
-import logging
-
-logger = logging.getLogger(__name__)
+from roofAI.logger import logger
 
 
 # https://github.com/aws/amazon-sagemaker-examples/blob/main/introduction_to_amazon_algorithms/semantic_segmentation_pascalvoc/semantic_segmentation_pascalvoc.ipynb

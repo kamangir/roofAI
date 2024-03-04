@@ -1,19 +1,16 @@
 import os
 from tqdm import tqdm
-from typing import List, Tuple
-from abcli import file
-from roofAI.dataset import RoofAIDataset, DatasetKind, MatrixKind
-from roofAI import NAME, VERSION
-from abcli import string
+from typing import List, Tuple, Dict
 import numpy as np
-from typing import Dict
 import matplotlib.pyplot as plt
+from abcli import file
 from abcli import path
+from abcli import string
+from roofAI import VERSION
+from roofAI.dataset import NAME
+from roofAI.dataset import RoofAIDataset, DatasetKind, MatrixKind
 from roofAI.dataset.classes import DatasetTarget
-from abcli import logging
-import logging
-
-logger = logging.getLogger(__name__)
+from roofAI.logger import logger
 
 
 def ingest_AIRS(

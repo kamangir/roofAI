@@ -3,22 +3,16 @@ copied with minor modification from ../../notebooks/semseg.ipynb
 """
 
 import matplotlib.pyplot as plt
-import cv2
-import os
 import numpy as np
+from typing import List, Any
 from abcli import file
 from abcli import path
 from abcli import string
-from abcli.plugins.graphics import add_signature
-from abcli.modules.objects import signature as object_signature
 from abcli.modules.host import signature as host_signature
-from roofAI.semseg import NAME
+from abcli.plugins.graphics import add_signature
 from roofAI import VERSION
-from typing import List, Any
-import abcli.logging
-import logging
-
-logger = logging.getLogger()
+from roofAI.semseg import NAME
+from roofAI.logger import logger
 
 
 # helper function for data visualization

@@ -1,15 +1,12 @@
 import argparse
 from abcli import path
-from roofAI import NAME, VERSION
+from abcli.logger import crash_report
+from roofAI import VERSION
+from roofAI.semseg import NAME
 from roofAI.semseg.interface import predict, train
 from roofAI.semseg import Profile
-from abcli.logging import crash_report
-from abcli import logging
-import logging
+from roofAI.logger import logger
 
-logger = logging.getLogger(__name__)
-
-NAME = f"{NAME}.semseg"
 
 list_of_tasks = "predict|train"
 

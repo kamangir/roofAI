@@ -1,16 +1,13 @@
 import argparse
-from roofAI import NAME, VERSION
+from abcli.logger import crash_report
+from roofAI import VERSION
+from roofAI.inference import NAME
 from roofAI.inference.classes import InferenceClient, InferenceObject
 from roofAI.inference.image import image_name
 from roofAI.inference.endpoints import invoke_endpoint
 from roofAI.semseg import Profile
-from abcli.logging import crash_report
-from abcli import logging
-import logging
+from roofAI.logger import logger
 
-logger = logging.getLogger(__name__)
-
-NAME = f"{NAME}.inference"
 
 list_of_tasks = "create|delete|describe|invoke|list"
 parser = argparse.ArgumentParser(

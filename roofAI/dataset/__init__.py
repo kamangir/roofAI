@@ -1,1 +1,1 @@
-from roofAI.dataset.classes import *
+NAME = "roofAI.dataset"
