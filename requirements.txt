@@ -1,0 +1,12 @@
+git+https://github.com/kamangir/awesome-bash-cli.git@AI-3-vanwatch-tests-b#egg=abcli
+boto3
+geojson
+geopandas
+matplotlib
+opencv-python
+pymysql==0.10.1
+pyyaml
+pylint
+pytest
+python-dotenv[cli]
+tqdm
