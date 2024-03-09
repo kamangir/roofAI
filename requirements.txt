@@ -1,4 +1,4 @@
-git+https://github.com/kamangir/awesome-bash-cli.git@AI-3-vanwatch-tests-b#egg=abcli
+git+https://github.com/kamangir/awesome-bash-cli.git@current#egg=abcli
 boto3
 geojson
 geopandas
