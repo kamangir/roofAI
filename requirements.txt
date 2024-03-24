@@ -1,5 +1,6 @@
 git+https://github.com/kamangir/awesome-bash-cli.git@current#egg=abcli
 git+https://github.com/kamangir/notebooks-and-scripts.git@main#egg=notebooks_and_scripts
+albumentations
 boto3
 geojson
 geopandas
