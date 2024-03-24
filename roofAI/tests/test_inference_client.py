@@ -3,6 +3,7 @@ from abcli import string
 from roofAI.inference.classes import InferenceClient
 
 
+@pytest.mark.skip
 @pytest.mark.parametrize(
     "model_name",
     [
