@@ -1,4 +1,4 @@
-from abcli.logger import logging
+from abcli.logger import get_logger
 from roofAI import ICON
 
-logger = logging.getLogger(f"{ICON} ")
+logger = get_logger(ICON)
