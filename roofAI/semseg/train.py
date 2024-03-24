@@ -20,8 +20,8 @@ from roofAI.semseg.augmentation import (
     get_validation_augmentation,
     get_preprocessing,
 )
+from roofAI.dataset.classes import RoofAIDataset
 from roofAI.semseg.dataloader import Dataset
-from roofAI.dataset import RoofAIDataset
 from roofAI.semseg.model import SemSegModel
 from roofAI.semseg.utils import visualize, sign_filename
 from roofAI.semseg import Profile

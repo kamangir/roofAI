@@ -2,7 +2,7 @@ import argparse
 from tqdm import trange
 from roofAI import VERSION
 from roofAI.dataset import NAME
-from roofAI.dataset import RoofAIDataset
+from roofAI.dataset.classes import RoofAIDataset
 from roofAI.dataset.classes import DatasetTarget
 from roofAI.dataset.ingest.AIRS import ingest_AIRS
 from roofAI.dataset.ingest.CamVid import ingest_CamVid

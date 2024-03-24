@@ -8,8 +8,7 @@ from abcli import path
 from abcli import string
 from roofAI import VERSION
 from roofAI.dataset import NAME
-from roofAI.dataset import RoofAIDataset, DatasetKind, MatrixKind
-from roofAI.dataset.classes import DatasetTarget
+from roofAI.dataset.classes import RoofAIDataset, DatasetKind, MatrixKind, DatasetTarget
 from roofAI.logger import logger
 
 

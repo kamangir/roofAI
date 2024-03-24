@@ -3,7 +3,7 @@ import boto3
 from abcli import path, file
 from tqdm import tqdm
 from roofAI.semseg import Profile
-from roofAI.dataset import RoofAIDataset
+from roofAI.dataset.classes import RoofAIDataset
 from roofAI.logger import logger
 
 

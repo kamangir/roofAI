@@ -12,8 +12,8 @@ from scipy import ndimage
 from abcli import file, path, string
 import segmentation_models_pytorch as smp
 from shapely.geometry import Polygon
-from roofAI.dataset import RoofAIDataset
 from roofAI.semseg.augmentation import get_validation_augmentation, get_preprocessing
+from roofAI.dataset.classes import RoofAIDataset
 from roofAI.semseg.dataloader import Dataset
 from roofAI.semseg.utils import visualize
 from abcli.plugins.graphics.gif import generate_animated_gif

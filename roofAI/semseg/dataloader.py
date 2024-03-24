@@ -11,7 +11,7 @@ import numpy as np
 from torch.utils.data import DataLoader
 from torch.utils.data import Dataset as BaseDataset
 from abcli import path
-from roofAI.dataset import RoofAIDataset
+from roofAI.dataset.classes import RoofAIDataset
 
 
 class Dataset(BaseDataset):
