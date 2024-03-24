@@ -4,4 +4,4 @@ ICON = "🏛️"
 
 DESCRIPTION = f"{ICON} everything AI about roofs."
 
-VERSION = "3.453.1"
+VERSION = "3.454.1"
