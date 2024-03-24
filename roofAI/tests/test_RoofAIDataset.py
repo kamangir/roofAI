@@ -1,7 +1,7 @@
 import pytest
 import os
 from abcli.modules import objects
-from roofAI.dataset import RoofAIDataset, MatrixKind, DatasetKind
+from roofAI.dataset.classes import RoofAIDataset, MatrixKind, DatasetKind
 from abcli.plugins import cache
 import numpy as np
 

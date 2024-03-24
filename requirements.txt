@@ -9,4 +9,5 @@ pyyaml
 pylint
 pytest
 python-dotenv[cli]
+sagemaker>=2,<3
 tqdm
