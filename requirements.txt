@@ -11,6 +11,7 @@ pylint
 pytest
 python-dotenv[cli]
 sagemaker>=2,<3
+scipy
 segmentation-models-pytorch
 torch
 tqdm
