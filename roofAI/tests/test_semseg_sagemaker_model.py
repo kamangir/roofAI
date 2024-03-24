@@ -3,6 +3,7 @@ from roofAI.semseg.sagemaker.model import SageSemSegModel
 from abcli.modules.objects import unique_object
 
 
+@pytest.mark.skip("causes cost.")
 @pytest.mark.parametrize(
     "dataset_object_name",
     [
