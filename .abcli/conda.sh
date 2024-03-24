@@ -75,7 +75,7 @@ function roofAI_conda() {
     fi
 
     if [ "$task" == "environment_name" ]; then
-        local target=$(abcli_option_choice "$options" sagemaker,semseg sagemaker)
+        local target=$(abcli_option_choice "$options" sagemaker,semseg semseg)
 
         if [[ "$target" == sagemaker ]] && [[ "$abcli_is_sagemaker" == true ]]; then
             echo base
