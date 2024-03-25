@@ -1,4 +1,5 @@
 import pytest
+from abcli.string.functions import random_
 from abcli.modules import objects
 from abcli.plugins import cache
 from abcli.plugins.testing import download_object
@@ -25,18 +26,20 @@ def test_semseg_train(dataset_source, classes):
     dataset_object_name = cache.read(f"roofAI_ingest_{dataset_source}_v1")
     assert download_object(dataset_object_name)
 
+    prefix = "pytest-{}".format(random_(5))
+
     assert isinstance(
         train(
             dataset_path=objects.object_path(dataset_object_name),
             model_path=objects.object_path(objects.unique_object()),
             classes=classes,
             do_register=True,
-            suffix="pytest",
+            suffix=prefix,
         ),
         SemSegModel,
     )
 
-    model_object_name = cache.read(f"roofAI_semseg_model_{dataset_source}_pytest")
+    model_object_name = cache.read(f"roofAI_semseg_model_{dataset_source}_{prefix}")
 
     predict(
         model_path=objects.object_path(model_object_name),
