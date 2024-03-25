@@ -12,6 +12,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Download se_resnext50_32x4d
       run: |
+        mkdir -pv /home/runner/.cache/torch/hub/checkpoints/
         curl \
         --insecure \
         -L http://data.lip6.fr/cadene/pretrainedmodels/se_resnext50_32x4d-a260b3a4.pth \
@@ -49,5 +50,6 @@ jobs:
         echo "ABCLI_AWS_RDS_PASSWORD: $ABCLI_AWS_RDS_PASSWORD"
         echo "ABCLI_AWS_RDS_PORT: $ABCLI_AWS_RDS_PORT"
         echo "ABCLI_AWS_RDS_USER: $ABCLI_AWS_RDS_USER"
+        echo "HOME: $HOME"
         pytest
 
