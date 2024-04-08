@@ -43,6 +43,7 @@ function roofAI_QGIS() {
     fi
 
     abcli_log_error "-QGIS: $task: command not found."
+    return 1
 }
 
 abcli_source_path \

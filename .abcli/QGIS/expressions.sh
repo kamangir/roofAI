@@ -45,4 +45,5 @@ function roofAI_QGIS_expressions() {
     fi
 
     abcli_log_error "-QGIS: expressions: $task: command not found."
+    return 1
 }

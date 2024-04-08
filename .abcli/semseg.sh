@@ -115,6 +115,7 @@ function roofAI_semseg() {
     fi
 
     abcli_log_error "-semseg: $task: command not found."
+    return 1
 }
 
 function roofAI_semseg_cache() {

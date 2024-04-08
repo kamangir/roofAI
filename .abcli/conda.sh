@@ -98,4 +98,5 @@ function roofAI_conda() {
     fi
 
     abcli_log_error "-roofAI: conda: $task: command not found."
+    return 1
 }

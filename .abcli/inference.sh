@@ -147,6 +147,7 @@ function roofAI_inference() {
     fi
 
     abcli_log_error "-roofAI: inference: $task: command not found."
+    return 1
 }
 
 function roofAI_inference_default_endpoint() {
