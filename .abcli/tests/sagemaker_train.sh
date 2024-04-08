@@ -20,7 +20,7 @@ function test_roofAI_sagemaker() {
     local model_object_name=model-$(abcli_string_timestamp)
 
     abcli_log_warning "🚧 wip 🚧 - may incur cost 💰, disabled."
-    $do_dryrun=1
+    do_dryrun=1
 
     abcli_eval dryrun=$do_dryrun \
         sagesemseg train \
