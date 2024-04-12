@@ -37,19 +37,13 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        ABCLI_AWS_RDS_DB: ${{ secrets.ABCLI_AWS_RDS_DB }}
         ABCLI_AWS_RDS_HOST: ${{ secrets.ABCLI_AWS_RDS_HOST }}
         ABCLI_AWS_RDS_PASSWORD: ${{ secrets.ABCLI_AWS_RDS_PASSWORD }}
-        ABCLI_AWS_RDS_PORT: ${{ secrets.ABCLI_AWS_RDS_PORT }}
-        ABCLI_AWS_RDS_USER: ${{ secrets.ABCLI_AWS_RDS_USER }}
       run: |
         echo "AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID"
         echo "AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY"
-        echo "ABCLI_AWS_RDS_DB: $ABCLI_AWS_RDS_DB"
         echo "ABCLI_AWS_RDS_HOST: $ABCLI_AWS_RDS_HOST"
         echo "ABCLI_AWS_RDS_PASSWORD: $ABCLI_AWS_RDS_PASSWORD"
-        echo "ABCLI_AWS_RDS_PORT: $ABCLI_AWS_RDS_PORT"
-        echo "ABCLI_AWS_RDS_USER: $ABCLI_AWS_RDS_USER"
         echo "HOME: $HOME"
         pytest
 
