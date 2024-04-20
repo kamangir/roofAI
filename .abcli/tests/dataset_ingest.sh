@@ -4,7 +4,7 @@ function test_roofAI_dataset_ingest() {
     local options=$1
     local do_dryrun=$(abcli_option_int "$options" dryrun 0)
 
-    local source=$(abcli_option "$options" source)
+    local source=$(abcli_option "$options" source CamVid)
     if [[ -z "$source" ]]; then
         abcli_log_error "unknown source."
         return 1
@@ -33,13 +33,4 @@ function test_roofAI_dataset_ingest() {
         --index 1 \
         --subset test \
         "${@:4}"
-}
-
-function test_roofAI_dataset_ingest_batch() {
-    local source
-    for source in AIRS CamVid; do
-        test_roofAI_dataset_ingest \
-            "source=$source,$1" \
-            "${@:2}"
-    done
 }
