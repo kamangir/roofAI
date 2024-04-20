@@ -130,6 +130,5 @@ function roofAI_semseg_cache() {
         -o $filename
 }
 
-[[ "$abcli_is_sagemaker" == true ]] &&
-    [[ "$abcli_is_sagemaker_system" == false ]] &&
+[[ "$abcli_is_sagemaker_system" == false ]] &&
     roofAI_semseg_cache
