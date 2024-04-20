@@ -56,7 +56,7 @@ function roofAI_conda() {
             [[ "$abcli_is_sagemaker" == false ]] &&
                 pip3 install 'sagemaker>=2,<3'
 
-            # don't know why. :) - benign, nevertheless.
+            # don't know why - benign, nevertheless. :)
             abcli_plugins install roofAI
         fi
 
