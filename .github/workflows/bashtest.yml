@@ -3,7 +3,7 @@ name: bashtest
 on: [push]
 
 jobs:
-  build:
+  bashtest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
