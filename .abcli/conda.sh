@@ -56,15 +56,8 @@ function roofAI_conda() {
             [[ "$abcli_is_sagemaker" == false ]] &&
                 pip3 install 'sagemaker>=2,<3'
 
+            # don't know why. :) - benign, nevertheless.
             abcli_plugins install roofAI
-        else
-            pip3 install -U albumentations[imgaug]
-            pip3 install timm
-            pip3 install kaggle
-            pip3 install pretrainedmodels
-            pip3 install efficientnet_pytorch
-            pip3 install segmentation_models_pytorch
-            pip3 install shapely
         fi
 
         abcli_plugins install notebooks_and_scripts
