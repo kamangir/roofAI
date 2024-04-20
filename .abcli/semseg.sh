@@ -131,4 +131,5 @@ function roofAI_semseg_cache() {
 }
 
 [[ "$abcli_is_sagemaker_system" == false ]] &&
+    [[ "$abcli_is_mac" == false ]] &&
     roofAI_semseg_cache
