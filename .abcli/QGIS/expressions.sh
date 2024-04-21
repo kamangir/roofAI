@@ -33,9 +33,7 @@ function roofAI_QGIS_expressions() {
             "$abcli_QGIS_path_expressions_git/"
 
         if [[ "$do_push" == 1 ]]; then
-            abcli_git push \
-                roofAI \
-                accept_no_issue \
+            abcli_git roofAI push \
                 "$(python3 -m roofAI version) QGIS expressions"
         else
             abcli_git roofAI status
