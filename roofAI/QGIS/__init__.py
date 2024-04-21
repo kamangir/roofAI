@@ -1,4 +1,1 @@
 NAME = "roofAI.QGIS"
-
-
-
