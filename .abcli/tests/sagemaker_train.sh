@@ -1,8 +1,11 @@
 #! /usr/bin/env bash
 
-function test_roofAI_sagemaker() {
+function test_roofAI_sagemaker_train() {
     local options=$1
     local do_dryrun=$(abcli_option_int "$options" dryrun 0)
+
+    abcli_log_warning "🚧 may incur cost 💰, disabled."
+    do_dryrun=1
 
     abcli_eval dryrun=$do_dryrun \
         conda activate $(roofAI_conda environment_name sagemaker)
@@ -18,9 +21,6 @@ function test_roofAI_sagemaker() {
         --val_count 16
 
     local model_object_name=model-$(abcli_string_timestamp)
-
-    abcli_log_warning "🚧 wip 🚧 - may incur cost 💰, disabled."
-    do_dryrun=1
 
     abcli_eval dryrun=$do_dryrun \
         sagesemseg train \
