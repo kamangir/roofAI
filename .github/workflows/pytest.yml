@@ -44,5 +44,4 @@ jobs:
           echo "AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY"
           echo "ABCLI_AWS_RDS_HOST: $ABCLI_AWS_RDS_HOST"
           echo "ABCLI_AWS_RDS_PASSWORD: $ABCLI_AWS_RDS_PASSWORD"
-          echo "HOME: $HOME"
           pytest
