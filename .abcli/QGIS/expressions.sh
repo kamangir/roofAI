@@ -36,7 +36,7 @@ function roofAI_QGIS_expressions() {
             abcli_git roofAI push \
                 "$(python3 -m roofAI version) QGIS expressions"
         else
-            abcli_git roofAI status
+            abcli_git roofAI status ~all
         fi
 
         return
