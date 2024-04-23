@@ -6,10 +6,6 @@ everything AI about roofs. 🏛️
 
 ```bash
  > roof help
-roofAI conda create [validate,~recreate]
- . create conda environment.
-roofAI conda validate
- . validate conda environment.
 roofAI inference create \
 	[dryrun,model] \
 	[.|<object-name>] \
