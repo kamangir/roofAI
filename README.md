@@ -6,7 +6,7 @@ everything AI about roofs. 🏛️
 
 ```bash
  > roof help
-roofAI conda create_env [validate,~recreate]
+roofAI conda create [validate,~recreate]
  . create conda environment.
 roofAI conda validate
  . validate conda environment.

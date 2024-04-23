@@ -6,7 +6,7 @@ function roofAI_conda() {
     if [ "$task" == "help" ]; then
         abcli_show_usage "roofAI conda activate [sagemaker|semseg]" \
             "activate conda environment."
-        abcli_show_usage "roofAI conda create_env [~validate,~recreate,sagemaker|semseg]" \
+        abcli_show_usage "roofAI conda create [~validate,~recreate,sagemaker|semseg]" \
             "create conda environment."
         abcli_show_usage "roofAI conda environment_name [sagemaker|semseg]" \
             "return conda environment_name"
@@ -25,7 +25,7 @@ function roofAI_conda() {
         return
     fi
 
-    if [ "$task" == "create_env" ]; then
+    if [ "$task" == "create" ]; then
         local do_recreate=$(abcli_option_int "$options" recreate 1)
         local do_validate=$(abcli_option_int "$options" validate 1)
         local target=$(abcli_option_choice "$options" sagemaker,semseg semseg)
@@ -44,7 +44,7 @@ function roofAI_conda() {
 
             abcli_log "creating: $environment_name"
 
-            abcli_conda create_env \
+            abcli_conda create \
                 name=$environment_name,repo=roofAI
         fi
 
