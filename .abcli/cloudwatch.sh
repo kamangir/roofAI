@@ -31,7 +31,7 @@ function roofAI_cloudwatch() {
             return 1
         fi
 
-        abcli_browse_url $url
+        abcli_browse $url
         return
     fi
 
