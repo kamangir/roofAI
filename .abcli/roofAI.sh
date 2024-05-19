@@ -15,14 +15,9 @@ function roofAI() {
         roofAI_semseg "$@"
         roofAI dataset "$@"
 
-        local task
-        for task in pylint pytest test; do
-            roofAI $task "$@"
-        done
-
-        if [ "$(abcli_keyword_is $2 verbose)" == true ]; then
+        $(abcli_keyword_is $2 verbose) &&
             python3 -m roofAI --help
-        fi
+
         return
     fi
 
@@ -77,6 +72,13 @@ function roofAI() {
     if [ "$task" == "pylint" ]; then
         abcli_${task} ignore=roofAI/QGIS,plugin=roofAI,$2 \
             "${@:3}"
+        return
+    fi
+
+    if [[ "|pypi|" == *"|$task|"* ]]; then
+        abcli_${task} "$2" \
+            plugin=roofAI,$3 \
+            "${@:4}"
         return
     fi
 
