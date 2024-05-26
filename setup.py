@@ -9,4 +9,10 @@ setup(
     version=VERSION,
     description=DESCRIPTION,
     packages=[NAME],
+    include_package_data=True,
+    package_data={
+        NAME: [
+            ".abcli/**/*.sh",
+        ],
+    },
 )
