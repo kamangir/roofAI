@@ -8,7 +8,7 @@ function bashtest() {
     cd ..
     git clone https://github.com/kamangir/awesome-bash-cli.git
 
-    source $(pwd)/awesome-bash-cli/bash/abcli.sh ~terraform \
+    source $(pwd)/awesome-bash-cli/abcli/.abcli/abcli.sh ~terraform \
         $plugin_name test
 
     return
