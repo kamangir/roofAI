@@ -116,4 +116,6 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
 
     [[ "$do_register" == 1 ]] &&
         abcli_cache write roofAI_ingest_${source}_${suffix} $object_name
+
+    return 0
 }
