@@ -71,5 +71,4 @@ function roofAI() {
         "${@:2}"
 }
 
-abcli_source_path \
-    $abcli_path_git/roofAI/.abcli/tests
+abcli_source_path - caller,suffix=/tests

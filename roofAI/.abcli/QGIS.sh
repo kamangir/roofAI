@@ -46,5 +46,4 @@ function roofAI_QGIS() {
     return 1
 }
 
-abcli_source_path \
-    $abcli_path_git/roofAI/.abcli/QGIS
+abcli_source_path - caller,suffix=/QGIS
