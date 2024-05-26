@@ -78,7 +78,7 @@ function roofAI_semseg() {
         [[ "$do_upload" == 1 ]] &&
             abcli_upload - $prediction_object_name
 
-        return
+        return 0
     fi
 
     if [ "$task" == "train" ]; then
@@ -111,7 +111,7 @@ function roofAI_semseg() {
         [[ "$do_upload" == 1 ]] &&
             abcli_upload - $model_object_name
 
-        return
+        return 0
     fi
 
     abcli_log_error "-semseg: $task: command not found."
