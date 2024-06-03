@@ -11,7 +11,7 @@ pip install roofAI
 ```
 
 ```bash
- > roof help
+ > roofAI help
 roofAI inference create \
 	[dryrun,model] \
 	[.|<object-name>] \
