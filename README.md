@@ -12,6 +12,19 @@ pip install roofAI
 
 ```bash
  > roofAI help
+cloudwatch browse \
+	[endpoint] \
+	[<endpoint-name>]
+ . browse endpoint on cloudwatch.
+ * default endpoint: endpoint-model-2023-12-03-11-24-39-75649-pytorch
+roofAI conda activate [sagemaker|semseg]
+ . activate conda environment.
+roofAI conda create [~validate,~recreate,sagemaker|semseg]
+ . create conda environment.
+roofAI conda environment_name [sagemaker|semseg]
+ . return conda environment_name
+roofAI conda validate
+ . validate conda environment.
 roofAI inference create \
 	[dryrun,model] \
 	[.|<object-name>] \
@@ -40,6 +53,14 @@ roofAI inference describe \
 	<name> \
 	[--verbose 1]
  . describe inference endpoint.
+roofAI inference invoke \
+	[~download,dryrun,profile=FULL|DECENT|QUICK|DEBUG|VALIDATION,upload] \
+	[-|<endpoint-name>] \
+	[..|<dataset-object-name>] \
+	[-|<prediction-object-name>] \
+	[--verbose 1]
+ . <dataset-object-name> -> inference endpoint -> <prediction-object-name>.
+ * default endpoint: endpoint-model-2023-12-03-11-24-39-75649-pytorch
 roofAI inference list \
 	[dryrun,model|endpoint_config|endpoint,contains=<string>] \
 	[--verbose 1]
@@ -47,7 +68,7 @@ roofAI inference list \
 roofAI inference pull \
 	[dryrun]
  . pull the inference image.
-QGIS seed
+QGIS seed [screen]
  . seed 🌱 QGIS.
 QGIS expressions pull
  . pull QGIS expressions.
@@ -55,13 +76,15 @@ QGIS expressions push [push]
  . push QGIS expressions.
  📂 /Users/kamangir/Library/Application Support/QGIS/QGIS3/profiles/default/python/expressions
  📂 /Users/kamangir/git/roofAI/roofAI/QGIS/expressions
+QGIS serve[r] [start]
+ . start QGIS server.
 semseg list
  . list registered semseg models.
 semseg predict \
 	[device=cpu|cuda,~download,dryrun,profile=FULL|DECENT|QUICK|DEBUG|VALIDATION,upload] \
-	<model-object-name> \
-	<dataset-object-name> \
-	<prediction-object-name>
+	[...|<model-object-name>] \
+	[..|<dataset-object-name>] \
+	[-|<prediction-object-name>]
  . semseg[<model-object-name>].predict(<dataset-object-name>) -> <prediction-object-name>.
 semseg train \
 	[device=cpu|cuda,~download,dryrun,profile=FULL|DECENT|QUICK|DEBUG|VALIDATION,register,suffix=<v1>,upload] \
@@ -73,7 +96,7 @@ semseg train \
 	[--encoder_weights <imagenet>]
  . semseg.train(<dataset-object-name>) -> <model-object-name>.
 roofAI dataset ingest \
-	[source=AIRS,dryrun,open,register,suffix=<v1>,upload] \
+	[source=AIRS,dryrun,open,register,suffix=<v1>,upload,target=sagemaker|torch] \
 	<object-name> \
 	[--test_count <10>] \
 	[--train_count <10>] \
@@ -90,12 +113,6 @@ roofAI dataset review \
 	[--index <index>] \
 	[--subset <subset>]
  . review <object-name>.
-roofAI pytest \
-	[~download,dryrun,list,~log,plugin=<plugin-name>,warning] \
-	[filename.py|filename.py::test]
- . pytest roofAI.
-roofAI test [~dataset,dryrun,~semseg]
- . test roofAI.
 ```
 
 ---
