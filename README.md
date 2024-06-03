@@ -100,7 +100,7 @@ roofAI test [~dataset,dryrun,~semseg]
 
 ---
 
-[![PyPI version](https://img.shields.io/pypi/v/blueness.svg)](https://pypi.org/project/blueness/)
+[![PyPI version](https://img.shields.io/pypi/v/roofAI.svg)](https://pypi.org/project/roofAI/)
 
 ---
 
