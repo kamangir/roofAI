@@ -92,7 +92,7 @@ roofAI test [~dataset,dryrun,~semseg]
  . test roofAI.
 ```
 
-![image](../../assets/predict-00247.png)
+![image](./assets/predict-00247.png)
 
 ```bash
 pip install roofAI
