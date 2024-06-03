@@ -1,10 +1,10 @@
 #! /usr/bin/env bash
 
-export abcli_QGIS_path_profile="$abcli_path_home/Library/Application Support/QGIS/QGIS3/profiles/default"
+export abcli_QGIS_path_profile="$HOME/Library/Application Support/QGIS/QGIS3/profiles/default"
 export abcli_QGIS_path_expressions=$abcli_QGIS_path_profile/python/expressions
 export abcli_QGIS_path_expressions_git=$abcli_path_git/roofAI/roofAI/QGIS/expressions
 export abcli_QGIS_path_templates=$abcli_QGIS_path_profile/project_templates
-export abcli_QGIS_path_shared=$abcli_path_home/Downloads/QGIS
+export abcli_QGIS_path_shared=$HOME/Downloads/QGIS
 export abcli_QGIS_path_server=$abcli_QGIS_path_shared/server
 
 mkdir -p $abcli_QGIS_path_server
