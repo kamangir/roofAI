@@ -92,7 +92,15 @@ roofAI test [~dataset,dryrun,~semseg]
  . test roofAI.
 ```
 
-![image](https://github.com/kamangir/assets/blob/main/roofAI/2023-11-12-20-30-49-02592-predict.gif?raw=true)
+![image](../../assets/predict-00247.png)
+
+```bash
+pip install roofAI
+```
+
+---
+
+[![PyPI version](https://img.shields.io/pypi/v/blueness.svg)](https://pypi.org/project/blueness/)
 
 ---
 
