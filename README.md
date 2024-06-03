@@ -4,6 +4,12 @@ everything AI about roofs. 🏛️
 
 🔷 [datasets](./roofAI/dataset) 🔷 [notebooks](./notebooks/) 🔷 [semseg](./roofAI/semseg) 🔷 [inference](./roofAI/inference) 🔷 [QGIS](./roofAI/QGIS/console/) 🔷 [sagemaker](./roofAI/semseg/sagemaker/) 🔷
 
+![image](./assets/predict-00247.png)
+
+```bash
+pip install roofAI
+```
+
 ```bash
  > roof help
 roofAI inference create \
@@ -90,12 +96,6 @@ roofAI pytest \
  . pytest roofAI.
 roofAI test [~dataset,dryrun,~semseg]
  . test roofAI.
-```
-
-![image](./assets/predict-00247.png)
-
-```bash
-pip install roofAI
 ```
 
 ---
