@@ -61,9 +61,12 @@ class ABCLI_QGIS(object):
 
     def create_video(self, filename="QGIS", object_name=""):
         seed(
-            "abcli create_video png,fps=2,filename={},gif {}".format(
-                filename, object_name if object_name else self.object_name
-            )
+            [
+                "abcli",
+                "create_video",
+                f"png,fps=2,filename={filename},gif",
+                object_name if object_name else self.object_name,
+            ]
         )
 
     def export(self, filename="", object_name=""):
@@ -233,7 +236,9 @@ class ABCLI_QGIS(object):
 
     def upload(self, object_name=""):
         seed(
-            "abcli upload {} {}".format(
+            [
+                "abcli",
+                "upload",
                 f"filename={project.name}.qgz" if object_name == "qgz" else "-",
                 (
                     project.name
@@ -244,7 +249,7 @@ class ABCLI_QGIS(object):
                         else object_name if object_name else self.object_name
                     )
                 ),
-            )
+            ]
         )
 
 

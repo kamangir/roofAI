@@ -1,4 +1,5 @@
 import time
+from typing import Union, List
 import os
 import random
 
@@ -13,11 +14,15 @@ roofAI_QGIS_path_server = os.path.join(
 os.makedirs(roofAI_QGIS_path_server, exist_ok=True)
 
 
-def seed(command):
+def seed(command: Union[str, List[str]]):
+    if isinstance(command, list):
+        command = " ".join(command)
+
     hash_id = "{}-{:05d}".format(
         time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime(time.time())),
         random.randrange(100000),
     )
+
     with open(
         os.path.join(
             roofAI_QGIS_path_server,

@@ -6,7 +6,6 @@ if not QGIS_is_live:
     from log import log
     from project import project
     from QGIS import QGIS
-    from seed import seed
 
 
 class ROOFAI_QGIS_APPLICATION_VANWATCH(ROOFAI_QGIS_APPLICATION):

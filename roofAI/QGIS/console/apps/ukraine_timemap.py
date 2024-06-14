@@ -1,6 +1,7 @@
 if not QGIS_is_live:
     from application import ROOFAI_QGIS_APPLICATION
     from project import project
+    from seed import seed
 
 
 class ROOFAI_QGIS_APPLICATION_UKRAINE_TIMEMAP(ROOFAI_QGIS_APPLICATION):
@@ -16,5 +17,11 @@ class ROOFAI_QGIS_APPLICATION_UKRAINE_TIMEMAP(ROOFAI_QGIS_APPLICATION):
     def update(self, options: str = ""):
         self.log(f"ukraine_timemap.update({options}): {project.name}")
 
-        self.log("🪄")
-
+        seed(
+            [
+                "ukraine_timemap",
+                "ingest",
+                f"~copy_template,{options}",
+                project.name,
+            ]
+        )
