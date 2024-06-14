@@ -7,6 +7,8 @@ def generate_seed() -> str:
         "seed",
         "QGIS",
         "apps/vanwatch",
+        "apps/template",
+        "apps/ukraine_timemap",
         "main",
         "utils",
     ]
