@@ -8,6 +8,7 @@ def generate_seed() -> str:
         "QGIS",
         "apps/vanwatch",
         "main",
+        "utils",
     ]
 
     seed = "; ".join(

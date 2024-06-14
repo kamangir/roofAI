@@ -184,10 +184,8 @@ class ABCLI_QGIS(object):
     def open(self, what="object"):
         self.open_folder(
             layer.path
-            if what == "layer"
-            else self.object_path()
-            if what == "object"
-            else project.path
+            if what in "layer"
+            else self.object_path() if what == "object" else project.path
         )
 
     def open_folder(self, path):
@@ -237,13 +235,15 @@ class ABCLI_QGIS(object):
         seed(
             "abcli upload {} {}".format(
                 f"filename={project.name}.qgz" if object_name == "qgz" else "-",
-                project.name
-                if object_name in ["project", "qgz"]
-                else layer.object_name
-                if object_name == "layer"
-                else object_name
-                if object_name
-                else self.object_name,
+                (
+                    project.name
+                    if object_name in ["project", "qgz", project]
+                    else (
+                        layer.object_name
+                        if object_name in ["layer", layer]
+                        else object_name if object_name else self.object_name
+                    )
+                ),
             )
         )
 
