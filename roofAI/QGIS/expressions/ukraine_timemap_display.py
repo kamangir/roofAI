@@ -3,7 +3,7 @@ from qgis.gui import *
 
 
 @qgsfunction(args="auto", group="Custom", referenced_columns=[])
-def ukraine_timemap_display(id, description, date, feature, parent):
+def ukraine_timemap_display(project_filename, id, date, description, feature, parent):
     """
     produce display text for a ukraine_timemap mapid.
 
@@ -13,12 +13,13 @@ def ukraine_timemap_display(id, description, date, feature, parent):
         "date",
     )
     """
-    version = "1.7.1"
+    version = "1.8.1"
 
     return "<hr/>".join(
         [
             description,
-            '{} : #<a href="https://ukraine.bellingcat.com/?id={}">{}</a>'.format(
+            '{} | {} | #<a href="https://ukraine.bellingcat.com/?id={}">{}</a>'.format(
+                project_filename.split(".")[0],
                 date.toString("yyyy-MM-dd"),
                 id,
                 id,
