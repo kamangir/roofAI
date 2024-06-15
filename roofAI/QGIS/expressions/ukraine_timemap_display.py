@@ -13,7 +13,7 @@ def ukraine_timemap_display(project_filename, id, date, description, feature, pa
         "date",
     )
     """
-    version = "1.8.1"
+    version = "1.9.1"
 
     return "<hr/>".join(
         [
