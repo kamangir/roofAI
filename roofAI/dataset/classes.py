@@ -236,6 +236,7 @@ class RoofAIDataset:
         )
         assert success
 
+        unique_value = np.array([])
         if kind == MatrixKind.MASK:
             matrix = matrix[:, :, 0]
             unique_value = np.unique(matrix)
