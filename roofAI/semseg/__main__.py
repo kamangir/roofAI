@@ -6,6 +6,7 @@ from roofAI.semseg import NAME
 from roofAI.semseg.interface import predict, train
 from roofAI.semseg import Profile
 from roofAI.logger import logger
+from blueness.argparse.generic import ending
 
 
 list_of_tasks = "predict|train"
@@ -114,7 +115,6 @@ if success:
             profile=profile,
         )
     else:
-        logger.error(f"-{NAME}: {args.task}: command not found.")
+        success = None
 
-if not success:
-    logger.error(f"-{NAME}: {args.task}: failed.")
+ending(logger, NAME, args.task, success)

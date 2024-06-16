@@ -3,6 +3,7 @@ from abcli import env
 from roofAI import VERSION
 from roofAI.inference import NAME
 from roofAI.logger import logger
+from blueness.argparse.generic import ending
 
 NAME = f"{NAME}.image"
 
@@ -47,7 +48,6 @@ if __name__ == "__main__":
             )
         )
     else:
-        logger.error(f"-{NAME}: {args.task}: command not found.")
+        success = None
 
-    if not success:
-        logger.error(f"-{NAME}: {args.task}: failed.")
+    ending(logger, NAME, args.task, success)

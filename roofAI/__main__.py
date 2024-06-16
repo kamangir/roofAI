@@ -1,6 +1,7 @@
 import argparse
 from roofAI import NAME, VERSION, DESCRIPTION
 from roofAI.logger import logger
+from blueness.argparse.generic import ending
 
 parser = argparse.ArgumentParser(
     f"python3 -m {NAME}",
@@ -30,7 +31,6 @@ if args.task == "version":
     )
     success = True
 else:
-    logger.error(f"-{NAME}: {args.task}: command not found.")
+    success = None
 
-if not success:
-    logger.error(f"-{NAME}: {args.task}: failed.")
+ending(logger, NAME, args.task, success)

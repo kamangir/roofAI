@@ -7,6 +7,7 @@ from roofAI.dataset.classes import DatasetTarget
 from roofAI.dataset.ingest.AIRS import ingest_AIRS
 from roofAI.dataset.ingest.CamVid import ingest_CamVid
 from roofAI.logger import logger
+from blueness.argparse.generic import ending
 
 
 parser = argparse.ArgumentParser(
@@ -128,7 +129,6 @@ elif args.task == "review":
 
     success = True
 else:
-    logger.error(f"-{NAME}: {args.task}: command not found.")
+    success = None
 
-if not success:
-    logger.error(f"-{NAME}: {args.task}: failed.")
+ending(logger, NAME, args.task, success)

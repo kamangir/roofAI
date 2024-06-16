@@ -4,6 +4,7 @@ from roofAI.semseg.sagemaker import NAME
 from roofAI.semseg.sagemaker.dataset import upload as upload_dataset
 from roofAI.semseg.sagemaker.model import SageSemSegModel
 from roofAI.logger import logger
+from blueness.argparse.generic import ending
 
 
 parser = argparse.ArgumentParser(NAME, description=f"{NAME}-{VERSION}")
@@ -85,7 +86,6 @@ elif args.task == "upload_dataset":
     )
     success = True
 else:
-    logger.error(f"-{NAME}: {args.task}: command not found.")
+    success = None
 
-if not success:
-    logger.error(f"-{NAME}: {args.task}: failed.")
+ending(logger, NAME, args.task, success)

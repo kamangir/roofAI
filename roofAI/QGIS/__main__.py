@@ -3,6 +3,7 @@ from roofAI.QGIS import NAME
 from roofAI import VERSION
 from roofAI.QGIS.seed import generate_seed
 from roofAI.logger import logger
+from blueness.argparse.generic import ending
 
 
 parser = argparse.ArgumentParser(
@@ -22,7 +23,6 @@ if args.task == "generate_seed":
     if success:
         print(seed)
 else:
-    logger.error(f"-{NAME}: {args.task}: command not found.")
+    success = None
 
-if not success:
-    logger.error(f"-{NAME}: {args.task}: failed.")
+ending(logger, NAME, args.task, success)
