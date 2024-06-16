@@ -3,7 +3,7 @@ from abcli import env
 from roofAI import VERSION
 from roofAI.inference import NAME
 from roofAI.logger import logger
-from blueness.argparse.generic import ending
+from blueness.argparse.generic import sys_exit
 
 NAME = f"{NAME}.image"
 
@@ -50,4 +50,4 @@ if __name__ == "__main__":
     else:
         success = None
 
-    ending(logger, NAME, args.task, success)
+    sys_exit(logger, NAME, args.task, success)

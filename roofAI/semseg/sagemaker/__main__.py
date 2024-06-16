@@ -4,7 +4,7 @@ from roofAI.semseg.sagemaker import NAME
 from roofAI.semseg.sagemaker.dataset import upload as upload_dataset
 from roofAI.semseg.sagemaker.model import SageSemSegModel
 from roofAI.logger import logger
-from blueness.argparse.generic import ending
+from blueness.argparse.generic import sys_exit
 
 
 parser = argparse.ArgumentParser(NAME, description=f"{NAME}-{VERSION}")
@@ -88,4 +88,4 @@ elif args.task == "upload_dataset":
 else:
     success = None
 
-ending(logger, NAME, args.task, success)
+sys_exit(logger, NAME, args.task, success)

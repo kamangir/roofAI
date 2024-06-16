@@ -7,7 +7,7 @@ from roofAI.inference.image import image_name
 from roofAI.inference.endpoints import invoke_endpoint
 from roofAI.semseg import Profile
 from roofAI.logger import logger
-from blueness.argparse.generic import ending
+from blueness.argparse.generic import sys_exit
 
 
 list_of_tasks = "create|delete|describe|invoke|list"
@@ -139,4 +139,4 @@ elif args.task == "list":
 else:
     success = None
 
-ending(logger, NAME, args.task, success)
+sys_exit(logger, NAME, args.task, success)

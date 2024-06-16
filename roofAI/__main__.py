@@ -1,7 +1,7 @@
 import argparse
 from roofAI import NAME, VERSION, DESCRIPTION
 from roofAI.logger import logger
-from blueness.argparse.generic import ending
+from blueness.argparse.generic import sys_exit
 
 parser = argparse.ArgumentParser(
     f"python3 -m {NAME}",
@@ -33,4 +33,4 @@ if args.task == "version":
 else:
     success = None
 
-ending(logger, NAME, args.task, success)
+sys_exit(logger, NAME, args.task, success)

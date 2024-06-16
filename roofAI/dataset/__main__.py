@@ -7,7 +7,7 @@ from roofAI.dataset.classes import DatasetTarget
 from roofAI.dataset.ingest.AIRS import ingest_AIRS
 from roofAI.dataset.ingest.CamVid import ingest_CamVid
 from roofAI.logger import logger
-from blueness.argparse.generic import ending
+from blueness.argparse.generic import sys_exit
 
 
 parser = argparse.ArgumentParser(
@@ -131,4 +131,4 @@ elif args.task == "review":
 else:
     success = None
 
-ending(logger, NAME, args.task, success)
+sys_exit(logger, NAME, args.task, success)

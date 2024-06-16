@@ -3,7 +3,7 @@ from roofAI.QGIS import NAME
 from roofAI import VERSION
 from roofAI.QGIS.seed import generate_seed
 from roofAI.logger import logger
-from blueness.argparse.generic import ending
+from blueness.argparse.generic import sys_exit
 
 
 parser = argparse.ArgumentParser(
@@ -25,4 +25,4 @@ if args.task == "generate_seed":
 else:
     success = None
 
-ending(logger, NAME, args.task, success)
+sys_exit(logger, NAME, args.task, success)

@@ -6,7 +6,7 @@ from roofAI.semseg import NAME
 from roofAI.semseg.interface import predict, train
 from roofAI.semseg import Profile
 from roofAI.logger import logger
-from blueness.argparse.generic import ending
+from blueness.argparse.generic import sys_exit
 
 
 list_of_tasks = "predict|train"
@@ -117,4 +117,4 @@ if success:
     else:
         success = None
 
-ending(logger, NAME, args.task, success)
+sys_exit(logger, NAME, args.task, success)
