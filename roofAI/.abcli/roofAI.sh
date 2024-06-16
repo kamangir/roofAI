@@ -52,12 +52,6 @@ function roofAI() {
         return
     fi
 
-    if [ "$task" == "pylint" ]; then
-        abcli_${task} ignore=roofAI/QGIS,plugin=roofAI,$2 \
-            "${@:3}"
-        return
-    fi
-
     if [ "$task" == "pytest" ]; then
         abcli_${task} plugin=roofAI,$2 \
             --ignore=$abcli_path_git/roofAI/notebooks/data/Scripts/ \
