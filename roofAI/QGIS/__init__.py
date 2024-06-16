@@ -1,1 +1,0 @@
-NAME = "roofAI.QGIS"

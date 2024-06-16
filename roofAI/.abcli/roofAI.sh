@@ -7,7 +7,6 @@ function roofAI() {
         roofAI_cloudwatch "$@"
         roofAI_conda "$@"
         roofAI_inference "$@"
-        roofAI_QGIS "$@"
         roofAI_semseg "$@"
         roofAI dataset "$@"
         return
