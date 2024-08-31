@@ -48,7 +48,7 @@ function roofAI_conda() {
                 name=$environment_name,repo=roofAI
         fi
 
-        pip3 install pymysql==0.10.1
+        pip3 install pymysql
         pip3 install matplotlib
         pip3 install boto3
 

@@ -10,7 +10,7 @@ kaggle
 matplotlib
 opencv-python
 pretrainedmodels
-pymysql==0.10.1
+pymysql
 pyyaml
 pylint
 pytest
