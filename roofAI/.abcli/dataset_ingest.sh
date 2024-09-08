@@ -109,7 +109,7 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
         "${@:3}"
 
     [[ "$do_dryrun" == 0 ]] &&
-        abcli_log_file $object_path/metadata.yaml
+        abcli_cat $object_path/metadata.yaml
 
     [[ "$do_upload" == 1 ]] &&
         abcli_upload - $object_name

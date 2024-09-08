@@ -1,5 +1,5 @@
 import pytest
-from abcli import string
+from blue_options import string
 from roofAI.inference.classes import InferenceClient
 
 
@@ -17,13 +17,13 @@ def test_inference_client(model_name):
         name=model_name,
     )
 
-    config_name = "config-{}-{}".format(model_name, string.random_(8))
+    config_name = "config-{}-{}".format(model_name, string.random(8))
     assert inference_client.create_endpoint_config(
         name=config_name,
         model_name=model_name,
     )
 
-    endpoint_name = "endpoint-{}-{}".format(model_name, string.random_(8))
+    endpoint_name = "endpoint-{}-{}".format(model_name, string.random(8))
     assert inference_client.create_endpoint(
         name=endpoint_name,
         config_name=config_name,

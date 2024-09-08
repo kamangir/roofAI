@@ -5,11 +5,12 @@ copied with minor modification from ../../notebooks/semseg.ipynb
 import matplotlib.pyplot as plt
 import numpy as np
 from typing import List, Any
-from abcli import file
-from abcli import path
-from abcli import string
+
+from blue_options import string
+from blue_objects import file, path
 from abcli.modules.host import signature as host_signature
 from abcli.plugins.graphics import add_signature
+
 from roofAI import VERSION
 from roofAI.semseg import NAME
 from roofAI.logger import logger
