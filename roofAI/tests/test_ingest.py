@@ -1,7 +1,9 @@
 import pytest
-from roofAI.dataset.ingest.AIRS import ingest_AIRS
-from abcli.modules import objects
+
+from blue_objects import objects
 from abcli.plugins import cache
+
+from roofAI.dataset.ingest.AIRS import ingest_AIRS
 
 
 @pytest.mark.skip("roofAI_ingest_AIRS_cache is a large object cached by `roof ingest`.")

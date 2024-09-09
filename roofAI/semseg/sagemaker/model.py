@@ -8,9 +8,8 @@ import numpy as np
 
 from blue_options import string
 from blue_options.elapsed_timer import ElapsedTimer
-from blue_objects import file, path
-from abcli.modules import objects, host
-from abcli.plugins.storage import instance as storage
+from blue_objects import file, path, objects, host
+from blue_objects.storage import instance as storage
 from notebooks_and_scripts.sagemaker import role
 
 from roofAI.logger import logger

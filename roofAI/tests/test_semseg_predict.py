@@ -1,15 +1,15 @@
-from abcli.modules import objects
-from abcli.plugins.testing import download_object
-from roofAI.semseg.interface import predict
+from blue_objects import objects
 from abcli.plugins import cache
+
+from roofAI.semseg.interface import predict
 
 
 def test_semseg_predict():
     model_object_name = cache.read("roofAI_semseg_model_CamVid_v1")
-    assert download_object(model_object_name)
+    assert objects.download(model_object_name)
 
     dataset_object_name = cache.read("roofAI_ingest_CamVid_v1")
-    assert download_object(dataset_object_name)
+    assert objects.download(dataset_object_name)
 
     predict(
         model_path=objects.object_path(model_object_name),

@@ -1,8 +1,9 @@
 import pytest
+
 from blue_options.string import random
-from abcli.modules import objects
+from blue_objects import objects
 from abcli.plugins import cache
-from abcli.plugins.testing import download_object
+
 from roofAI.semseg.interface import predict, train
 from roofAI.semseg.model import SemSegModel
 
@@ -24,7 +25,7 @@ def test_semseg_train(dataset_source, classes):
     cache.write(f"roofAI_semseg_model_{dataset_source}_pytest", "void")
 
     dataset_object_name = cache.read(f"roofAI_ingest_{dataset_source}_v1")
-    assert download_object(dataset_object_name)
+    assert objects.download(dataset_object_name)
 
     prefix = "pytest-{}".format(random(5))
 
