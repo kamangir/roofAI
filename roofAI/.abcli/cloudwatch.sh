@@ -25,7 +25,7 @@ function roofAI_cloudwatch() {
         if [[ "$object_type" == endpoint ]]; then
             local endpoint_name=$(abcli_clarify_input $3 $(roofAI_inference_default_endpoint))
             abcli_log "🔗 endpoint: $endpoint_name"
-            url="https://$abcli_aws_region.console.aws.amazon.com/cloudwatch/home?region=$abcli_aws_region#logEventViewer:group=/aws/sagemaker/Endpoints/$endpoint_name"
+            url="https://$ABCLI_AWS_REGION.console.aws.amazon.com/cloudwatch/home?region=$ABCLI_AWS_REGION#logEventViewer:group=/aws/sagemaker/Endpoints/$endpoint_name"
         else
             abcli_log_error "-cloudwatch: $task: $object_type: object type not found."
             return 1

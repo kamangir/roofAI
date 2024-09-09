@@ -14,7 +14,7 @@ from shapely.geometry import Polygon
 
 from blue_options import string
 from blue_objects import file, path
-from abcli.plugins.graphics.gif import generate_animated_gif
+from blue_objects.graphics.gif import generate_animated_gif
 
 from roofAI.semseg.augmentation import get_validation_augmentation, get_preprocessing
 from roofAI.dataset.classes import RoofAIDataset

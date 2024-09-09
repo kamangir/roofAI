@@ -9,7 +9,7 @@ from typing import List, Any
 from blue_options import string
 from blue_objects import file, path
 from abcli.modules.host import signature as host_signature
-from abcli.plugins.graphics import add_signature
+from blue_objects.graphics import add_signature
 
 from roofAI import VERSION
 from roofAI.semseg import NAME
