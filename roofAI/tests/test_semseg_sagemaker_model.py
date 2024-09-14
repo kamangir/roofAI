@@ -1,6 +1,8 @@
 import pytest
+
+from blue_objects.objects import unique_object
+
 from roofAI.semseg.sagemaker.model import SageSemSegModel
-from abcli.modules.objects import unique_object
 
 
 @pytest.mark.skip("causes cost.")
