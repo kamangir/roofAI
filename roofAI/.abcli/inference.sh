@@ -109,8 +109,8 @@ function roofAI_inference() {
         abcli_eval dryrun=$do_dryrun \
             python3 -m roofAI.inference $task \
             --endpoint_name $endpoint_name \
-            --dataset_path $abcli_object_root/$dataset_object_name \
-            --prediction_path $abcli_object_root/$prediction_object_name \
+            --dataset_path $ABCLI_OBJECT_ROOT/$dataset_object_name \
+            --prediction_path $ABCLI_OBJECT_ROOT/$prediction_object_name \
             --profile $(abcli_option "$options" profile VALIDATION) \
             "${@:6}"
 
@@ -131,11 +131,11 @@ function roofAI_inference() {
 
     if [ "$task" == "pull" ]; then
         aws ecr get-login-password \
-            --region $abcli_aws_region |
+            --region $ABCLI_AWS_REGION |
             docker login \
                 --username AWS \
                 --password-stdin \
-                763104351884.dkr.ecr.$abcli_aws_region.amazonaws.com
+                763104351884.dkr.ecr.$ABCLI_AWS_REGION.amazonaws.com
         [[ $? -ne 0 ]] && return 1
 
         local image_name=$(python3 -m roofAI.inference.image get --what name)

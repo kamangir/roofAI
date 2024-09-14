@@ -34,7 +34,7 @@ function roofAI_dataset_ingest() {
     fi
 
     local object_name=$(abcli_clarify_object $2 roofAI_ingest_${source}_$(abcli_string_timestamp))
-    local object_path=$abcli_object_root/$object_name
+    local object_path=$ABCLI_OBJECT_ROOT/$object_name
     mkdir -p $object_path
     [[ "$do_open" == 1 ]] &&
         open $object_path
@@ -76,7 +76,7 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
         else
             abcli_download - $cache_object_name
 
-            if [[ ! -f $abcli_object_root/$cache_object_name/train.txt ]]; then
+            if [[ ! -f $ABCLI_OBJECT_ROOT/$cache_object_name/train.txt ]]; then
                 abcli_log "cache is empty: $cache_object_name"
                 cache_from_source=1
             fi
@@ -86,16 +86,16 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
             abcli_log "caching from $source -> $cache_object_name"
 
             # https://arash-kamangir.medium.com/roofai-1-airs-b440ebb54968
-            abcli_eval dryrun=$do_dryrun,path=$abcli_object_root/$cache_object_name \
+            abcli_eval dryrun=$do_dryrun,path=$ABCLI_OBJECT_ROOT/$cache_object_name \
                 "kaggle datasets download \
                 -d atilol/aerialimageryforroofsegmentation \
                 -p ./"
 
-            abcli_eval dryrun=$do_dryrun,path=$abcli_object_root/$cache_object_name \
+            abcli_eval dryrun=$do_dryrun,path=$ABCLI_OBJECT_ROOT/$cache_object_name \
                 "unzip aerialimageryforroofsegmentation.zip"
         fi
 
-        local args="--cache_path $abcli_object_root/$cache_object_name"
+        local args="--cache_path $ABCLI_OBJECT_ROOT/$cache_object_name"
 
         abcli_log "cache: $cache_keyword -> $cache_object_name"
     fi
@@ -109,7 +109,7 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
         "${@:3}"
 
     [[ "$do_dryrun" == 0 ]] &&
-        abcli_log_file $object_path/metadata.yaml
+        abcli_cat $object_path/metadata.yaml
 
     [[ "$do_upload" == 1 ]] &&
         abcli_upload - $object_name

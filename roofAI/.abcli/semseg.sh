@@ -69,9 +69,9 @@ function roofAI_semseg() {
         abcli_eval dryrun=$do_dryrun \
             python3 -m roofAI.semseg predict \
             --device $device \
-            --model_path $abcli_object_root/$model_object_name \
-            --dataset_path $abcli_object_root/$dataset_object_name \
-            --prediction_path $abcli_object_root/$prediction_object_name \
+            --model_path $ABCLI_OBJECT_ROOT/$model_object_name \
+            --dataset_path $ABCLI_OBJECT_ROOT/$dataset_object_name \
+            --prediction_path $ABCLI_OBJECT_ROOT/$prediction_object_name \
             --profile $(abcli_option "$options" profile VALIDATION) \
             "${@:6}"
 
@@ -101,8 +101,8 @@ function roofAI_semseg() {
         abcli_eval dryrun=$do_dryrun \
             python3 -m roofAI.semseg train \
             --device $device \
-            --dataset_path $abcli_object_root/$dataset_object_name \
-            --model_path $abcli_object_root/$model_object_name \
+            --dataset_path $ABCLI_OBJECT_ROOT/$dataset_object_name \
+            --model_path $ABCLI_OBJECT_ROOT/$model_object_name \
             --profile $(abcli_option "$options" profile VALIDATION) \
             --register $do_register \
             --suffix $(abcli_option "$options" suffix v1) \

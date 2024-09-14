@@ -1,11 +1,14 @@
 import argparse
-from abcli import env
-from roofAI import VERSION
-from roofAI.inference import NAME
-from roofAI.logger import logger
-from blueness.argparse.generic import sys_exit
 
-NAME = f"{NAME}.image"
+from blueness import module
+from blueness.argparse.generic import sys_exit
+from blue_objects.env import ABCLI_AWS_REGION
+
+from roofAI import VERSION, NAME
+from roofAI.logger import logger
+
+
+NAME = module.name(__file__, NAME)
 
 
 # https://github.com/aws/deep-learning-containers/blob/master/available_images.md
@@ -13,7 +16,7 @@ repository_name = "pytorch-inference"
 # image_tag = "2.1.0-gpu-py310-cu118-ubuntu20.04-ec2"
 image_tag = "2.1.0-cpu-py310-ubuntu20.04-ec2"
 image_name = "763104351884.dkr.ecr.{}.amazonaws.com/{}:{}".format(
-    env.abcli_aws_region,
+    ABCLI_AWS_REGION,
     repository_name,
     image_tag,
 )

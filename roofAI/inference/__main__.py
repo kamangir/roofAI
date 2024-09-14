@@ -1,14 +1,17 @@
 import argparse
-from abcli.logger import crash_report
-from roofAI import VERSION
-from roofAI.inference import NAME
+
+from blueness import module
+from blueness.argparse.generic import sys_exit
+from blue_options.logger import crash_report
+
+from roofAI import VERSION, NAME
 from roofAI.inference.classes import InferenceClient, InferenceObject
 from roofAI.inference.image import image_name
 from roofAI.inference.endpoints import invoke_endpoint
 from roofAI.semseg import Profile
 from roofAI.logger import logger
-from blueness.argparse.generic import sys_exit
 
+NAME = module.name(__file__, NAME)
 
 list_of_tasks = "create|delete|describe|invoke|list"
 parser = argparse.ArgumentParser(
@@ -78,6 +81,7 @@ except:
     crash_report(f"bad profile: {args.profile}")
     success = False
 
+inference_client = None
 if args.task != "invoke":
     inference_client = InferenceClient(
         image_name=image_name,

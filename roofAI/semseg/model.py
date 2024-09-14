@@ -9,14 +9,17 @@ import torch
 import cv2
 from tqdm import tqdm
 from scipy import ndimage
-from abcli import file, path, string
 import segmentation_models_pytorch as smp
 from shapely.geometry import Polygon
+
+from blue_options import string
+from blue_objects import file, path
+from blue_objects.graphics.gif import generate_animated_gif
+
 from roofAI.semseg.augmentation import get_validation_augmentation, get_preprocessing
 from roofAI.dataset.classes import RoofAIDataset
 from roofAI.semseg.dataloader import Dataset
 from roofAI.semseg.utils import visualize
-from abcli.plugins.graphics.gif import generate_animated_gif
 from roofAI.semseg import Profile
 from roofAI.logger import logger
 
@@ -46,7 +49,7 @@ class SemSegModel:
         self.model = torch.load(self.filename).to(self.device)
 
         success, metadata = file.load_json(
-            file.set_extension(
+            file.add_extension(
                 self.filename,
                 "json",
             )

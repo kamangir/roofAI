@@ -1,10 +1,11 @@
 import pytest
 import os
-from abcli.modules import objects
-from abcli.plugins.testing import download_object
-from roofAI.dataset.classes import RoofAIDataset, MatrixKind, DatasetKind
-from abcli.plugins import cache
 import numpy as np
+
+from blue_objects import objects
+from abcli.plugins import cache
+
+from roofAI.dataset.classes import RoofAIDataset, MatrixKind, DatasetKind
 
 
 @pytest.mark.parametrize(
@@ -102,7 +103,7 @@ def test_RoofAIDataset(
     expected_shape,
 ):
     dataset_object_name = cache.read(dataset_object_name)
-    assert download_object(dataset_object_name)
+    assert objects.download(dataset_object_name)
 
     dataset = RoofAIDataset(objects.object_path(dataset_object_name))
 

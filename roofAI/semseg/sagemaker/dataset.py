@@ -3,8 +3,10 @@ import glob
 import json
 from tqdm import tqdm
 import sagemaker
-from abcli import env, file
-from abcli.modules import objects
+
+from blue_objects import file, objects
+from blue_objects.env import ABCLI_S3_OBJECT_PREFIX
+
 from roofAI.logger import logger
 
 
@@ -163,9 +165,9 @@ def upload(
 
     sess = sagemaker.Session()
 
-    bucket = env.abcli_s3_object_prefix.split("s3://", 1)[1].split("/")[0]
+    bucket = ABCLI_S3_OBJECT_PREFIX.split("s3://", 1)[1].split("/")[0]
     prefix = "{}/{}".format(
-        env.abcli_s3_object_prefix.split("s3://", 1)[1].split("/", 1)[1],
+        ABCLI_S3_OBJECT_PREFIX.split("s3://", 1)[1].split("/", 1)[1],
         object_name,
     )
 

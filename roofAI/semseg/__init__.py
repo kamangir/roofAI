@@ -1,5 +1,3 @@
-NAME = "roofAI.semseg"
-
 from enum import Enum, auto
 
 chip_width = 480

@@ -2,9 +2,10 @@ import os
 from typing import List, Tuple
 import numpy as np
 from enum import Enum, auto
-from abcli import path
-from abcli import string
-from abcli import file
+
+from blue_options import string
+from blue_objects import file, path
+
 from roofAI.dataset.ingest.CamVid import CLASSES as CAMVID_CLASSES
 from roofAI.semseg import (
     chip_width as semseg_chip_width,
@@ -114,7 +115,7 @@ class RoofAIDataset:
 
         _, self.metadata = file.load_yaml(
             os.path.join(self.path, "metadata.yaml"),
-            civilized=True,
+            ignore_error=True,
         )
 
         self.source = self.metadata.get("source", "AIRS")

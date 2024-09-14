@@ -1,12 +1,16 @@
 import argparse
-from abcli import path
-from abcli.logger import crash_report
-from roofAI import VERSION
-from roofAI.semseg import NAME
+
+from blueness import module
+from blueness.argparse.generic import sys_exit
+from blue_options.logger import crash_report
+from blue_objects import path
+
+from roofAI import VERSION, NAME
 from roofAI.semseg.interface import predict, train
 from roofAI.semseg import Profile
 from roofAI.logger import logger
-from blueness.argparse.generic import sys_exit
+
+NAME = module.name(__file__, NAME)
 
 
 list_of_tasks = "predict|train"
