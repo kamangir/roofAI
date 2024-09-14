@@ -10,7 +10,9 @@ import cv2
 import numpy as np
 from torch.utils.data import DataLoader
 from torch.utils.data import Dataset as BaseDataset
-from abcli import path
+
+from blue_objects import path
+
 from roofAI.dataset.classes import RoofAIDataset
 
 
