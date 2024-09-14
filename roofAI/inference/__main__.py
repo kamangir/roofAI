@@ -81,6 +81,7 @@ except:
     crash_report(f"bad profile: {args.profile}")
     success = False
 
+inference_client = None
 if args.task != "invoke":
     inference_client = InferenceClient(
         image_name=image_name,

@@ -6,14 +6,17 @@ import matplotlib.pyplot as plt
 import numpy as np
 from typing import List, Any
 
+from blueness import module
 from blue_options import string
 from blue_options.host import signature as host_signature
 from blue_objects import file, path
 from blue_objects.graphics import add_signature
 
-from roofAI import VERSION
-from roofAI.semseg import NAME
+from roofAI import VERSION, NAME
 from roofAI.logger import logger
+
+
+NAME = module.name(__file__, NAME)
 
 
 # helper function for data visualization
