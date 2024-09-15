@@ -1,5 +1,4 @@
-from blue_objects import objects
-from abcli.plugins import cache
+from blue_objects import cache, objects
 
 from roofAI.semseg.interface import predict
 
