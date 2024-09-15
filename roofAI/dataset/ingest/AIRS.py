@@ -4,14 +4,16 @@ from typing import List, Tuple, Dict
 import numpy as np
 import matplotlib.pyplot as plt
 
+from blueness import module
 from blue_options import string
 from blue_objects import file, path
 
 
-from roofAI import VERSION
-from roofAI.dataset import NAME
+from roofAI import NAME, VERSION
 from roofAI.dataset.classes import RoofAIDataset, DatasetKind, MatrixKind, DatasetTarget
 from roofAI.logger import logger
+
+NAME = module.name(__file__, NAME)
 
 
 def ingest_AIRS(
