@@ -2,8 +2,7 @@ import pytest
 import os
 import numpy as np
 
-from blue_objects import objects
-from abcli.plugins import cache
+from blue_objects import cache, objects
 
 from roofAI.dataset.classes import RoofAIDataset, MatrixKind, DatasetKind
 

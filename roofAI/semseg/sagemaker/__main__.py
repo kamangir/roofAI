@@ -1,11 +1,15 @@
 import argparse
+
+from blueness import module
+from blueness.argparse.generic import sys_exit
+
 from roofAI import VERSION
-from roofAI.semseg.sagemaker import NAME
+from roofAI import NAME
 from roofAI.semseg.sagemaker.dataset import upload as upload_dataset
 from roofAI.semseg.sagemaker.model import SageSemSegModel
 from roofAI.logger import logger
-from blueness.argparse.generic import sys_exit
 
+NAME = module.name(__file__, NAME)
 
 parser = argparse.ArgumentParser(NAME, description=f"{NAME}-{VERSION}")
 parser.add_argument(
