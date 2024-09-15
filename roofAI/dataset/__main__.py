@@ -1,14 +1,18 @@
 import argparse
 from tqdm import trange
-from roofAI import VERSION
-from roofAI.dataset import NAME
+
+from blueness import module
+from blueness.argparse.generic import sys_exit
+
+from roofAI import VERSION, NAME
 from roofAI.dataset.classes import RoofAIDataset
 from roofAI.dataset.classes import DatasetTarget
 from roofAI.dataset.ingest.AIRS import ingest_AIRS
 from roofAI.dataset.ingest.CamVid import ingest_CamVid
 from roofAI.logger import logger
-from blueness.argparse.generic import sys_exit
 
+
+NAME = module.name(__file__, NAME)
 
 parser = argparse.ArgumentParser(
     f"python3 -m {NAME}",
