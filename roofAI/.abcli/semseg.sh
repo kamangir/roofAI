@@ -36,7 +36,7 @@ function roofAI_semseg() {
         fi
 
         local reference
-        for reference in $(abcli_tag search \
+        for reference in $(abcli_tags search \
             registered_semseg_model \
             --delim space \
             --log 0); do
