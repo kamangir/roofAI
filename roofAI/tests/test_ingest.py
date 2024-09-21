@@ -1,6 +1,7 @@
 import pytest
 
-from blue_objects import cache, objects
+from blue_objects import objects
+from blue_objects.mysql import cache
 
 from roofAI.dataset.ingest.AIRS import ingest_AIRS
 

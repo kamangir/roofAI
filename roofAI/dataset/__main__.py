@@ -4,7 +4,7 @@ from tqdm import trange
 from blueness import module
 from blueness.argparse.generic import sys_exit
 
-from roofAI import VERSION, NAME
+from roofAI import NAME
 from roofAI.dataset.classes import RoofAIDataset
 from roofAI.dataset.classes import DatasetTarget
 from roofAI.dataset.ingest.AIRS import ingest_AIRS
@@ -14,10 +14,7 @@ from roofAI.logger import logger
 
 NAME = module.name(__file__, NAME)
 
-parser = argparse.ArgumentParser(
-    f"python3 -m {NAME}",
-    description=f"{NAME}-{VERSION}",
-)
+parser = argparse.ArgumentParser(NAME)
 parser.add_argument(
     "task",
     type=str,

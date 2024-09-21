@@ -4,7 +4,7 @@ from blueness import module
 from blueness.argparse.generic import sys_exit
 from blue_objects.env import ABCLI_AWS_REGION
 
-from roofAI import VERSION, NAME
+from roofAI import NAME
 from roofAI.logger import logger
 
 
@@ -22,10 +22,8 @@ image_name = "763104351884.dkr.ecr.{}.amazonaws.com/{}:{}".format(
 )
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        f"python3 -m {NAME}",
-        description=f"{NAME}-{VERSION}",
-    )
+    parser = argparse.ArgumentParser(NAME)
+
     parser.add_argument(
         "task",
         type=str,

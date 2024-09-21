@@ -5,7 +5,7 @@ from blueness.argparse.generic import sys_exit
 from blue_options.logger import crash_report
 from blue_objects import path
 
-from roofAI import VERSION, NAME
+from roofAI import NAME
 from roofAI.semseg.interface import predict, train
 from roofAI.semseg import Profile
 from roofAI.logger import logger
@@ -15,10 +15,7 @@ NAME = module.name(__file__, NAME)
 
 list_of_tasks = "predict|train"
 
-parser = argparse.ArgumentParser(
-    f"python3 -m {NAME}",
-    description=f"{NAME}-{VERSION}",
-)
+parser = argparse.ArgumentParser(NAME)
 parser.add_argument(
     "task",
     type=str,

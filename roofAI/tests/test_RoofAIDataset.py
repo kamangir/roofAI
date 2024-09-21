@@ -2,7 +2,8 @@ import pytest
 import os
 import numpy as np
 
-from blue_objects import cache, objects
+from blue_objects import objects
+from blue_objects.mysql import cache
 
 from roofAI.dataset.classes import RoofAIDataset, MatrixKind, DatasetKind
 
