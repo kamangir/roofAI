@@ -1,4 +1,5 @@
-from blue_objects import cache, objects
+from blue_objects import objects
+from blue_objects.mysql import cache
 
 from roofAI.semseg.interface import predict
 
