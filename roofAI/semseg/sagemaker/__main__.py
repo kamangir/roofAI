@@ -3,7 +3,6 @@ import argparse
 from blueness import module
 from blueness.argparse.generic import sys_exit
 
-from roofAI import VERSION
 from roofAI import NAME
 from roofAI.semseg.sagemaker.dataset import upload as upload_dataset
 from roofAI.semseg.sagemaker.model import SageSemSegModel
@@ -11,7 +10,7 @@ from roofAI.logger import logger
 
 NAME = module.name(__file__, NAME)
 
-parser = argparse.ArgumentParser(NAME, description=f"{NAME}-{VERSION}")
+parser = argparse.ArgumentParser(NAME)
 parser.add_argument(
     "task",
     type=str,

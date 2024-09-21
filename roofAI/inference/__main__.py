@@ -4,7 +4,7 @@ from blueness import module
 from blueness.argparse.generic import sys_exit
 from blue_options.logger import crash_report
 
-from roofAI import VERSION, NAME
+from roofAI import NAME
 from roofAI.inference.classes import InferenceClient, InferenceObject
 from roofAI.inference.image import image_name
 from roofAI.inference.endpoints import invoke_endpoint
@@ -14,10 +14,7 @@ from roofAI.logger import logger
 NAME = module.name(__file__, NAME)
 
 list_of_tasks = "create|delete|describe|invoke|list"
-parser = argparse.ArgumentParser(
-    f"python3 -m {NAME}",
-    description=f"{NAME}-{VERSION}",
-)
+parser = argparse.ArgumentParser(NAME)
 parser.add_argument(
     "task",
     type=str,
