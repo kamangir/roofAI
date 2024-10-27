@@ -1,7 +1,7 @@
 blueness
 abcli
-notebooks_and_scripts
 albumentations[imgaug]==1.3.0
+blueflow
 boto3
 efficientnet_pytorch
 geojson
