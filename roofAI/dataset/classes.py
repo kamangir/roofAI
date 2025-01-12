@@ -11,7 +11,7 @@ from roofAI.semseg import (
     chip_width as semseg_chip_width,
     chip_height as semseg_chip_height,
 )
-from roofAI.semseg.sagemaker import (
+from roofAI.dataset.sagemaker import (
     chip_width as sagesemseg_chip_width,
     chip_height as sagesemseg_chip_height,
 )
