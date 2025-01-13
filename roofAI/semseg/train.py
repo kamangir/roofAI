@@ -1,20 +1,15 @@
-"""
-Copied with modification from ../../notebooks/semseg.ipynb
-"""
-
 import os
 import matplotlib.pyplot as plt
 import time
 from typing import List
 import torch
 from torch.utils.data import DataLoader
+import segmentation_models_pytorch as smp
+from segmentation_models_pytorch import utils
 
 from blue_options import string
 from blue_objects import file, path
-from blue_objects.mysql import cache, tags
 
-import segmentation_models_pytorch as smp
-from segmentation_models_pytorch import utils
 from roofAI.semseg.augmentation import (
     get_training_augmentation,
     get_validation_augmentation,
@@ -110,14 +105,11 @@ class SemSegModelTrainer:
         encoder_weights="imagenet",
         activation="sigmoid",  # could be None for logits or 'softmax2d' for multi-class segmentation
         device="cpu",  # 'cuda'
-        do_register: bool = False,
-        suffix: str = "v1",
         in_notebook: bool = False,
     ):
         logger.info(
-            "{}.train{} -{}:{}-> {}[{}]: {}".format(
+            "{}.train{} -{}:{}-> {}[{}]".format(
                 self.__class__.__name__,
-                f"[{suffix}]" if suffix else "",
                 device,
                 activation,
                 encoder_name,
@@ -336,14 +328,5 @@ class SemSegModelTrainer:
         test_epoch.run(test_dataloader)  # logs
 
         # TODO: semseg_model.predict(...)
-
-        if do_register:
-            keyword = f"roofAI_semseg_model_{self.dataset.source}_{suffix}"
-            cache.write(
-                keyword,
-                path.name(self.model_path),
-            )
-
-            tags.set_(keyword, "registered_semseg_model")
 
         return semseg_model

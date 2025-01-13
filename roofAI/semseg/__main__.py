@@ -67,18 +67,6 @@ parser.add_argument(
     default="VALIDATION",
     help="FULL|QUICK|VALIDATION",
 )
-parser.add_argument(
-    "--register",
-    type=int,
-    default=0,
-    help="0|1",
-)
-parser.add_argument(
-    "--suffix",
-    type=str,
-    default="",
-    help="suffix to register the model",
-)
 args = parser.parse_args()
 
 success = True
@@ -111,8 +99,6 @@ if success:
             classes=args.classes.split("+"),
             activation=args.activation,
             device=args.device,
-            do_register=bool(args.register),
-            suffix=args.suffix,
             profile=profile,
         )
     else:

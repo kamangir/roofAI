@@ -33,7 +33,7 @@ roof dataset review open \
 
 ```bash
 roofAI dataset ingest \
-    source=AIRS,register \
+    source=AIRS \
     - \
     --test_count 250 \
     --train_count 350 \
@@ -88,5 +88,5 @@ roof dataset review open \
 
 ```bash
 roofAI dataset ingest \
-    source=CamVid,register
+    source=CamVid
 ```

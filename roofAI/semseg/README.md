@@ -6,7 +6,7 @@ A Semantic Segmenter based on [segmentation_models.pytorch](<https://github.com/
 
 ```bash
 roofAI semseg train \
-    profile=FULL,register,suffix=full_v2 \
+    profile=FULL \
     $(@ref roofAI_ingest_AIRS_v2) \
     $(@timestamp) \
     --classes roof

@@ -6,7 +6,7 @@ function roofAI_dataset_ingest() {
     local options=$1
 
     if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-        local common_options="dryrun,open,register,suffix=<v1>,upload"
+        local common_options="dryrun,open,upload"
 
         local options="source=AIRS,$common_options,target=sagemaker|torch"
         local args="[--test_count <10>]$ABCUL[--train_count <10>]$ABCUL[--val_count <10>]"
@@ -20,9 +20,7 @@ function roofAI_dataset_ingest() {
 
     local do_dryrun=$(abcli_option_int "$options" dryrun 0)
     local do_open=$(abcli_option_int "$options" open 0)
-    local do_register=$(abcli_option_int "$options" register 0)
     local do_upload=$(abcli_option_int "$options" upload 0)
-    local suffix=$(abcli_option "$options" suffix v1)
     local source=$(abcli_option "$options" source)
     local target=$(abcli_option "$options" target torch)
 
@@ -50,13 +48,13 @@ function roofAI_dataset_ingest() {
     fi
 
     if [ "$source" == "AIRS" ]; then
-        local cache_object_name=$(abcli_cache read $cache_keyword)
+        local cache_object_name=$(abcli_mlflow_cache read $cache_keyword)
 
         local cache_from_source=0
         if [[ -z "$cache_object_name" ]]; then
             local cache_object_name=roofAI_ingest_${source}_cache_$(abcli_string_timestamp)
 
-            abcli_cache write \
+            abcli_mlflow_cache write \
                 $cache_keyword \
                 $cache_object_name
 
@@ -103,9 +101,6 @@ function roofAI_dataset_ingest() {
 
     [[ "$do_upload" == 1 ]] &&
         abcli_upload - $object_name
-
-    [[ "$do_register" == 1 ]] &&
-        abcli_cache write roofAI_ingest_${source}_${suffix} $object_name
 
     return 0
 }

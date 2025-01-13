@@ -34,8 +34,6 @@ def test_semseg_train(dataset_source, classes):
             dataset_path=objects.object_path(dataset_object_name),
             model_path=objects.object_path(objects.unique_object()),
             classes=classes,
-            do_register=True,
-            suffix=prefix,
         ),
         SemSegModel,
     )
