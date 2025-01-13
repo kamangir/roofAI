@@ -1,8 +1,8 @@
 import pytest
 
 from blue_objects import objects
-from blue_objects.mlflow import cache
 
+from roofAI import env
 from roofAI.semseg.interface import predict, train
 from roofAI.semseg.model import SemSegModel
 
@@ -11,20 +11,16 @@ from roofAI.semseg.model import SemSegModel
     "dataset_source, classes",
     [
         (
-            "AIRS",
+            env.TEST_roofAI_ingest_AIRS_v1,
             ["roof"],
         ),
         (
-            "CamVid",
+            env.TEST_roofAI_ingest_CamVid_v1,
             ["car"],
         ),
     ],
 )
-def test_semseg_train(dataset_source, classes):
-    success, dataset_object_name = cache.read(f"roofAI_ingest_{dataset_source}_v1")
-    assert success
-    assert dataset_object_name
-
+def test_semseg_train(dataset_object_name, classes):
     assert objects.download(dataset_object_name)
 
     model_object_name = objects.unique_object("test_semseg_train-model")
