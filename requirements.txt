@@ -1,6 +1,8 @@
+numpy<2.0.0
 blueness
 abcli
 albumentations[imgaug]==1.3.0
+# https://github.com/Lightning-AI/litdata/issues/175#issuecomment-2173961570
 blueflow
 boto3
 efficientnet_pytorch
