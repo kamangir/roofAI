@@ -1,27 +1,19 @@
 #! /usr/bin/env bash
 
-function test_roofAI_semseg_train() {
+function test_roofAI_semseg_train_and_predict() {
     local options=$1
     local do_dryrun=$(abcli_option_int "$options" dryrun 0)
 
     local source=$(abcli_option "$options" source AIRS)
-    if [[ -z "$source" ]]; then
-        abcli_log_error "unknown source."
-        return 1
-    fi
 
-    [[ "$abcli_is_github_workflow" == false ]] &&
-        abcli_eval dryrun=$do_dryrun \
-            conda activate $(roofAI_conda environment_name semseg)
-
-    local dataset_object_name=$(abcli_cache read roofAI_ingest_${source}_v1)
+    local dataset_object_name=$ROOFAI_TEST_SEMSEG_DATASET
 
     abcli_log "📜 training on $source - dataset: $dataset_object_name"
 
     local classes=car
     [[ "$source" == AIRS ]] && local classes=roof
 
-    local model_object_name=model-$(abcli_string_timestamp)
+    local model_object_name=test_roofAI_semseg_train_and_predict-model-$(abcli_string_timestamp_short)
 
     abcli_eval dryrun=$do_dryrun \
         roofAI semseg train \
@@ -29,10 +21,11 @@ function test_roofAI_semseg_train() {
         $dataset_object_name \
         $model_object_name \
         --classes $classes
+    [[ $? -ne 0 ]] && return 1
 
     abcli_log "📜 predicting on $source..."
 
-    local prediction_object_name=prediction-$(abcli_string_timestamp)
+    local prediction_object_name=test_roofAI_semseg_train_and_predict-prediction-$(abcli_string_timestamp_short)
 
     abcli_eval dryrun=$do_dryrun \
         roofAI semseg predict \

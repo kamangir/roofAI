@@ -1,4 +1,6 @@
-# AIRS
+# datasets
+
+## AIRS
 
 Aerial Imagery for Roof Segmentation, from [kaggle](https://www.kaggle.com/datasets/atilol/aerialimageryforroofsegmentation), 457 km2, orthorectified, 220,000 buildings, gsd: 7.5 cm, 19.36 GB, + ground truth.
 
@@ -13,7 +15,7 @@ related,
 - https://medium.com/@arash-kamangir/roofai-1-airs-b440ebb54968
 - https://arash-kamangir.medium.com/roofai-9-ingesting-airs-2-e71dca1d28d2
 
-## review
+### review
 
 ```bash
 roof dataset review open \
@@ -27,7 +29,7 @@ roof dataset review open \
     $(@ref roofAI_ingest_AIRS_v2)
 ```
 
-## ingest
+### ingest
 
 ```bash
 roofAI dataset ingest \
@@ -40,7 +42,7 @@ roofAI dataset ingest \
 
 ![image](../../assets/christchurch_424-00000-00000.png)
 
-# CamVid
+## CamVid
 
 ingested from [SegNet-Tutorial](https://github.com/alexgkendall/SegNet-Tutorial),
 
@@ -73,7 +75,7 @@ related,
 - https://arash-kamangir.medium.com/roofai-6-camvid-semseg-for-airs-1-f7530374adef
 - https://arash-kamangir.medium.com/roofai-8-ingesting-airs-1f0efa4bd8a1
 
-## review
+### review
 
 ```bash
 roof dataset review open \
@@ -82,34 +84,9 @@ roof dataset review open \
 
 ![image](../../assets/0001TP_009390.png)
 
-## ingest
+### ingest
 
 ```bash
 roofAI dataset ingest \
     source=CamVid,register
 ```
-
-# SageMaker
-
-from [Semantic Segmentation on AWS Sagemaker](https://github.com/aws/amazon-sagemaker-examples/blob/main/introduction_to_amazon_algorithms/semantic_segmentation_pascalvoc/semantic_segmentation_pascalvoc.ipynb).
-
-example datasets: `pascal-voc-v1-full-v2`,
-
-```bash
-sagesemseg upload_dataset - suffix=full-v2
-```
-
-and `pascal-voc-v1-debug-v2`,
-
-```bash
-sagesemseg upload_dataset - suffix=debug-v2 --count 16
-```
-
-for `subset` in `[train, validation]`,
-
-- `{subset}` contains `.jpg`s.
-- `{subset}_annotation` contains ... indexed `.png` files ... `[0, 1 ... c-1, 255]` for ... `c` class[es] ... `255` ... 'ignore' ... any mode that is a [recognized standard](https://pillow.readthedocs.io/en/3.0.x/handbook/concepts.html#concept-modes) [and] ... read as integers ...
-
-image width = 500, and height = 375, while height seems to be flexible.
-
-![image](https://github.com/kamangir/assets/blob/main/roofAI/christchurch_1011-00000-00000.png?raw=true)

@@ -1,4 +1,8 @@
-# train
+# `semseg`
+
+A Semantic Segmenter based on [segmentation_models.pytorch](<https://github.com/qubvel/segmentation_models.pytorch/blob/master/examples/cars%20segmentation%20(camvid).ipynb>). Also see [the notebooks](../../notebooks/).
+
+## train
 
 ```bash
 roofAI semseg train \
@@ -51,8 +55,7 @@ https://arash-kamangir.medium.com/roofai-20-refactors-on-sagemaker-9e295b84daea
 }
 ```
 
-
-# predict
+## predict
 
 ```bash
 roofAI semseg predict \
