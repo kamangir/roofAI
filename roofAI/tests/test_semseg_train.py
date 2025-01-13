@@ -8,7 +8,7 @@ from roofAI.semseg.model import SemSegModel
 
 
 @pytest.mark.parametrize(
-    "dataset_source, classes",
+    "dataset_object_name, classes",
     [
         (
             env.TEST_roofAI_ingest_AIRS_v1,
