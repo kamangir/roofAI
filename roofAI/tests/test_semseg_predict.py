@@ -1,18 +1,14 @@
 from blue_objects import objects
-from blue_objects.mlflow import cache
 
 from roofAI.semseg.interface import predict
-from roofAI.env import TEST_roofAI_ingest_CamVid_v1
+from roofAI import env
 
 
 def test_semseg_predict():
-    success, model_object_name = cache.read("roofAI_semseg_model_CamVid_v1")
-    assert success and model_object_name
-
+    model_object_name = env.TEST_roofAI_semseg_model_CamVid_v1
     assert objects.download(model_object_name)
 
-    success, dataset_object_name = TEST_roofAI_ingest_CamVid_v1
-
+    dataset_object_name = env.TEST_roofAI_ingest_CamVid_v1
     assert objects.download(dataset_object_name)
 
     prediction_object_name = objects.unique_object("test_semseg_predict")

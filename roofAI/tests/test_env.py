@@ -12,3 +12,4 @@ def test_required_env():
 def test_blue_plugin_env():
     assert env.ROOFAI_TEST_SEMSEG_DATASET
     assert env.TEST_roofAI_ingest_CamVid_v1
+    assert env.TEST_roofAI_semseg_model_CamVid_v1
