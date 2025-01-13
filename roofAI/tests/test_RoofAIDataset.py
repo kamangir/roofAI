@@ -5,6 +5,7 @@ import numpy as np
 from blue_objects import objects
 from blue_objects.mlflow import cache
 
+from roofAI.env import TEST_roofAI_ingest_CamVid_v1
 from roofAI.dataset.classes import RoofAIDataset, MatrixKind, DatasetKind
 
 
@@ -55,7 +56,7 @@ def test_MatrixKind(
     "dataset_keyword, one_liner_prefix, subset, index, matrix_kind, expected_filename, expected_shape",
     [
         (
-            "roofAI_ingest_CamVid_v1",
+            TEST_roofAI_ingest_CamVid_v1,
             "RoofAIDataset[kind:DatasetKind.CAMVID,source:CamVid](",
             "test",
             10,
@@ -64,7 +65,7 @@ def test_MatrixKind(
             (360, 480, 3),
         ),
         (
-            "roofAI_ingest_CamVid_v1",
+            TEST_roofAI_ingest_CamVid_v1,
             "RoofAIDataset[kind:DatasetKind.CAMVID,source:CamVid](",
             "test",
             10,

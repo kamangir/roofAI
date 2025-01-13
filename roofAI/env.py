@@ -14,3 +14,8 @@ ROOFAI_TEST_SEMSEG_DATASET = os.getenv(
     "ROOFAI_TEST_SEMSEG_DATASET",
     "",
 )
+
+TEST_roofAI_ingest_CamVid_v1 = os.getenv(
+    "TEST_roofAI_ingest_CamVid_v1",
+    "",
+)

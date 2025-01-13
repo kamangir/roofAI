@@ -79,7 +79,7 @@ related,
 
 ```bash
 roof dataset review open \
-    $(@ref roofAI_ingest_CamVid_v1)
+    $TEST_roofAI_ingest_CamVid_v1
 ```
 
 ![image](../../assets/0001TP_009390.png)
