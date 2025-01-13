@@ -1,7 +1,3 @@
-"""
-copied with minor modification from ../../notebooks/semseg.ipynb
-"""
-
 import matplotlib.pyplot as plt
 import numpy as np
 from typing import List, Any
@@ -9,10 +5,11 @@ from typing import List, Any
 from blueness import module
 from blue_options import string
 from blue_options.host import signature as host_signature
-from blue_objects import file, path
+from blue_objects import file, path, objects
 from blue_objects.graphics import add_signature
 
 from roofAI import VERSION, NAME
+from roofAI.host import signature
 from roofAI.logger import logger
 
 
@@ -26,6 +23,7 @@ def visualize(
     in_notebook: bool = False,
     description: List[str] = [],
     list_of_contours: List[Any] = [],
+    line_width: int = 80,
 ):
     n = len(images)
     fig = plt.figure(figsize=(n * 5, 5))
@@ -73,7 +71,12 @@ def visualize(
         plt.savefig(filename)
         success = sign_filename(
             filename,
-            header=[path.name(file.path(filename))] + description,
+            header=objects.signature(
+                info=file.name(filename),
+                object_name=path.name(file.path(filename)),
+            )
+            + description,
+            line_width=line_width,
         )
 
     if in_notebook:
@@ -84,6 +87,7 @@ def visualize(
 def sign_filename(
     filename: str,
     header: List[str],
+    line_width: int = 80,
 ) -> bool:
     success, image = file.load_image(filename)
     if not success:
@@ -93,20 +97,9 @@ def sign_filename(
         filename,
         add_signature(
             image,
-            header=[
-                " | ".join(thing)
-                for thing in np.array_split(
-                    header,
-                    2,
-                )
-            ],
-            footer=[
-                " | ".join(thing)
-                for thing in np.array_split(
-                    [f"{NAME}-{VERSION}"] + host_signature(),
-                    2,
-                )
-            ],
+            header=[" | ".join(header)],
+            footer=[" | ".join(signature())],
+            line_width=line_width,
         ),
     ):
         return False
