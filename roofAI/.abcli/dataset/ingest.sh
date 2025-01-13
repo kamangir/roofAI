@@ -90,6 +90,7 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
                 "kaggle datasets download \
                 -d atilol/aerialimageryforroofsegmentation \
                 -p ./"
+            [[ $? -ne 0 ]] && return 1
 
             abcli_eval dryrun=$do_dryrun,path=$ABCLI_OBJECT_ROOT/$cache_object_name \
                 "unzip aerialimageryforroofsegmentation.zip"
@@ -107,6 +108,7 @@ Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
         --ingest_path $object_path \
         "$args" \
         "${@:3}"
+    [[ $? -ne 0 ]] && return 1
 
     [[ "$do_dryrun" == 0 ]] &&
         abcli_cat $object_path/metadata.yaml
