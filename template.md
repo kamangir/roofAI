@@ -2,7 +2,7 @@
 
 everything AI about roofs. 🏛️
 
-🔷 [datasets](./roofAI/dataset) 🔷 [notebooks](./notebooks/) 🔷 [semseg](./roofAI/semseg) 🔷 
+🔷 [datasets](./roofAI/dataset) 🔷 [semseg](./roofAI/semseg) 🔷 
 
 ![image](./assets/predict-00247.png)
 
