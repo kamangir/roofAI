@@ -10,10 +10,6 @@ function test_roofAI_semseg_train() {
         return 1
     fi
 
-    [[ "$abcli_is_github_workflow" == false ]] &&
-        abcli_eval dryrun=$do_dryrun \
-            conda activate $(roofAI_conda environment_name semseg)
-
     local dataset_object_name=$(abcli_cache read roofAI_ingest_${source}_v1)
 
     abcli_log "📜 training on $source - dataset: $dataset_object_name"

@@ -10,10 +10,6 @@ function test_roofAI_dataset_ingest() {
         return 1
     fi
 
-    [[ "$abcli_is_github_workflow" == false ]] &&
-        abcli_eval dryrun=$do_dryrun \
-            conda activate $(roofAI_conda environment_name semseg)
-
     abcli_log "📜 ingesting $source..."
 
     local dataset_object_name=dataset-$(abcli_string_timestamp)
