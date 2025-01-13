@@ -13,7 +13,7 @@ jobs:
       - name: Download se_resnext50_32x4d
         run: |
           mkdir -pv /home/runner/.cache/torch/hub/checkpoints/
-          echo curl \
+          curl \
           --insecure \
           -L http://data.lip6.fr/cadene/pretrainedmodels/se_resnext50_32x4d-a260b3a4.pth \
           -o /home/runner/.cache/torch/hub/checkpoints/se_resnext50_32x4d-a260b3a4.pth

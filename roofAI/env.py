@@ -30,6 +30,11 @@ TEST_roofAI_semseg_model_AIRS_full_v1 = os.getenv(
     "",
 )
 
+TEST_roofAI_semseg_model_AIRS_full_v2 = os.getenv(
+    "TEST_roofAI_semseg_model_AIRS_full_v2",
+    "",
+)
+
 TEST_roofAI_semseg_model_CamVid_v1 = os.getenv(
     "TEST_roofAI_semseg_model_CamVid_v1",
     "",

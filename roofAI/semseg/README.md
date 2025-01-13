@@ -60,7 +60,7 @@ https://arash-kamangir.medium.com/roofai-20-refactors-on-sagemaker-9e295b84daea
 ```bash
 roofAI semseg predict \
     profile=FULL,upload \
-    $(@ref roofAI_semseg_model_AIRS_full_v2) \
+    $TEST_roofAI_semseg_model_AIRS_full_v2 \
     $TEST_roofAI_ingest_AIRS_v2 \
     $(@timestamp)
 ```
