@@ -3,7 +3,6 @@ import os
 import numpy as np
 
 from blue_objects import objects
-from blue_objects.mlflow import cache
 
 from roofAI.env import TEST_roofAI_ingest_CamVid_v1
 from roofAI.dataset.classes import RoofAIDataset, MatrixKind, DatasetKind
@@ -53,7 +52,7 @@ def test_MatrixKind(
 
 
 @pytest.mark.parametrize(
-    "dataset_keyword, one_liner_prefix, subset, index, matrix_kind, expected_filename, expected_shape",
+    "dataset_object_name, one_liner_prefix, subset, index, matrix_kind, expected_filename, expected_shape",
     [
         (
             TEST_roofAI_ingest_CamVid_v1,
@@ -95,7 +94,7 @@ def test_MatrixKind(
     ],
 )
 def test_RoofAIDataset(
-    dataset_keyword,
+    dataset_object_name,
     one_liner_prefix,
     subset,
     index,
@@ -103,9 +102,6 @@ def test_RoofAIDataset(
     expected_filename,
     expected_shape,
 ):
-    success, dataset_object_name = cache.read(dataset_keyword)
-    assert success and dataset_object_name
-
     assert objects.download(dataset_object_name)
 
     dataset = RoofAIDataset(objects.object_path(dataset_object_name))

@@ -24,8 +24,6 @@ function roofAI_dataset_ingest() {
     local source=$(abcli_option "$options" source)
     local target=$(abcli_option "$options" target torch)
 
-    local cache_keyword=roofAI_ingest_${source}_cache
-
     if [[ "|$roofAI_ingest_sources|" != *"|$source|"* ]]; then
         abcli_log_error "-roofAI: dataset: ingest: $source: source not found."
         return 1
@@ -48,15 +46,18 @@ function roofAI_dataset_ingest() {
     fi
 
     if [ "$source" == "AIRS" ]; then
-        local cache_object_name=$(abcli_mlflow_cache read $cache_keyword)
+        local cache_object_name=$(abcli_mlflow_tags search \
+            cache_of=AIRS \
+            --log 0 \
+            --count 1)
 
         local cache_from_source=0
         if [[ -z "$cache_object_name" ]]; then
             local cache_object_name=roofAI_ingest_${source}_cache_$(abcli_string_timestamp)
 
-            abcli_mlflow_cache write \
-                $cache_keyword \
-                $cache_object_name
+            abcli_mlflow_tags set \
+                $cache_object_name \
+                cache_of=AIRS
 
             cache_from_source=1
         else
@@ -84,7 +85,7 @@ function roofAI_dataset_ingest() {
 
         local args="--cache_path $ABCLI_OBJECT_ROOT/$cache_object_name"
 
-        abcli_log "cache: $cache_keyword -> $cache_object_name"
+        abcli_log "caching $source in $cache_object_name ..."
     fi
 
     abcli_eval dryrun=$do_dryrun \
