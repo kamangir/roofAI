@@ -8,6 +8,4 @@ function roofAI() {
         "${@:2}"
 }
 
-abcli_source_caller_suffix_path /tests
-
 abcli_log $(roofAI version --show_icon 1)

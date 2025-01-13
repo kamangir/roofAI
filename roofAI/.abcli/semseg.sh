@@ -59,11 +59,12 @@ function roofAI_semseg() {
             --prediction_path $ABCLI_OBJECT_ROOT/$prediction_object_name \
             --profile $(abcli_option "$options" profile VALIDATION) \
             "${@:6}"
+        local status="$?"
 
         [[ "$do_upload" == 1 ]] &&
             abcli_upload - $prediction_object_name
 
-        return 0
+        return $status
     fi
 
     if [ "$task" == "train" ]; then
@@ -92,30 +93,14 @@ function roofAI_semseg() {
             --register $do_register \
             --suffix $(abcli_option "$options" suffix v1) \
             "${@:5}"
+        local status="$?"
 
         [[ "$do_upload" == 1 ]] &&
             abcli_upload - $model_object_name
 
-        return 0
+        return $status
     fi
 
     abcli_log_error "semseg: $task: command not found."
     return 1
 }
-
-function roofAI_semseg_cache() {
-    local filename="/root/.cache/torch/hub/checkpoints/se_resnext50_32x4d-a260b3a4.pth"
-
-    [[ -f "$filename" ]] && return
-
-    abcli_eval - \
-        curl \
-        --insecure \
-        -L http://data.lip6.fr/cadene/pretrainedmodels/se_resnext50_32x4d-a260b3a4.pth \
-        -o $filename
-}
-
-[[ "$abcli_is_sagemaker_system" == false ]] &&
-    [[ "$abcli_is_mac" == false ]] &&
-    [[ "$abcli_is_github_workflow" == false ]] &&
-    roofAI_semseg_cache
