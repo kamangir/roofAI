@@ -44,7 +44,7 @@ roofAI dataset ingest \
 
 ## CamVid
 
-ingested from [SegNet-Tutorial](https://github.com/alexgkendall/SegNet-Tutorial),
+`360 x 480`, [more info](http://mi.eng.cam.ac.uk/research/projects/VideoRec/CamVid/), ingested from [SegNet-Tutorial](https://github.com/alexgkendall/SegNet-Tutorial),
 
 [review](../../notebooks/dataset/review.ipynb): files are in `./SegNet-Tutorial/CamVid/`, where, for `subset` in `[test, train, val]`,
 

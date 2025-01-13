@@ -44,18 +44,6 @@ function roofAI_dataset_ingest() {
     local args=""
 
     if [ "$source" == "CamVid" ]; then
-        abcli_log """
-The CamVid dataset is a set of:
- - **train** images + segmentation masks
- - **validation** images + segmentation masks
- - **test** images + segmentation masks
- 
-All images have 320 pixels height and 480 pixels width.
-For more inforamtion about dataset visit http://mi.eng.cam.ac.uk/research/projects/VideoRec/CamVid/.
-
-Dataset is downloaded from https://github.com/alexgkendall/SegNet-Tutorial
-"""
-
         # https://github.com/qubvel/segmentation_models.pytorch/blob/master/examples/cars%20segmentation%20(camvid).ipynb
         abcli_eval dryrun=$do_dryrun,path=$object_path \
             abcli_git clone https://github.com/alexgkendall/SegNet-Tutorial object
