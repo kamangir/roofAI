@@ -2,23 +2,8 @@
 
 export semseg_profiles="FULL|DECENT|QUICK|DEBUG|VALIDATION"
 
-function semseg() {
-    roofAI_semseg "$@"
-}
-
 function roofAI_semseg() {
     local task=$(abcli_unpack_keyword $1 help)
-
-    if [ $task == "help" ]; then
-        roofAI_semseg list "$@"
-        roofAI_semseg predict "$@"
-        roofAI_semseg train "$@"
-
-        [[ "$(abcli_keyword_is $2 verbose)" == true ]] &&
-            python3 -m roofAI.semseg --help
-
-        return
-    fi
 
     local options=$2
     $abcli_gpu_status_cache && local device=cuda || local device=cpu
@@ -114,7 +99,7 @@ function roofAI_semseg() {
         return 0
     fi
 
-    abcli_log_error "-semseg: $task: command not found."
+    abcli_log_error "semseg: $task: command not found."
     return 1
 }
 
