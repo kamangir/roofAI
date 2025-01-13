@@ -15,7 +15,6 @@ pyyaml
 pylint
 pytest
 python-dotenv[cli]
-sagemaker>=2,<3
 segmentation_models_pytorch
 scipy
 segmentation-models-pytorch
