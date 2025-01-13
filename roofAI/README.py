@@ -28,13 +28,16 @@ features = {
 
 
 items = [
-    "{}[`{}`](#) [![image]({})](#) {}".format(
-        ICON,
-        f"feature {index}",
-        "https://github.com/kamangir/assets/raw/main/blue-plugin/marquee.png?raw=true",
-        f"description of feature {index} ...",
+    "{}[`{}`]({}) [![image]({})]({}) {}".format(
+        details["icon"],
+        feature,
+        details["url"],
+        details["thumbnail"],
+        details["url"],
+        details["description"],
     )
-    for index in range(1, 4)
+    for feature, details in features.items()
+    if feature != "template"
 ]
 
 
