@@ -10,26 +10,27 @@ ROOFAI_SECRET = os.getenv(
     "",
 )
 
-ROOFAI_TEST_SEMSEG_DATASET = os.getenv(
-    "ROOFAI_TEST_SEMSEG_DATASET",
+TEST_roofAI_ingest_AIRS_v1 = os.getenv(
+    "TEST_roofAI_ingest_AIRS_v1",
+    "",
+)
+
+TEST_roofAI_ingest_AIRS_v2 = os.getenv(
+    "TEST_roofAI_ingest_AIRS_v2",
     "",
 )
 
 TEST_roofAI_ingest_CamVid_v1 = os.getenv(
     "TEST_roofAI_ingest_CamVid_v1",
+    "",
+)
+
+TEST_roofAI_semseg_model_AIRS_full_v1 = os.getenv(
+    "TEST_roofAI_semseg_model_AIRS_full_v1",
     "",
 )
 
 TEST_roofAI_semseg_model_CamVid_v1 = os.getenv(
     "TEST_roofAI_semseg_model_CamVid_v1",
-    "",
-)
-
-TEST_roofAI_ingest_AIRS_v1 = os.getenv(
-    "TEST_roofAI_ingest_AIRS_v1",
-    "",
-)
-TEST_roofAI_ingest_CamVid_v1 = os.getenv(
-    "TEST_roofAI_ingest_CamVid_v1",
     "",
 )
