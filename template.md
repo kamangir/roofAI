@@ -19,8 +19,8 @@ graph LR
     CamVid --> dataset_ingest
     dataset_ingest --> dataset_object_name
 
-    AIRS --> dataset_ingest
-    CamVid --> dataset_ingest
+    AIRS --> dataset_review
+    CamVid --> dataset_review
     dataset_object_name --> dataset_review
 
     classDef folder fill:#999,stroke:#333,stroke-width:2px;
