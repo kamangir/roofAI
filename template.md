@@ -27,7 +27,6 @@ graph LR
     dataset_ingest --> dataset_object_name
 
     AIRS --> dataset_review
-    CamVid --> dataset_review
     dataset_object_name --> dataset_review
 
     dataset_object_name --> semseg_train

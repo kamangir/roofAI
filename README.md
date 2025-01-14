@@ -27,7 +27,6 @@ graph LR
     dataset_ingest --> dataset_object_name
 
     AIRS --> dataset_review
-    CamVid --> dataset_review
     dataset_object_name --> dataset_review
 
     dataset_object_name --> semseg_train
@@ -49,4 +48,4 @@ graph LR
 
 [![pylint](https://github.com/kamangir/roofAI/actions/workflows/pylint.yml/badge.svg)](https://github.com/kamangir/roofAI/actions/workflows/pylint.yml) [![pytest](https://github.com/kamangir/roofAI/actions/workflows/pytest.yml/badge.svg)](https://github.com/kamangir/roofAI/actions/workflows/pytest.yml) [![bashtest](https://github.com/kamangir/roofAI/actions/workflows/bashtest.yml/badge.svg)](https://github.com/kamangir/roofAI/actions/workflows/bashtest.yml) [![PyPI version](https://img.shields.io/pypi/v/roofAI.svg)](https://pypi.org/project/roofAI/) [![PyPI - Downloads](https://img.shields.io/pypi/dd/roofAI)](https://pypistats.org/packages/roofAI)
 
-built by 🌀 [`blue_options-4.187.1`](https://github.com/kamangir/awesome-bash-cli), based on 🏛️ [`roofAI-5.75.1`](https://github.com/kamangir/roofAI).
+built by 🌀 [`blue_options-4.187.1`](https://github.com/kamangir/awesome-bash-cli), based on 🏛️ [`roofAI-5.76.1`](https://github.com/kamangir/roofAI).
