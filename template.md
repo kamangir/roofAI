@@ -14,7 +14,7 @@ graph LR
 
     semseg_train["semseg<br>train -<br>&lt;dataset-object-name&gt;<br>&lt;model-object-name&gt;"]
 
-    semseg_predict["xxx"]
+    semseg_predict["semseg<br>predict -<br>&lt;model-object-name&gt;<br>&lt;dataset-object-name&gt;<br>&lt;prediction-object-name&gt;<br>"]
 
     AIRS["AIRS"]:::folder
     CamVid["CamVid"]:::folder
