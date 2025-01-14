@@ -96,13 +96,17 @@ def ingest_AIRS(
             "ingested-by": f"{NAME}-{VERSION}",
             # SageMaker
             "bucket": "kamangir",
-            "channel": {
-                "label_map": f"s3://kamangir/bolt/{ingest_object_name}/label_map/train_label_map.json",
-                "train": f"s3://kamangir/bolt/{ingest_object_name}/train",
-                "train_annotation": f"s3://kamangir/bolt/{ingest_object_name}/train_annotation",
-                "validation": f"s3://kamangir/bolt/{ingest_object_name}/validation",
-                "validation_annotation": f"s3://kamangir/bolt/{ingest_object_name}/validation_annotation",
-            },
+            "channel": (
+                {
+                    "label_map": f"s3://kamangir/bolt/{ingest_object_name}/label_map/train_label_map.json",
+                    "train": f"s3://kamangir/bolt/{ingest_object_name}/train",
+                    "train_annotation": f"s3://kamangir/bolt/{ingest_object_name}/train_annotation",
+                    "validation": f"s3://kamangir/bolt/{ingest_object_name}/validation",
+                    "validation_annotation": f"s3://kamangir/bolt/{ingest_object_name}/validation_annotation",
+                }
+                if target == DatasetTarget.SAGEMAKER
+                else {}
+            ),
             "num": counts,
             "prefix": f"bolt/{ingest_object_name}",
         },
