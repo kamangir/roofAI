@@ -4,6 +4,7 @@ from blue_options import MARQUEE as default_MARQUEE
 from blue_objects import file, README
 
 from roofAI import NAME, VERSION, ICON, REPO_NAME
+from roofAI.dataset.README import items as dataset_items
 
 features = {
     "datasets": {
@@ -42,11 +43,24 @@ items = [
 
 
 def build():
-    return README.build(
-        items=items,
-        path=os.path.join(file.path(__file__), ".."),
-        ICON=ICON,
-        NAME=NAME,
-        VERSION=VERSION,
-        REPO_NAME=REPO_NAME,
+    return all(
+        [
+            README.build(
+                items=items,
+                path=os.path.join(file.path(__file__), ".."),
+                ICON=ICON,
+                NAME=NAME,
+                VERSION=VERSION,
+                REPO_NAME=REPO_NAME,
+            ),
+            README.build(
+                items=dataset_items,
+                cols=len(dataset_items),
+                path=os.path.join(file.path(__file__), "dataset"),
+                ICON=ICON,
+                NAME=NAME,
+                VERSION=VERSION,
+                REPO_NAME=REPO_NAME,
+            ),
+        ]
     )
