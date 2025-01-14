@@ -10,8 +10,7 @@ def help_ingest(
     options = "".join(
         [
             "source=AIRS",
-            xtra(",dryrun,upload,", mono=mono),
-            "target=<target>",
+            xtra(",dryrun,upload,target=<target>", mono=mono),
         ]
     )
 
