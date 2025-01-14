@@ -72,15 +72,28 @@ def help_review(
     tokens: List[str],
     mono: bool,
 ) -> str:
-    options = "actions|repo"
+    options = "".join(
+        [
+            "download",
+            xtra(",dryrun", mono=mono),
+        ]
+    )
+
+    args = [
+        "[--count <1>]",
+        "[--index <index>]",
+        "[--subset <subset>]",
+    ]
 
     return show_usage(
         [
-            "@plugin",
-            "browse",
+            "roofAI",
+            "dataset",
+            "review",
             f"[{options}]",
+            "[.|<object-name>]",
         ],
-        "browse blue_plugin.",
+        "review <object-name>.",
         mono=mono,
     )
 
