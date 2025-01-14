@@ -8,7 +8,7 @@
     - Consumed by `roofAI semseg train`.
 1. AIRS: The [original AIRS dataset](./ingest/AIRS.md)
     - Should be ingested to be trained on ⬆️.
-1. SageMaker: For [`sagesemseg`](https://github.com/kamangir/blue-sandbox/blob/main/blue_sandbox/sagesemseg/README.md).
+1. SageMaker: For [`sagesemseg`](https://github.com/kamangir/blue-sandbox/blob/main/blue_sandbox/sagesemseg/README.md), ingested from `AIRS` with `target=sagemaker`.
 
 |   |   |
 | --- | --- |
