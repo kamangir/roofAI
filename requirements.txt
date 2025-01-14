@@ -12,7 +12,6 @@ kaggle
 matplotlib
 opencv-python
 pretrainedmodels
-pymysql
 pyyaml
 pylint
 pytest

@@ -6,8 +6,8 @@ A Semantic Segmenter based on [segmentation_models.pytorch](<https://github.com/
 
 ```bash
 roofAI semseg train \
-    profile=FULL,register,suffix=full_v2 \
-    $(@ref roofAI_ingest_AIRS_v2) \
+    profile=FULL \
+    $TEST_roofAI_ingest_AIRS_v2 \
     $(@timestamp) \
     --classes roof
 ```
@@ -60,8 +60,8 @@ https://arash-kamangir.medium.com/roofai-20-refactors-on-sagemaker-9e295b84daea
 ```bash
 roofAI semseg predict \
     profile=FULL,upload \
-    $(@ref roofAI_semseg_model_AIRS_full_v2) \
-    $(@ref roofAI_ingest_AIRS_v2) \
+    $TEST_roofAI_semseg_model_AIRS_full_v2 \
+    $TEST_roofAI_ingest_AIRS_v2 \
     $(@timestamp)
 ```
 

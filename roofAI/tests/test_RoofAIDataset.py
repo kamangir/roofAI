@@ -3,8 +3,8 @@ import os
 import numpy as np
 
 from blue_objects import objects
-from blue_objects.mysql import cache
 
+from roofAI.env import TEST_roofAI_ingest_CamVid_v1
 from roofAI.dataset.classes import RoofAIDataset, MatrixKind, DatasetKind
 
 
@@ -38,8 +38,8 @@ from roofAI.dataset.classes import RoofAIDataset, MatrixKind, DatasetKind
     ],
 )
 def test_MatrixKind(
-    matrix_kind,
-    dataset_kind,
+    dataset_kind: DatasetKind,
+    matrix_kind: MatrixKind,
     subset_path,
     filename_and_extension,
 ):
@@ -55,7 +55,7 @@ def test_MatrixKind(
     "dataset_object_name, one_liner_prefix, subset, index, matrix_kind, expected_filename, expected_shape",
     [
         (
-            "roofAI_ingest_CamVid_v1",
+            TEST_roofAI_ingest_CamVid_v1,
             "RoofAIDataset[kind:DatasetKind.CAMVID,source:CamVid](",
             "test",
             10,
@@ -64,7 +64,7 @@ def test_MatrixKind(
             (360, 480, 3),
         ),
         (
-            "roofAI_ingest_CamVid_v1",
+            TEST_roofAI_ingest_CamVid_v1,
             "RoofAIDataset[kind:DatasetKind.CAMVID,source:CamVid](",
             "test",
             10,
@@ -102,7 +102,6 @@ def test_RoofAIDataset(
     expected_filename,
     expected_shape,
 ):
-    dataset_object_name = cache.read(dataset_object_name)
     assert objects.download(dataset_object_name)
 
     dataset = RoofAIDataset(objects.object_path(dataset_object_name))

@@ -47,4 +47,4 @@ jobs:
           echo "ABCLI_AWS_RDS_PASSWORD: $ABCLI_AWS_RDS_PASSWORD"
           echo "DATABRICKS_HOST: $DATABRICKS_HOST"
           echo "DATABRICKS_TOKEN: $DATABRICKS_TOKEN"
-          pytest
+          pytest --verbose

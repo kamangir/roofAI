@@ -6,7 +6,7 @@ function test_roofAI_semseg_train_and_predict() {
 
     local source=$(abcli_option "$options" source AIRS)
 
-    local dataset_object_name=$ROOFAI_TEST_SEMSEG_DATASET
+    local dataset_object_name=$TEST_roofAI_ingest_AIRS_v1
 
     abcli_log "📜 training on $source - dataset: $dataset_object_name"
 

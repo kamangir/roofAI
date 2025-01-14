@@ -189,7 +189,6 @@ class SemSegModel:
                 in_notebook=in_notebook,
                 filename=filename,
                 description=[
-                    f"{n:05d}",
                     f"model: {self.object_name}",
                     self.signature,
                     f"device: {self.device}",

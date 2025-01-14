@@ -35,11 +35,9 @@ def train(
     encoder_weights="imagenet",
     activation="sigmoid",  # could be None for logits or 'softmax2d' for multi-class segmentation
     device="cpu",  # 'cuda'
-    do_register: bool = False,
-    suffix: str = "v1",
     profile: Profile = Profile.VALIDATION,
     in_notebook: bool = False,
-) -> Tuple[bool, Any]:
+) -> SemSegModel:
     trainer = SemSegModelTrainer(
         dataset_path=dataset_path,
         model_path=model_path,
@@ -54,8 +52,6 @@ def train(
         encoder_weights=encoder_weights,
         activation=activation,
         device=device,
-        do_register=do_register,
-        suffix=suffix,
         in_notebook=in_notebook,
     )
 

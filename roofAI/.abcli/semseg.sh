@@ -10,26 +10,7 @@ function roofAI_semseg() {
     local device=$(abcli_option "$options" device $device)
     local do_dryrun=$(abcli_option_int "$options" dryrun 0)
     local do_download=$(abcli_option_int "$options" download $(abcli_not $do_dryrun))
-    local do_register=$(abcli_option_int "$options" register 0)
-    local do_upload=$(abcli_option_int "$options" upload $do_register)
-
-    if [ "$task" == "list" ]; then
-        if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-            abcli_show_usage "semseg list" \
-                "list registered semseg models."
-            return
-        fi
-
-        local reference
-        for reference in $(abcli_tags search \
-            registered_semseg_model \
-            --delim space \
-            --log 0); do
-            abcli_log "⚡️ $reference: $(abcli_cache read $reference)"
-        done
-
-        return
-    fi
+    local do_upload=$(abcli_option_int "$options" upload $(abcli_not $do_dryrun))
 
     if [ "$task" == "predict" ]; then
         if [ $(abcli_option_int "$options" help 0) == 1 ]; then
@@ -69,7 +50,7 @@ function roofAI_semseg() {
 
     if [ "$task" == "train" ]; then
         if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-            local options="device=cpu|cuda,~download,dryrun,profile=$semseg_profiles,register,suffix=<v1>,upload"
+            local options="device=cpu|cuda,~download,dryrun,profile=$semseg_profiles,upload"
             local args="[--activation <sigmoid>]$ABCUL[--classes <one+two+three+four>]$ABCUL[--encoder_name <se_resnext50_32x4d>]$ABCUL[--encoder_weights <imagenet>]"
             abcli_show_usage "semseg train$ABCUL[$options]$ABCUL<dataset-object-name>$ABCUL<model-object-name>$ABCUL$args" \
                 "semseg.train(<dataset-object-name>) -> <model-object-name>."
@@ -90,8 +71,6 @@ function roofAI_semseg() {
             --dataset_path $ABCLI_OBJECT_ROOT/$dataset_object_name \
             --model_path $ABCLI_OBJECT_ROOT/$model_object_name \
             --profile $(abcli_option "$options" profile VALIDATION) \
-            --register $do_register \
-            --suffix $(abcli_option "$options" suffix v1) \
             "${@:5}"
         local status="$?"
 

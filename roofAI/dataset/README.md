@@ -26,14 +26,14 @@ roof dataset review open \
 
 ```bash
 roof dataset review open \
-    $(@ref roofAI_ingest_AIRS_v2)
+    $TEST_roofAI_ingest_AIRS_v2
 ```
 
 ### ingest
 
 ```bash
 roofAI dataset ingest \
-    source=AIRS,register \
+    source=AIRS \
     - \
     --test_count 250 \
     --train_count 350 \
@@ -44,7 +44,7 @@ roofAI dataset ingest \
 
 ## CamVid
 
-ingested from [SegNet-Tutorial](https://github.com/alexgkendall/SegNet-Tutorial),
+`360 x 480`, [more info](http://mi.eng.cam.ac.uk/research/projects/VideoRec/CamVid/), ingested from [SegNet-Tutorial](https://github.com/alexgkendall/SegNet-Tutorial),
 
 [review](../../notebooks/dataset/review.ipynb): files are in `./SegNet-Tutorial/CamVid/`, where, for `subset` in `[test, train, val]`,
 
@@ -79,7 +79,7 @@ related,
 
 ```bash
 roof dataset review open \
-    $(@ref roofAI_ingest_CamVid_v1)
+    $TEST_roofAI_ingest_CamVid_v1
 ```
 
 ![image](../../assets/0001TP_009390.png)
@@ -88,5 +88,5 @@ roof dataset review open \
 
 ```bash
 roofAI dataset ingest \
-    source=CamVid,register
+    source=CamVid
 ```
