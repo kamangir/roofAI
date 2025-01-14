@@ -1,6 +1,6 @@
 list_of_datasets = {
     "AIRS": {
-        "description": "Aerial Imagery for Roof Segmentation, from [kaggle](https://www.kaggle.com/datasets/atilol/aerialimageryforroofsegmentation), 457 km2, orthorectified, 220,000 buildings, gsd: 7.5 cm, 19.36 GB, + ground truth.",
+        "description": "Aerial Imagery for Roof Segmentation from [kaggle](https://www.kaggle.com/datasets/atilol/aerialimageryforroofsegmentation).",
         "thumbnail": "../../assets/christchurch_397.png",
     },
     "CamVid": {
