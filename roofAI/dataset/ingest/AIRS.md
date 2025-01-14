@@ -22,7 +22,7 @@ roofAI dataset ingest \
     --val_count 100
 ```
 
-![image](../../assets/christchurch_424-00000-00000.png)
+![image](../../../assets/christchurch_424-00000-00000.png)
 
 ## Review
 
