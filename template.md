@@ -20,7 +20,6 @@ graph LR
     CamVid --> dataset_ingest
     dataset_ingest --> dataset_object_name
 
-
     AIRS --> dataset_review
     CamVid --> dataset_review
     dataset_object_name --> dataset_review

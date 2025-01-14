@@ -16,7 +16,7 @@ def help_ingest(
 
     args = [
         "[--test_count <10>]",
-        "[--train_count <10>]",
+        "[--train_count <80>]",
         "[--val_count <10>]",
     ]
 
