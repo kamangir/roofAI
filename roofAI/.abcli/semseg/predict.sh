@@ -16,7 +16,7 @@ function roofAI_semseg_predict() {
     [[ "$do_download" == 1 ]] &&
         abcli_download - $dataset_object_name
 
-    local prediction_object_name=$(abcli_clarify_object $4 prediction-$(abcli_string_timestamp_short))
+    local prediction_object_name=$(abcli_clarify_object $4 $dataset_object_name-prediction-$(abcli_string_timestamp_short))
 
     abcli_log "semseg[$model_object_name].predict($dataset_object_name) -$device-> $prediction_object_name."
 

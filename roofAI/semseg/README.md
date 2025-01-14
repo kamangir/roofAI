@@ -43,17 +43,21 @@ roofAI semseg train \
 <details>
 <summary>objects</summary>
 
-5 epochs: `roofAI-dataset-2025-01-13-bbz4k3-train-2025-01-13-i8le50` 🎰
+5 epochs
+```bash
+roofAI-dataset-2025-01-13-bbz4k3-train-2025-01-13-i8le50
+```
 
-3 epochs: `roofAI-dataset-2025-01-13-gca7nz-train-2025-01-13-ukhtql` 🎰
+3 epochs
+```bash
+roofAI-dataset-2025-01-13-gca7nz-train-2025-01-13-ukhtql
+```
 
 </details>
 
-🎰
-
-![image](../../assets/christchurch_424-00000-00000.png)
-
-![image](../../assets/train-summary.png)
+| | | |
+|-|-|-|
+| ![image](https://github.com/kamangir/assets/blob/main/roofAI/roofAI-dataset-2025-01-13-bbz4k3-train-2025-01-13-i8le50/dataset.png?raw=true) | ![image](https://github.com/kamangir/assets/blob/main/roofAI/roofAI-dataset-2025-01-13-bbz4k3-train-2025-01-13-i8le50/train-summary.png?raw=true) | ![image](https://github.com/kamangir/assets/blob/main/roofAI/roofAI-dataset-2025-01-13-bbz4k3-train-2025-01-13-i8le50/predict-00000.png?raw=true) |
 
 `model.json` (example, shortened)
 ```json
@@ -94,12 +98,23 @@ roofAI semseg train \
 
 ```bash
 roofAI semseg predict \
-    profile=FULL,upload \
-    $TEST_roofAI_semseg_model_AIRS_full_v2 \
-    $TEST_roofAI_ingest_AIRS_v2 \
-    $(@timestamp)
+    profile=QUICK,upload \
+    roofAI-dataset-2025-01-13-bbz4k3-train-2025-01-13-i8le50 \
+    $TEST_roofAI_ingest_AIRS_v2
 ```
 
-![image](../../assets/predict-00247.png)
+<details>
+<summary>objects</summary>
+
+```bash
+prediction-2025-01-13-v4nd7z
+```
+
+<details>
+
+
+![image](https://github.com/kamangir/assets/blob/main/roofAI/predict-00009.png?raw=true)
+
+---
 
 ![image](https://github.com/kamangir/assets/blob/main/roofAI/2023-11-12-20-30-49-02592-predict.gif?raw=true)
