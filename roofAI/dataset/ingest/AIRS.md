@@ -22,20 +22,21 @@ roofAI dataset ingest \
     --val_count 100
 ```
 
-🔥
-
 ## Review
 
 ```bash
 roofAI dataset review - \
-    $ROOFAI_AIRS_CACHE_OBJECT_NAME
+    $ROOFAI_AIRS_CACHE_OBJECT_NAME \
+    --index 2
 ```
 
-![image](../../../assets/christchurch_397.png)
+![image](https://github.com/kamangir/assets/blob/main/roofAI/AIRS-cache-v45--review-index-2.png?raw=true)
 
 ```bash
 roofAI dataset review - \
-    $TEST_roofAI_ingest_AIRS_v2
+    roofAI_ingest_AIRS_2025-01-13-sg1kjj
 ```
+
+🚧
 
 ![image](../../../assets/christchurch_424-00000-00000.png)

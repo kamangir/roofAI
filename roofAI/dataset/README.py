@@ -1,7 +1,7 @@
 list_of_datasets = {
     "AIRS": {
         "description": "Aerial Imagery for Roof Segmentation from [kaggle](https://www.kaggle.com/datasets/atilol/aerialimageryforroofsegmentation).",
-        "thumbnail": "../../assets/christchurch_397.png",
+        "thumbnail": "https://github.com/kamangir/assets/blob/main/roofAI/AIRS-cache-v45--review-index-2.png?raw=true",
     },
     "CamVid": {
         "description": "From [SegNet-Tutorial](https://github.com/alexgkendall/SegNet-Tutorial)",
