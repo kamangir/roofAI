@@ -10,9 +10,10 @@ pip install roofAI
 graph LR
     dataset_ingest["vanwatch<br>discover<br>target=&lt;target&gt;<br>&lt;object-name&gt;"]
     dataset_review["vanwatch<br>discover<br>target=&lt;target&gt;<br>&lt;object-name&gt;"]
-    dataset_object_name["geojson"]:::folder
-    AIRS["geojson"]:::folder
-    CamVid["geojson"]:::folder
+
+    dataset_object_name["dataset object"]:::folder
+    AIRS["AIRS"]:::folder
+    CamVid["CamVid"]:::folder
 
     AIRS --> dataset_ingest
     CamVid --> dataset_ingest
