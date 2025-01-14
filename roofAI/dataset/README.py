@@ -11,7 +11,7 @@ list_of_datasets = {
 
 
 items = [
-    "[`{}`](./ingest/{}) [![image]({})](./ingest/{}) {}".format(
+    "[`{}`](./ingest/{}.md) [![image]({})](./ingest/{}.md) {}".format(
         dataset_name,
         dataset_name,
         details["thumbnail"],
