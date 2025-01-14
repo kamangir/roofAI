@@ -5,7 +5,7 @@ list_of_datasets = {
     },
     "CamVid": {
         "description": "From [SegNet-Tutorial](https://github.com/alexgkendall/SegNet-Tutorial)",
-        "thumbnail": "../../assets/0001TP_009390.png",
+        "thumbnail": "https://github.com/kamangir/assets/blob/main/roofAI/0001TP_008850.png?raw=true",
     },
 }
 

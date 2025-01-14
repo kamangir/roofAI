@@ -12,5 +12,5 @@
 
 |   |   |
 | --- | --- |
-| [`AIRS`](./ingest/AIRS.md) [![image](https://github.com/kamangir/assets/blob/main/roofAI/AIRS-cache-v45--review-index-2.png?raw=true)](./ingest/AIRS.md) Aerial Imagery for Roof Segmentation from [kaggle](https://www.kaggle.com/datasets/atilol/aerialimageryforroofsegmentation). | [`CamVid`](./ingest/CamVid.md) [![image](../../assets/0001TP_009390.png)](./ingest/CamVid.md) From [SegNet-Tutorial](https://github.com/alexgkendall/SegNet-Tutorial) |
+| [`AIRS`](./ingest/AIRS.md) [![image](https://github.com/kamangir/assets/blob/main/roofAI/AIRS-cache-v45--review-index-2.png?raw=true)](./ingest/AIRS.md) Aerial Imagery for Roof Segmentation from [kaggle](https://www.kaggle.com/datasets/atilol/aerialimageryforroofsegmentation). | [`CamVid`](./ingest/CamVid.md) [![image](https://github.com/kamangir/assets/blob/main/roofAI/0001TP_008850.png?raw=true)](./ingest/CamVid.md) From [SegNet-Tutorial](https://github.com/alexgkendall/SegNet-Tutorial) |
 

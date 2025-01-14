@@ -10,7 +10,7 @@ For `subset` in `[test, train, val]`,
 - `{subset}/label` contains `.tif`s and `_vis.tif`, binary, RGB.
 - `{subset}.txt`, `test.txt` missing.
 
-more: [AIRS.ipynb](../../notebooks/dataset/custom/AIRS.ipynb).
+more: [AIRS.ipynb](../../../notebooks/dataset/custom/AIRS.ipynb).
 
 ## Ingest
 
