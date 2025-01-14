@@ -92,7 +92,8 @@ def help_review(
             "review",
             f"[{options}]",
             "[.|<object-name>]",
-        ],
+        ]
+        + args,
         "review <object-name>.",
         mono=mono,
     )
