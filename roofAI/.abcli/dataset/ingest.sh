@@ -1,41 +1,22 @@
 #! /usr/bin/env bash
 
-export roofAI_ingest_sources="CamVid|AIRS"
-
 function roofAI_dataset_ingest() {
     local options=$1
-
-    if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-        local common_options="dryrun,open,upload"
-
-        local options="source=AIRS,$common_options,target=sagemaker|torch"
-        local args="[--test_count <10>]$ABCUL[--train_count <10>]$ABCUL[--val_count <10>]"
-        abcli_show_usage "roofAI dataset ingest$ABCUL[$options]$ABCUL<object-name>$ABCUL$args" \
-            "ingest AIRS -> <object-name>."
-
-        abcli_show_usage "roofAI dataset ingest$ABCUL[source=CamVid,$common_options]$ABCUL<object-name>" \
-            "ingest CamVid -> <object-name>."
-        return
-    fi
-
     local do_dryrun=$(abcli_option_int "$options" dryrun 0)
-    local do_open=$(abcli_option_int "$options" open 0)
     local do_upload=$(abcli_option_int "$options" upload 0)
     local source=$(abcli_option "$options" source)
     local target=$(abcli_option "$options" target torch)
 
-    if [[ "|$roofAI_ingest_sources|" != *"|$source|"* ]]; then
-        abcli_log_error "-roofAI: dataset: ingest: $source: source not found."
+    if [[ "|CamVid|AIRS|" != *"|$source|"* ]]; then
+        abcli_log_error "roofAI: dataset: ingest: $source: source not found."
         return 1
     fi
 
-    local object_name=$(abcli_clarify_object $2 roofAI_ingest_${source}_$(abcli_string_timestamp))
+    local object_name=$(abcli_clarify_object $2 roofAI_ingest_${source}_$(abcli_string_timestamp_short))
     local object_path=$ABCLI_OBJECT_ROOT/$object_name
-    mkdir -p $object_path
-    [[ "$do_open" == 1 ]] &&
-        open $object_path
+    mkdir -pv $object_path
 
-    abcli_log "ingesting $source -> $target:$object_name"
+    abcli_log "ingesting $source -$target-> $object_name"
 
     local args=""
 
@@ -46,27 +27,12 @@ function roofAI_dataset_ingest() {
     fi
 
     if [ "$source" == "AIRS" ]; then
-        local cache_object_name=$(abcli_mlflow_tags search \
-            cache_of=AIRS \
-            --log 0 \
-            --count 1)
+        local cache_object_name=$ROOFAI_AIRS_CACHE_OBJECT_NAME
 
         local cache_from_source=0
-        if [[ -z "$cache_object_name" ]]; then
-            local cache_object_name=roofAI_ingest_${source}_cache_$(abcli_string_timestamp)
-
-            abcli_mlflow_tags set \
-                $cache_object_name \
-                cache_of=AIRS
-
+        if [[ ! -f $ABCLI_OBJECT_ROOT/$cache_object_name/train.txt ]]; then
+            abcli_log "cache is empty: $cache_object_name"
             cache_from_source=1
-        else
-            abcli_download - $cache_object_name
-
-            if [[ ! -f $ABCLI_OBJECT_ROOT/$cache_object_name/train.txt ]]; then
-                abcli_log "cache is empty: $cache_object_name"
-                cache_from_source=1
-            fi
         fi
 
         if [[ "$cache_from_source" == 1 ]]; then
@@ -84,8 +50,6 @@ function roofAI_dataset_ingest() {
         fi
 
         local args="--cache_path $ABCLI_OBJECT_ROOT/$cache_object_name"
-
-        abcli_log "caching $source in $cache_object_name ..."
     fi
 
     abcli_eval dryrun=$do_dryrun \
@@ -95,7 +59,7 @@ function roofAI_dataset_ingest() {
         --ingest_path $object_path \
         "$args" \
         "${@:3}"
-    [[ $? -ne 0 ]] && return 1
+    local status="$?"
 
     [[ "$do_dryrun" == 0 ]] &&
         abcli_cat $object_path/metadata.yaml
@@ -103,5 +67,5 @@ function roofAI_dataset_ingest() {
     [[ "$do_upload" == 1 ]] &&
         abcli_upload - $object_name
 
-    return 0
+    return $status
 }

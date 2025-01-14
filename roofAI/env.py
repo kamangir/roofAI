@@ -39,3 +39,8 @@ TEST_roofAI_semseg_model_CamVid_v1 = os.getenv(
     "TEST_roofAI_semseg_model_CamVid_v1",
     "",
 )
+
+ROOFAI_AIRS_CACHE_OBJECT_NAME = os.getenv(
+    "ROOFAI_AIRS_CACHE_OBJECT_NAME",
+    "",
+)
