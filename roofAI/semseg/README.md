@@ -6,14 +6,13 @@ A Semantic Segmenter based on [segmentation_models.pytorch](<https://github.com/
 
 ```bash
 @select roofAI-dataset-$(@@timestamp)
+
 roofAI dataset ingest \
     source=AIRS,upload . \
     --test_count 1000 \
     --train_count 8000 \
     --val_count 1000
-```
 
-```bash
 roofAI dataset review - .
 ```
 
