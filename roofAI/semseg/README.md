@@ -110,7 +110,7 @@ roofAI semseg predict \
 prediction-2025-01-13-v4nd7z
 ```
 
-<details>
+</details>
 
 
 ![image](https://github.com/kamangir/assets/blob/main/roofAI/predict-00009.png?raw=true)
