@@ -10,7 +10,7 @@ pip install roofAI
 graph LR
     dataset_ingest["roofAI<br>dataset<br>ingest<br>source=AIRS|CamVid<br>&lt;dataset-object-name&gt;"]
 
-    dataset_review["vanwatch<br>discover<br>target=&lt;target&gt;<br>&lt;object-name&gt;"]
+    dataset_review["roofAI<br>dataset<br>review -<br>&lt;dataset-object-name&gt;"]
 
     dataset_object_name["dataset object"]:::folder
     AIRS["AIRS"]:::folder
