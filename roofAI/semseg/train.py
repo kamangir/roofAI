@@ -106,15 +106,20 @@ class SemSegModelTrainer:
         activation="sigmoid",  # could be None for logits or 'softmax2d' for multi-class segmentation
         device="cpu",  # 'cuda'
         in_notebook: bool = False,
+        epoch_count: int = -1,
     ):
+        if epoch_count == -1:
+            epoch_count = self.profile.epoch_count
+
         logger.info(
-            "{}.train{} -{}:{}-> {}[{}]".format(
+            "{}.train{} -{}:{}-> {}[{}] {} epoch(s)".format(
                 self.__class__.__name__,
                 device,
                 activation,
                 encoder_name,
                 encoder_weights,
                 ",".join(classes),
+                epoch_count,
             )
         )
 
@@ -200,9 +205,9 @@ class SemSegModelTrainer:
         max_score = 0
         model_filename = os.path.join(self.model_path, "model.pth")
         epic_logs = {}
-        epic_list = range(0, self.profile.epoch_count)
+        epic_list = range(0, epoch_count)
         for i in epic_list:
-            logger.info("epoch: #{}/{}".format(i + 1, self.profile.epoch_count))
+            logger.info("epoch: #{}/{}".format(i + 1, epoch_count))
             train_logs = train_epoch.run(train_loader)
             valid_logs = valid_epoch.run(valid_loader)
 

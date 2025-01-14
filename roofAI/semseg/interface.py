@@ -37,6 +37,7 @@ def train(
     device="cpu",  # 'cuda'
     profile: Profile = Profile.VALIDATION,
     in_notebook: bool = False,
+    epoch_count: int = -1,
 ) -> SemSegModel:
     trainer = SemSegModelTrainer(
         dataset_path=dataset_path,
@@ -53,6 +54,7 @@ def train(
         activation=activation,
         device=device,
         in_notebook=in_notebook,
+        epoch_count=epoch_count,
     )
 
     model.predict(

@@ -67,6 +67,12 @@ parser.add_argument(
     default="VALIDATION",
     help="FULL|QUICK|VALIDATION",
 )
+parser.add_argument(
+    "--epoch_count",
+    type=int,
+    default=-1,
+    help="-1: according to profile",
+)
 args = parser.parse_args()
 
 success = True
@@ -100,6 +106,7 @@ if success:
             activation=args.activation,
             device=args.device,
             profile=profile,
+            epoch_count=args.epoch_count,
         )
     else:
         success = None
