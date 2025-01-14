@@ -5,34 +5,34 @@ A Semantic Segmenter based on [segmentation_models.pytorch](<https://github.com/
 ## ingest
 
 ```bash
+@select roofAI-dataset-$(@@timestamp)
 roofAI dataset ingest \
-	source=AIRS,upload - \
-	--test_count 1000 \
-	--train_count 8000 \
-	--val_count 1000
+    source=AIRS,upload . \
+    --test_count 1000 \
+    --train_count 8000 \
+    --val_count 1000
 ```
-
-🔥
 
 ```bash
 roofAI dataset review - .
 ```
 
-🚧
+<details>
+<summary></summary>
+
+`roofAI-dataset-2025-01-13-bbz4k3`
+
+</details>
+
+🔥
 
 ## train
 
 ```bash
 roofAI semseg train \
-    profile=FULL \
-    $TEST_roofAI_ingest_AIRS_v2 \
-    $(@timestamp) \
+    profile=FULL . - \
     --classes roof
 ```
-
-https://arash-kamangir.medium.com/roofai-17-train-on-airs-on-sagemaker-2-dd24082aca03
-
-https://arash-kamangir.medium.com/roofai-20-refactors-on-sagemaker-9e295b84daea
 
 ![image](../../assets/christchurch_424-00000-00000.png)
 

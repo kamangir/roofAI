@@ -15,20 +15,20 @@ function roofAI_semseg() {
     if [ "$task" == "predict" ]; then
         if [ $(abcli_option_int "$options" help 0) == 1 ]; then
             local options="device=cpu|cuda,~download,dryrun,profile=$semseg_profiles,upload"
-            abcli_show_usage "semseg predict$ABCUL[$options]$ABCUL[...|<model-object-name>]$ABCUL[..|<dataset-object-name>]$ABCUL[-|<prediction-object-name>]" \
+            abcli_show_usage "semseg predict$ABCUL[$options]$ABCUL[..|<model-object-name>]$ABCUL[.|<dataset-object-name>]$ABCUL[-|<prediction-object-name>]" \
                 "semseg[<model-object-name>].predict(<dataset-object-name>) -> <prediction-object-name>."
             return
         fi
 
-        local model_object_name=$(abcli_clarify_object $3 ...)
+        local model_object_name=$(abcli_clarify_object $3 ..)
         [[ "$do_download" == 1 ]] &&
             abcli_download - $model_object_name
 
-        local dataset_object_name=$(abcli_clarify_object $4 ..)
+        local dataset_object_name=$(abcli_clarify_object $4 .)
         [[ "$do_download" == 1 ]] &&
             abcli_download - $dataset_object_name
 
-        local prediction_object_name=$(abcli_clarify_object $5 $(abcli_string_timestamp))
+        local prediction_object_name=$(abcli_clarify_object $5 prediction-$(abcli_string_timestamp_short))
 
         abcli_log "semseg[$model_object_name].predict($dataset_object_name) -$device-> $prediction_object_name."
 
@@ -52,16 +52,16 @@ function roofAI_semseg() {
         if [ $(abcli_option_int "$options" help 0) == 1 ]; then
             local options="device=cpu|cuda,~download,dryrun,profile=$semseg_profiles,upload"
             local args="[--activation <sigmoid>]$ABCUL[--classes <one+two+three+four>]$ABCUL[--encoder_name <se_resnext50_32x4d>]$ABCUL[--encoder_weights <imagenet>]"
-            abcli_show_usage "semseg train$ABCUL[$options]$ABCUL<dataset-object-name>$ABCUL<model-object-name>$ABCUL$args" \
+            abcli_show_usage "semseg train$ABCUL[$options]$ABCUL[.|<dataset-object-name>]$ABCUL[-|<model-object-name>]$ABCUL$args" \
                 "semseg.train(<dataset-object-name>) -> <model-object-name>."
             return
         fi
 
-        local dataset_object_name=$(abcli_clarify_object $3 ..)
+        local dataset_object_name=$(abcli_clarify_object $3 .)
         [[ "$do_download" == 1 ]] &&
             abcli_download - $dataset_object_name
 
-        local model_object_name=$(abcli_clarify_object $4 .)
+        local model_object_name=$(abcli_clarify_object $4 $dataset_object_name-train-$(abcli_string_timestamp_short))
 
         abcli_log "semseg.train($dataset_object_name) -$device-> $model_object_name."
 
