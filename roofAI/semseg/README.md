@@ -18,7 +18,7 @@ roofAI dataset review - .
 ```
 
 <details>
-<summary></summary>
+<summary>objects</summary>
 
 `roofAI-dataset-2025-01-13-bbz4k3`
 
@@ -28,7 +28,7 @@ roofAI dataset review - .
 
 ## train
 
-🔥
+
 
 ```bash
 roofAI semseg train \
@@ -36,6 +36,17 @@ roofAI semseg train \
     --classes roof \
     --epoch_count 5
 ```
+
+<details>
+<summary>objects</summary>
+
+5 epochs: `roofAI-dataset-2025-01-13-bbz4k3-train-2025-01-13-i8le50` 🎰
+
+3 epochs: `roofAI-dataset-2025-01-13-gca7nz-train-2025-01-13-ukhtql` 🎰
+
+</details>
+
+🎰
 
 ![image](../../assets/christchurch_424-00000-00000.png)
 
