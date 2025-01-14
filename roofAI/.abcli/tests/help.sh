@@ -9,6 +9,10 @@ function test_roofAI_help() {
         "roofAI dataset ingest" \
         "roofAI dataset review" \
         \
+        "roofAI semseg" \
+        "roofAI semseg predict" \
+        "roofAI semseg train" \
+        \
         "roofAI"; do
         abcli_eval ,$options \
             abcli_help $module

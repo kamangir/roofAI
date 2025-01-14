@@ -22,18 +22,19 @@ roofAI dataset review - .
 
 `roofAI-dataset-2025-01-13-bbz4k3`
 
-`roofAI-dataset-2025-01-13-gca7nz` 🎰
+`roofAI-dataset-2025-01-13-gca7nz`
 
 </details>
 
-🔥
-
 ## train
+
+🔥
 
 ```bash
 roofAI semseg train \
     profile=FULL . - \
-    --classes roof
+    --classes roof \
+    --epoch_count 5
 ```
 
 ![image](../../assets/christchurch_424-00000-00000.png)
