@@ -22,18 +22,18 @@ roofAI dataset ingest \
     --val_count 100
 ```
 
-![image](../../../assets/christchurch_424-00000-00000.png)
-
 ## Review
 
 ```bash
-roof dataset review - \
-    $(@ref roofAI_ingest_AIRS_cache)
+roofAI dataset review - \
+    $ROOFAI_AIRS_CACHE_OBJECT_NAME
 ```
 
 ![image](../../../assets/christchurch_397.png)
 
 ```bash
-roof dataset review - \
+roofAI dataset review - \
     $TEST_roofAI_ingest_AIRS_v2
 ```
+
+![image](../../../assets/christchurch_424-00000-00000.png)
