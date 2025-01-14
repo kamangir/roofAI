@@ -10,7 +10,7 @@ features = {
     "datasets": {
         "description": "Semantic Segmentation Datasets",
         "icon": ICON,
-        "thumbnail": "https://github.com/kamangir/roofAI/raw/main/assets/christchurch_397.png",
+        "thumbnail": "https://github.com/kamangir/assets/blob/main/roofAI/AIRS-cache-v45--review-index-2.png?raw=true",
         "url": "https://github.com/kamangir/roofAI/blob/main/roofAI/dataset",
     },
     "semseg": {
