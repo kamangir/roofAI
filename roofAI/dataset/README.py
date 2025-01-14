@@ -4,7 +4,7 @@ list_of_datasets = {
         "thumbnail": "../../assets/christchurch_397.png",
     },
     "CamVid": {
-        "description": "`360 x 480` dataset ingested from [SegNet-Tutorial](https://github.com/alexgkendall/SegNet-Tutorial)",
+        "description": "From [SegNet-Tutorial](https://github.com/alexgkendall/SegNet-Tutorial)",
         "thumbnail": "../../assets/0001TP_009390.png",
     },
 }
