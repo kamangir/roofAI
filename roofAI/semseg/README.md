@@ -2,23 +2,62 @@
 
 A Semantic Segmenter based on [segmentation_models.pytorch](<https://github.com/qubvel/segmentation_models.pytorch/blob/master/examples/cars%20segmentation%20(camvid).ipynb>). Also see [the notebooks](../../notebooks/).
 
+## ingest
+
+```bash
+@select roofAI-dataset-$(@@timestamp)
+
+roofAI dataset ingest \
+    source=AIRS,upload . \
+    --test_count 1000 \
+    --train_count 8000 \
+    --val_count 1000
+
+roofAI dataset review - .
+```
+
+<details>
+<summary>objects</summary>
+
+```bash
+roofAI-dataset-2025-01-13-bbz4k3
+```
+
+```bash
+roofAI-dataset-2025-01-13-gca7nz
+```
+
+</details>
+
 ## train
+
+
 
 ```bash
 roofAI semseg train \
-    profile=FULL \
-    $TEST_roofAI_ingest_AIRS_v2 \
-    $(@timestamp) \
-    --classes roof
+    profile=FULL . - \
+    --classes roof \
+    --epoch_count 5
 ```
 
-https://arash-kamangir.medium.com/roofai-17-train-on-airs-on-sagemaker-2-dd24082aca03
+<details>
+<summary>objects</summary>
 
-https://arash-kamangir.medium.com/roofai-20-refactors-on-sagemaker-9e295b84daea
+5 epochs
+```bash
+roofAI-dataset-2025-01-13-bbz4k3-train-2025-01-13-i8le50
+```
 
-![image](../../assets/christchurch_424-00000-00000.png)
+3 epochs
+```bash
+roofAI-dataset-2025-01-13-gca7nz-train-2025-01-13-ukhtql
+```
 
-![image](../../assets/train-summary.png)
+</details>
+
+| | | |
+|-|-|-|
+| ![image](https://github.com/kamangir/assets/blob/main/roofAI/roofAI-dataset-2025-01-13-bbz4k3-train-2025-01-13-i8le50/dataset.png?raw=true) | ![image](https://github.com/kamangir/assets/blob/main/roofAI/roofAI-dataset-2025-01-13-bbz4k3-train-2025-01-13-i8le50/train-summary.png?raw=true) | ![image](https://github.com/kamangir/assets/blob/main/roofAI/roofAI-dataset-2025-01-13-bbz4k3-train-2025-01-13-i8le50/predict-00000.png?raw=true) |
 
 `model.json` (example, shortened)
 ```json
@@ -59,12 +98,23 @@ https://arash-kamangir.medium.com/roofai-20-refactors-on-sagemaker-9e295b84daea
 
 ```bash
 roofAI semseg predict \
-    profile=FULL,upload \
-    $TEST_roofAI_semseg_model_AIRS_full_v2 \
-    $TEST_roofAI_ingest_AIRS_v2 \
-    $(@timestamp)
+    profile=QUICK,upload \
+    roofAI-dataset-2025-01-13-bbz4k3-train-2025-01-13-i8le50 \
+    $TEST_roofAI_ingest_AIRS_v2
 ```
 
-![image](../../assets/predict-00247.png)
+<details>
+<summary>objects</summary>
+
+```bash
+prediction-2025-01-13-v4nd7z
+```
+
+</details>
+
+
+![image](https://github.com/kamangir/assets/blob/main/roofAI/predict-00009.png?raw=true)
+
+---
 
 ![image](https://github.com/kamangir/assets/blob/main/roofAI/2023-11-12-20-30-49-02592-predict.gif?raw=true)

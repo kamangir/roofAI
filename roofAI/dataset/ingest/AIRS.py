@@ -76,7 +76,8 @@ def ingest_AIRS(
                     output_path=ingest_dataset.subset_path(subset, matrix_kind),
                     target=target,
                     prefix=record_id,
-                    log=verbose,
+                    log=log,
+                    verbose=verbose,
                 )
 
                 chip_count -= slice_count
@@ -85,6 +86,8 @@ def ingest_AIRS(
 
                 if chip_count <= 0:
                     break
+                if log:
+                    logger.info(f"remaining chip count: {chip_count:,}")
 
     ingest_object_name = path.name(ingest_path)
     file.save_yaml(
@@ -96,13 +99,17 @@ def ingest_AIRS(
             "ingested-by": f"{NAME}-{VERSION}",
             # SageMaker
             "bucket": "kamangir",
-            "channel": {
-                "label_map": f"s3://kamangir/bolt/{ingest_object_name}/label_map/train_label_map.json",
-                "train": f"s3://kamangir/bolt/{ingest_object_name}/train",
-                "train_annotation": f"s3://kamangir/bolt/{ingest_object_name}/train_annotation",
-                "validation": f"s3://kamangir/bolt/{ingest_object_name}/validation",
-                "validation_annotation": f"s3://kamangir/bolt/{ingest_object_name}/validation_annotation",
-            },
+            "channel": (
+                {
+                    "label_map": f"s3://kamangir/bolt/{ingest_object_name}/label_map/train_label_map.json",
+                    "train": f"s3://kamangir/bolt/{ingest_object_name}/train",
+                    "train_annotation": f"s3://kamangir/bolt/{ingest_object_name}/train_annotation",
+                    "validation": f"s3://kamangir/bolt/{ingest_object_name}/validation",
+                    "validation_annotation": f"s3://kamangir/bolt/{ingest_object_name}/validation_annotation",
+                }
+                if target == DatasetTarget.SAGEMAKER
+                else {}
+            ),
             "num": counts,
             "prefix": f"bolt/{ingest_object_name}",
         },
@@ -129,7 +136,8 @@ def slice_matrix(
     output_path: str,
     prefix: str,
     target: DatasetTarget = DatasetTarget.TORCH,
-    log: bool = False,
+    log: bool = True,
+    verbose: bool = False,
 ) -> Tuple[int, List[str]]:
     if log:
         logger.info(
@@ -191,7 +199,7 @@ def slice_matrix(
                     ),
                 ),
                 chip,
-                log=log,
+                log=verbose,
             )
 
             if kind == MatrixKind.MASK:
@@ -202,7 +210,7 @@ def slice_matrix(
                         f"{record_id}.png",
                     ),
                     (plt.cm.viridis(chip) * 255).astype(np.uint8)[:, :, :3],
-                    log=log,
+                    log=verbose,
                 )
 
             count += 1

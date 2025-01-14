@@ -17,3 +17,5 @@ def test_blue_plugin_env():
     assert env.TEST_roofAI_semseg_model_AIRS_full_v1
     assert env.TEST_roofAI_semseg_model_AIRS_full_v2
     assert env.TEST_roofAI_semseg_model_CamVid_v1
+
+    assert env.ROOFAI_AIRS_CACHE_OBJECT_NAME
