@@ -37,6 +37,4 @@ roofAI dataset review - \
     roofAI_ingest_AIRS_2025-01-13-sg1kjj
 ```
 
-🚧
-
-![image](../../../assets/christchurch_424-00000-00000.png)
+![image](https://github.com/kamangir/assets/blob/main/roofAI/christchurch_1011-00000-02400.png?raw=true)
