@@ -12,7 +12,7 @@ function roofAI_semseg_train() {
     [[ "$do_download" == 1 ]] &&
         abcli_download - $dataset_object_name
 
-    local model_object_name=$(abcli_clarify_object $3 $dataset_object_name-train-$(abcli_string_timestamp_short))
+    local model_object_name=$(abcli_clarify_object $3 $dataset_object_name-model-$(abcli_string_timestamp_short))
 
     abcli_log "semseg.train($dataset_object_name) -$device-> $model_object_name."
 
