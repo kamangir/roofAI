@@ -8,13 +8,13 @@ pip install roofAI
 
 ```mermaid
 graph LR
-    dataset_ingest["roofAI<br>dataset<br>ingest<br>source=AIRS|CamVid<br>&lt;dataset-object-name&gt;"]
+    dataset_ingest["roofAI dataset ingest source=AIRS|CamVid <dataset-object-name>"]
 
-    dataset_review["roofAI<br>dataset<br>review -<br>&lt;dataset-object-name&gt;"]
+    dataset_review["roofAI dataset review~- <dataset-object-name>"]
 
-    semseg_train["semseg<br>train -<br>&lt;dataset-object-name&gt;<br>&lt;model-object-name&gt;"]
+    semseg_train["semseg train~- <dataset-object-name> <model-object-name>"]
 
-    semseg_predict["semseg<br>predict -<br>&lt;model-object-name&gt;<br>&lt;dataset-object-name&gt;<br>&lt;prediction-object-name&gt;<br>"]
+    semseg_predict["semseg predict~- <model-object-name> <dataset-object-name> <prediction-object-name>"]
 
     AIRS["AIRS"]:::folder
     CamVid["CamVid"]:::folder
