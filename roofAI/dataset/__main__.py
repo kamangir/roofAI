@@ -119,7 +119,14 @@ if args.task == "ingest":
 elif args.task == "review":
     dataset = RoofAIDataset(args.dataset_path)
 
-    for index in trange(args.count):
+    for index in trange(
+        min(
+            args.count,
+            len(
+                dataset.subsets[args.subset],
+            ),
+        )
+    ):
         dataset.visualize(
             subset=args.subset,
             index=index + args.index,
