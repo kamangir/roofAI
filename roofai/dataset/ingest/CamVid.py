@@ -2,8 +2,8 @@ import os
 
 from blue_objects import file
 
-from roofAI import NAME, VERSION
-from roofAI.logger import logger
+from roofai import NAME, VERSION
+from roofai.logger import logger
 
 CLASSES = [
     "sky",

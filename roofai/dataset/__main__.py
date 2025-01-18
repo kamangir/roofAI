@@ -4,12 +4,12 @@ from tqdm import trange
 from blueness import module
 from blueness.argparse.generic import sys_exit
 
-from roofAI import NAME
-from roofAI.dataset.classes import RoofAIDataset
-from roofAI.dataset.classes import DatasetTarget
-from roofAI.dataset.ingest.AIRS import ingest_AIRS
-from roofAI.dataset.ingest.CamVid import ingest_CamVid
-from roofAI.logger import logger
+from roofai import NAME
+from roofai.dataset.classes import RoofAIDataset
+from roofai.dataset.classes import DatasetTarget
+from roofai.dataset.ingest.AIRS import ingest_AIRS
+from roofai.dataset.ingest.CamVid import ingest_CamVid
+from roofai.logger import logger
 
 
 NAME = module.name(__file__, NAME)

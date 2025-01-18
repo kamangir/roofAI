@@ -1,7 +1,7 @@
 from abcli.tests.test_env import test_abcli_env
 from blue_objects.tests.test_env import test_blue_objects_env
 
-from roofAI import env
+from roofai import env
 
 
 def test_required_env():

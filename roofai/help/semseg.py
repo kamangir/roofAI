@@ -2,7 +2,7 @@ from typing import List
 
 from blue_options.terminal import show_usage, xtra
 
-from roofAI.semseg import Profile
+from roofai.semseg import Profile
 
 list_of_profiles = [profile.name for profile in Profile]
 

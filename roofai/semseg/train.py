@@ -10,17 +10,17 @@ from segmentation_models_pytorch import utils
 from blue_options import string
 from blue_objects import file, path
 
-from roofAI.semseg.augmentation import (
+from roofai.semseg.augmentation import (
     get_training_augmentation,
     get_validation_augmentation,
     get_preprocessing,
 )
-from roofAI.dataset.classes import RoofAIDataset
-from roofAI.semseg.dataloader import Dataset
-from roofAI.semseg.model import SemSegModel
-from roofAI.semseg.utils import visualize, sign_filename
-from roofAI.semseg import Profile
-from roofAI.logger import logger
+from roofai.dataset.classes import RoofAIDataset
+from roofai.semseg.dataloader import Dataset
+from roofai.semseg.model import SemSegModel
+from roofai.semseg.utils import visualize, sign_filename
+from roofai.semseg import Profile
+from roofai.logger import logger
 
 
 class SemSegModelTrainer:

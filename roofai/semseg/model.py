@@ -16,12 +16,12 @@ from blue_options import string
 from blue_objects import file, path
 from blue_objects.graphics.gif import generate_animated_gif
 
-from roofAI.semseg.augmentation import get_validation_augmentation, get_preprocessing
-from roofAI.dataset.classes import RoofAIDataset
-from roofAI.semseg.dataloader import Dataset
-from roofAI.semseg.utils import visualize
-from roofAI.semseg import Profile
-from roofAI.logger import logger
+from roofai.semseg.augmentation import get_validation_augmentation, get_preprocessing
+from roofai.dataset.classes import RoofAIDataset
+from roofai.semseg.dataloader import Dataset
+from roofai.semseg.utils import visualize
+from roofai.semseg import Profile
+from roofai.logger import logger
 
 
 class SemSegModel:

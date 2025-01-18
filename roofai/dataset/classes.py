@@ -9,18 +9,18 @@ from blue_objects import file, path, objects
 from blue_objects.metadata import get_from_object
 from blue_objects.storage import instance as storage
 
-from roofAI import NAME
-from roofAI.dataset.ingest.CamVid import CLASSES as CAMVID_CLASSES
-from roofAI.semseg import (
+from roofai import NAME
+from roofai.dataset.ingest.CamVid import CLASSES as CAMVID_CLASSES
+from roofai.semseg import (
     chip_width as semseg_chip_width,
     chip_height as semseg_chip_height,
 )
-from roofAI.dataset.sagemaker import (
+from roofai.dataset.sagemaker import (
     chip_width as sagesemseg_chip_width,
     chip_height as sagesemseg_chip_height,
 )
-from roofAI.semseg.utils import visualize
-from roofAI.logger import logger
+from roofai.semseg.utils import visualize
+from roofai.logger import logger
 
 NAME = module.name(__file__, NAME)
 

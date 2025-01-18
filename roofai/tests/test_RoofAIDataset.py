@@ -4,8 +4,8 @@ import numpy as np
 
 from blue_objects import objects
 
-from roofAI.env import TEST_roofAI_ingest_CamVid_v1
-from roofAI.dataset.classes import RoofAIDataset, MatrixKind, DatasetKind
+from roofai.env import TEST_roofAI_ingest_CamVid_v1
+from roofai.dataset.classes import RoofAIDataset, MatrixKind, DatasetKind
 
 
 @pytest.mark.parametrize(

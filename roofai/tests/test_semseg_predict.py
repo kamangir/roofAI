@@ -1,7 +1,7 @@
 from blue_objects import objects
 
-from roofAI.semseg.interface import predict
-from roofAI import env
+from roofai.semseg.interface import predict
+from roofai import env
 
 
 def test_semseg_predict():

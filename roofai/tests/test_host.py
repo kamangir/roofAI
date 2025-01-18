@@ -1,4 +1,4 @@
-from roofAI.host import signature
+from roofai.host import signature
 
 
 def test_signature():

@@ -2,9 +2,9 @@ import pytest
 
 from blue_objects import objects
 
-from roofAI import env
-from roofAI.semseg.interface import predict, train
-from roofAI.semseg.model import SemSegModel
+from roofai import env
+from roofai.semseg.interface import predict, train
+from roofai.semseg.model import SemSegModel
 
 
 @pytest.mark.parametrize(

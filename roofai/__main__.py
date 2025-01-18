@@ -1,7 +1,7 @@
 from blueness.argparse.generic import main
 
-from roofAI import NAME, VERSION, DESCRIPTION, ICON, README
-from roofAI.logger import logger
+from roofai import NAME, VERSION, DESCRIPTION, ICON, README
+from roofai.logger import logger
 
 main(
     ICON=ICON,

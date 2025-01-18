@@ -1,8 +1,8 @@
 import os.path
 from typing import List
-from roofAI.semseg.model import SemSegModel
-from roofAI.semseg.train import SemSegModelTrainer
-from roofAI.semseg import Profile
+from roofai.semseg.model import SemSegModel
+from roofai.semseg.train import SemSegModelTrainer
+from roofai.semseg import Profile
 from typing import Tuple, Any
 
 

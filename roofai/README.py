@@ -3,8 +3,8 @@ import os
 from blue_options import MARQUEE as default_MARQUEE
 from blue_objects import file, README
 
-from roofAI import NAME, VERSION, ICON, REPO_NAME
-from roofAI.dataset.README import items as dataset_items
+from roofai import NAME, VERSION, ICON, REPO_NAME
+from roofai.dataset.README import items as dataset_items
 
 features = {
     "datasets": {

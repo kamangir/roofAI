@@ -13,7 +13,7 @@ from torch.utils.data import Dataset as BaseDataset
 
 from blue_objects import path
 
-from roofAI.dataset.classes import RoofAIDataset
+from roofai.dataset.classes import RoofAIDataset
 
 
 class Dataset(BaseDataset):

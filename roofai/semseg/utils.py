@@ -8,9 +8,9 @@ from blue_options.host import signature as host_signature
 from blue_objects import file, path, objects
 from blue_objects.graphics import add_signature
 
-from roofAI import VERSION, NAME
-from roofAI.host import signature
-from roofAI.logger import logger
+from roofai import VERSION, NAME
+from roofai.host import signature
+from roofai.logger import logger
 
 
 NAME = module.name(__file__, NAME)

@@ -9,9 +9,9 @@ from blue_options import string
 from blue_objects import file, path
 
 
-from roofAI import NAME, VERSION
-from roofAI.dataset.classes import RoofAIDataset, DatasetKind, MatrixKind, DatasetTarget
-from roofAI.logger import logger
+from roofai import NAME, VERSION
+from roofai.dataset.classes import RoofAIDataset, DatasetKind, MatrixKind, DatasetTarget
+from roofai.logger import logger
 
 NAME = module.name(__file__, NAME)
 

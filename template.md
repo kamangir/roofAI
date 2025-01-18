@@ -3,7 +3,7 @@
 everything AI about roofs. 🏛️
 
 ```bash
-pip install roofAI
+pip install roofai
 ```
 
 ```mermaid

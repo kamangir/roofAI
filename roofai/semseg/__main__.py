@@ -5,10 +5,10 @@ from blueness.argparse.generic import sys_exit
 from blue_options.logger import crash_report
 from blue_objects import path
 
-from roofAI import NAME
-from roofAI.semseg.interface import predict, train
-from roofAI.semseg import Profile
-from roofAI.logger import logger
+from roofai import NAME
+from roofai.semseg.interface import predict, train
+from roofai.semseg import Profile
+from roofai.logger import logger
 
 NAME = module.name(__file__, NAME)
 
