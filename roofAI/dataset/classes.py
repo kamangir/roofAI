@@ -5,7 +5,9 @@ from enum import Enum, auto
 
 from blueness import module
 from blue_options import string
-from blue_objects import file, path
+from blue_objects import file, path, objects
+from blue_objects.metadata import get_from_object
+from blue_objects.storage import instance as storage
 
 from roofAI import NAME
 from roofAI.dataset.ingest.CamVid import CLASSES as CAMVID_CLASSES
@@ -186,7 +188,7 @@ class RoofAIDataset:
         )
 
     @property
-    def one_liner(self):
+    def one_liner(self) -> str:
         return "{}[kind:{},source:{}]({}): {} subset(s): {} - {} class(es): {}".format(
             self.__class__.__name__,
             self.kind,
@@ -204,7 +206,7 @@ class RoofAIDataset:
         )
 
     @property
-    def dataset_path(self):
+    def dataset_path(self) -> str:
         return os.path.join(self.path, self.kind.prefix_path)
 
     def get_filename(
@@ -213,12 +215,30 @@ class RoofAIDataset:
         record_id: str,
         matrix_kind: MatrixKind = MatrixKind.IMAGE,
         log: bool = False,
-    ):
+    ) -> str:
         assert isinstance(matrix_kind, MatrixKind)
-        filename = os.path.join(
-            self.dataset_path,
-            matrix_kind.filename_and_extension(self.kind, subset, record_id),
-        )
+
+        if self.kind == DatasetKind.DISTRIBUTED:
+            record_metadata = get_from_object(
+                object_name=record_id,
+                key="rasterize",
+                default={},
+                download=True,
+            )
+
+            filename = record_metadata["reference_filename"]
+            if matrix_kind == MatrixKind.MASK:
+                filename = file.add_suffix(filename, "label")
+
+            assert storage.download_file(f"bolt/{record_id}/{filename}", "object")
+
+            filename = objects.path_of(filename, record_id)
+        else:
+            filename = os.path.join(
+                self.dataset_path,
+                matrix_kind.filename_and_extension(self.kind, subset, record_id),
+            )
+
         if log:
             logger.info(
                 "{}[{}].get_filename({},{},{}): {}".format(
@@ -295,7 +315,7 @@ class RoofAIDataset:
         description: List[str] = [],
         log: bool = False,
     ):
-        if index > len(self.subsets[subset]):
+        if index >= len(self.subsets[subset]):
             logger.warning(
                 "{}.visualize: item ignored, index={} > len(subset[{}]) = {}.".format(
                     NAME,
