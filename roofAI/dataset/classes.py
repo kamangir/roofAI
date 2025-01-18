@@ -90,9 +90,10 @@ class DatasetKind(Enum):
     AIRS = auto()
     CAMVID = auto()
     SAGEMAKER = auto()
+    DISTRIBUTED = auto()
 
     def file_extension(self, kind: MatrixKind) -> str:
-        if self == DatasetKind.AIRS:
+        if self in [DatasetKind.AIRS, DatasetKind.DISTRIBUTED]:
             return "tif"
 
         if self == DatasetKind.CAMVID:
