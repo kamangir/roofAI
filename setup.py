@@ -8,10 +8,18 @@ setup(
     name=NAME,
     version=VERSION,
     description=DESCRIPTION,
-    packages=[NAME],
+    packages=[
+        NAME,
+        f"{NAME}.dataset",
+        f"{NAME}.dataset.ingest",
+        f"{NAME}.help",
+        f"{NAME}.semseg",
+    ],
     include_package_data=True,
     package_data={
         NAME: [
+            "config.env",
+            "sample.env",
             ".abcli/**/*.sh",
         ],
     },

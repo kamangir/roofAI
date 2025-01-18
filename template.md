@@ -21,6 +21,7 @@ graph LR
     dataset_object_name["dataset object"]:::folder
     model_object_name["model object"]:::folder
     prediction_object_name["prediction object"]:::folder
+    terminal["💻 terminal"]:::folder
 
     AIRS --> dataset_ingest
     CamVid --> dataset_ingest
@@ -28,6 +29,7 @@ graph LR
 
     AIRS --> dataset_review
     dataset_object_name --> dataset_review
+    dataset_review --> terminal
 
     dataset_object_name --> semseg_train
     semseg_train --> model_object_name

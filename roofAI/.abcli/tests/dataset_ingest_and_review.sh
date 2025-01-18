@@ -11,7 +11,7 @@ function test_roofAI_dataset_ingest_and_review() {
     local dataset_object_name=test_roofAI_dataset_ingest_and_review-$(abcli_string_timestamp_short)
 
     abcli_eval dryrun=$do_dryrun \
-        roofAI dataset ingest \
+        roofAI_dataset_ingest \
         source=$source,$2 \
         $dataset_object_name \
         --test_count 16 \
@@ -20,7 +20,7 @@ function test_roofAI_dataset_ingest_and_review() {
     [[ $? -ne 0 ]] && return 1
 
     abcli_eval dryrun=$do_dryrun \
-        roofAI dataset review \
+        roofAI_dataset_review \
         ,$3 \
         $dataset_object_name \
         --count 1 \

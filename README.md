@@ -21,6 +21,7 @@ graph LR
     dataset_object_name["dataset object"]:::folder
     model_object_name["model object"]:::folder
     prediction_object_name["prediction object"]:::folder
+    terminal["💻 terminal"]:::folder
 
     AIRS --> dataset_ingest
     CamVid --> dataset_ingest
@@ -28,6 +29,7 @@ graph LR
 
     AIRS --> dataset_review
     dataset_object_name --> dataset_review
+    dataset_review --> terminal
 
     dataset_object_name --> semseg_train
     semseg_train --> model_object_name
@@ -48,4 +50,4 @@ graph LR
 
 [![pylint](https://github.com/kamangir/roofAI/actions/workflows/pylint.yml/badge.svg)](https://github.com/kamangir/roofAI/actions/workflows/pylint.yml) [![pytest](https://github.com/kamangir/roofAI/actions/workflows/pytest.yml/badge.svg)](https://github.com/kamangir/roofAI/actions/workflows/pytest.yml) [![bashtest](https://github.com/kamangir/roofAI/actions/workflows/bashtest.yml/badge.svg)](https://github.com/kamangir/roofAI/actions/workflows/bashtest.yml) [![PyPI version](https://img.shields.io/pypi/v/roofAI.svg)](https://pypi.org/project/roofAI/) [![PyPI - Downloads](https://img.shields.io/pypi/dd/roofAI)](https://pypistats.org/packages/roofAI)
 
-built by 🌀 [`blue_options-4.189.1`](https://github.com/kamangir/awesome-bash-cli), based on 🏛️ [`roofAI-5.88.1`](https://github.com/kamangir/roofAI).
+built by 🌀 [`blue_options-4.190.1`](https://github.com/kamangir/awesome-bash-cli), based on 🏛️ [`roofAI-5.98.1`](https://github.com/kamangir/roofAI).
