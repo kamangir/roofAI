@@ -3,9 +3,11 @@ from typing import List, Tuple
 import numpy as np
 from enum import Enum, auto
 
+from blueness import module
 from blue_options import string
 from blue_objects import file, path
 
+from roofAI import NAME
 from roofAI.dataset.ingest.CamVid import CLASSES as CAMVID_CLASSES
 from roofAI.semseg import (
     chip_width as semseg_chip_width,
@@ -17,6 +19,8 @@ from roofAI.dataset.sagemaker import (
 )
 from roofAI.semseg.utils import visualize
 from roofAI.logger import logger
+
+NAME = module.name(__file__, NAME)
 
 
 class DatasetTarget(Enum):
@@ -287,6 +291,17 @@ class RoofAIDataset:
         description: List[str] = [],
         log: bool = False,
     ):
+        if index > len(self.subsets[subset]):
+            logger.warning(
+                "{}.visualize: item ignored, index={} > len(subset[{}]) = {}.".format(
+                    NAME,
+                    index,
+                    subset,
+                    len(self.subsets[subset]),
+                )
+            )
+            return
+
         record_id = self.subsets[subset][index] if isinstance(index, int) else index
         logger.info("record_id: {}".format(record_id))
 
