@@ -170,6 +170,9 @@ class RoofAIDataset:
         subset: str,
         matrix_kind: MatrixKind = MatrixKind.IMAGE,
     ) -> List[str]:
+        if self.kind == DatasetKind.DISTRIBUTED:
+            return self.metadata.get("datacube_id", []) if subset == "train" else []
+
         return sorted(
             [
                 file.name(filename)
