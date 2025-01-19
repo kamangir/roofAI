@@ -1,20 +1,20 @@
-# 🏛️ roofAI
+# 🏛️ roofai
 
 everything AI about roofs. 🏛️
 
 ```bash
-pip install roofAI
+pip install roofai
 ```
 
 ```mermaid
 graph LR
-    dataset_ingest["roofAI<br>dataset<br>ingest<br>source=AIRS|CamVid<br>&lt;dataset-object-name&gt;"]
+    dataset_ingest["roofai<br>dataset<br>ingest<br>source=AIRS|CamVid<br>&lt;dataset-object-name&gt;"]
 
-    dataset_review["roofAI<br>dataset<br>review -<br>&lt;dataset-object-name&gt;"]
+    dataset_review["roofai<br>dataset<br>review -<br>&lt;dataset-object-name&gt;"]
 
-    semseg_train["semseg<br>train -<br>&lt;dataset-object-name&gt;<br>&lt;model-object-name&gt;"]
+    semseg_train["roofai<br>semseg<br>train -<br>&lt;dataset-object-name&gt;<br>&lt;model-object-name&gt;"]
 
-    semseg_predict["semseg<br>predict -<br>&lt;model-object-name&gt;<br>&lt;dataset-object-name&gt;<br>&lt;prediction-object-name&gt;"]
+    semseg_predict["roofai<br>semseg<br>predict -<br>&lt;model-object-name&gt;<br>&lt;dataset-object-name&gt;<br>&lt;prediction-object-name&gt;"]
 
     AIRS["AIRS"]:::folder
     CamVid["CamVid"]:::folder
@@ -50,4 +50,4 @@ graph LR
 
 [![pylint](https://github.com/kamangir/roofAI/actions/workflows/pylint.yml/badge.svg)](https://github.com/kamangir/roofAI/actions/workflows/pylint.yml) [![pytest](https://github.com/kamangir/roofAI/actions/workflows/pytest.yml/badge.svg)](https://github.com/kamangir/roofAI/actions/workflows/pytest.yml) [![bashtest](https://github.com/kamangir/roofAI/actions/workflows/bashtest.yml/badge.svg)](https://github.com/kamangir/roofAI/actions/workflows/bashtest.yml) [![PyPI version](https://img.shields.io/pypi/v/roofAI.svg)](https://pypi.org/project/roofAI/) [![PyPI - Downloads](https://img.shields.io/pypi/dd/roofAI)](https://pypistats.org/packages/roofAI)
 
-built by 🌀 [`blue_options-4.190.1`](https://github.com/kamangir/awesome-bash-cli), based on 🏛️ [`roofAI-5.99.1`](https://github.com/kamangir/roofAI).
+built by 🌀 [`blue_options-4.190.1`](https://github.com/kamangir/awesome-bash-cli), based on 🏛️ [`roofai-6.5.1`](https://github.com/kamangir/roofAI).

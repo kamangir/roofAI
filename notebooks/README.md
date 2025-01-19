@@ -1,4 +1,4 @@
-# roofAI notebooks 🏛️
+# roofai notebooks 🏛️
 
 [camvid.ipynb](./camvid.ipynb) is based on [a notebook from segmentation_models.pytorch](<https://github.com/qubvel/segmentation_models.pytorch/blob/master/examples/cars%20segmentation%20(camvid).ipynb>) and is digested into [semseg/train.ipynb](./semseg/train.ipynb) and [semseg/predict.ipynb](./semseg/predict.ipynb).
 
