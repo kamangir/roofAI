@@ -25,6 +25,7 @@ def help_predict(
 
     return show_usage(
         [
+            "roofai",
             "semseg",
             "predict",
             f"[{options}]",
@@ -59,6 +60,7 @@ def help_train(
 
     return show_usage(
         [
+            "roofai",
             "semseg",
             "train",
             f"[{options}]",
