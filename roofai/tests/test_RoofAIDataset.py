@@ -72,25 +72,24 @@ def test_MatrixKind(
             "testannot/0001TP_008850.png",
             (360, 480),
         ),
-        # roofAI_ingest_AIRS_cache is a large object cached by `roof ingest`.
-        #        (
-        #            "roofAI_ingest_AIRS_cache",
-        #            "RoofAIDataset[kind:DatasetKind.AIRS,source:AIRS](",
-        #            "test",
-        #            10,
-        #            MatrixKind.IMAGE,
-        #            "test/image/christchurch_162.tif",
-        #            (10000, 10000, 3),
-        #        ),
-        #        (
-        #            "roofAI_ingest_AIRS_cache",
-        #            "RoofAIDataset[kind:DatasetKind.AIRS,source:AIRS](",
-        #            "test",
-        #            10,
-        #            MatrixKind.MASK,
-        #            "test/label/christchurch_162.tif",
-        #            (10000, 10000),
-        #        ),
+        (
+            "palisades-dataset-v1",
+            "RoofAIDataset[kind:DatasetKind.DISTRIBUTED,source:catalog_query](",
+            "train",
+            0,
+            MatrixKind.IMAGE,
+            "datacube-maxar_open_data-WildFires-LosAngeles-Jan-2025-11-031311102213-103001010B9A1B00/11-031311102213-103001010B9A1B00-103001010B9A1B00-visual.tif",
+            (17408, 17408, 3),
+        ),
+        (
+            "palisades-dataset-v1",
+            "RoofAIDataset[kind:DatasetKind.DISTRIBUTED,source:catalog_query](",
+            "train",
+            0,
+            MatrixKind.MASK,
+            "datacube-maxar_open_data-WildFires-LosAngeles-Jan-2025-11-031311102213-103001010B9A1B00/11-031311102213-103001010B9A1B00-103001010B9A1B00-visual-label.tif",
+            (17408, 17408),
+        ),
     ],
 )
 def test_RoofAIDataset(
@@ -114,7 +113,10 @@ def test_RoofAIDataset(
     assert record_id
 
     filename = dataset.get_filename(subset, record_id, matrix_kind, log=True)
-    assert filename == os.path.join(dataset.dataset_path, expected_filename)
+    if dataset.kind == DatasetKind.DISTRIBUTED:
+        assert filename.endswith(expected_filename)
+    else:
+        assert filename == os.path.join(dataset.dataset_path, expected_filename)
 
     matrix = dataset.get_matrix(subset, record_id, matrix_kind, log=True)
     assert matrix.shape == expected_shape

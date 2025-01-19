@@ -137,10 +137,22 @@ class RoofAIDataset:
             ).upper()
         ]
 
-        self.classes = self.metadata.get(
-            "classes",
-            "other,roof".split(",") if self.source == "AIRS" else CAMVID_CLASSES,
-        )
+        if self.kind == DatasetKind.DISTRIBUTED:
+            if self.metadata["datacube_id"]:
+                datacube_id = self.metadata["datacube_id"][0]
+                self.classes = get_from_object(
+                    object_name=datacube_id,
+                    key="rasterize",
+                    default={},
+                    download=True,
+                ).get("list_of_classes", [])
+            else:
+                self.classes = []
+        else:
+            self.classes = self.metadata.get(
+                "classes",
+                "other,roof".split(",") if self.source == "AIRS" else CAMVID_CLASSES,
+            )
 
         self.subsets = {
             subset: self.list_of_record_id(subset) for subset in self.SUBSETS
