@@ -5,15 +5,15 @@ A Semantic Segmenter based on [segmentation_models.pytorch](<https://github.com/
 ## ingest
 
 ```bash
-@select roofAI-dataset-$(@@timestamp)
+@select roofai-dataset-$(@@timestamp)
 
-roofAI dataset ingest \
+roofai dataset ingest \
     source=AIRS,upload . \
     --test_count 1000 \
     --train_count 8000 \
     --val_count 1000
 
-roofAI dataset review - .
+roofai dataset review - .
 ```
 
 <details>
@@ -34,7 +34,7 @@ roofAI-dataset-2025-01-13-gca7nz
 
 
 ```bash
-roofAI semseg train \
+roofai semseg train \
     profile=FULL . - \
     --classes roof \
     --epoch_count 5
@@ -97,7 +97,7 @@ roofAI-dataset-2025-01-13-gca7nz-train-2025-01-13-ukhtql
 ## predict
 
 ```bash
-roofAI semseg predict \
+roofai semseg predict \
     profile=QUICK,upload \
     roofAI-dataset-2025-01-13-bbz4k3-train-2025-01-13-i8le50 \
     $TEST_roofAI_ingest_AIRS_v2

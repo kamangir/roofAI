@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-function roofAI_semseg_train() {
+function roofai_semseg_train() {
     local options=$1
     $abcli_gpu_status_cache && local device=cuda || local device=cpu
     local device=$(abcli_option "$options" device $device)

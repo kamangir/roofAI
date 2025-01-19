@@ -1,4 +1,4 @@
-# 🏛️ roofAI
+# 🏛️ roofai
 
 everything AI about roofs. 🏛️
 
@@ -8,9 +8,9 @@ pip install roofai
 
 ```mermaid
 graph LR
-    dataset_ingest["roofAI dataset ingest source=AIRS|CamVid <dataset-object-name>"]
+    dataset_ingest["roofai dataset ingest source=AIRS|CamVid <dataset-object-name>"]
 
-    dataset_review["roofAI dataset review~~- <dataset-object-name>"]
+    dataset_review["roofai dataset review~~- <dataset-object-name>"]
 
     semseg_train["semseg train~~- <dataset-object-name> <model-object-name>"]
 

@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-function roofAI_dataset_review() {
+function roofai_dataset_review() {
     local options=$1
     local do_dryrun=$(abcli_option_int "$options" dryrun 0)
     local do_download=$(abcli_option_int "$options" download 0)

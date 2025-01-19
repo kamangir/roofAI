@@ -22,7 +22,7 @@ def help_ingest(
 
     usage_1 = show_usage(
         [
-            "roofAI",
+            "roofai",
             "dataset",
             "ingest",
             f"[{options}]",
@@ -47,7 +47,7 @@ def help_ingest(
 
     usage_2 = show_usage(
         [
-            "roofAI",
+            "roofai",
             "dataset",
             "ingest",
             f"[{options}]",
@@ -86,7 +86,7 @@ def help_review(
 
     return show_usage(
         [
-            "roofAI",
+            "roofai",
             "dataset",
             "review",
             f"[{options}]",

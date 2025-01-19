@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-function test_roofAI_semseg_train_and_predict() {
+function test_roofai_semseg_train_and_predict() {
     local options=$1
     local do_dryrun=$(abcli_option_int "$options" dryrun 0)
 
@@ -13,10 +13,10 @@ function test_roofAI_semseg_train_and_predict() {
     local classes=car
     [[ "$source" == AIRS ]] && local classes=roof
 
-    local model_object_name=test_roofAI_semseg_train_and_predict-model-$(abcli_string_timestamp_short)
+    local model_object_name=test_roofai_semseg_train_and_predict-model-$(abcli_string_timestamp_short)
 
     abcli_eval dryrun=$do_dryrun \
-        roofAI_semseg_train \
+        roofai_semseg_train \
         profile=VALIDATION,$3 \
         $dataset_object_name \
         $model_object_name \
@@ -25,10 +25,10 @@ function test_roofAI_semseg_train_and_predict() {
 
     abcli_log "📜 predicting on $source..."
 
-    local prediction_object_name=test_roofAI_semseg_train_and_predict-prediction-$(abcli_string_timestamp_short)
+    local prediction_object_name=test_roofai_semseg_train_and_predict-prediction-$(abcli_string_timestamp_short)
 
     abcli_eval dryrun=$do_dryrun \
-        roofAI_semseg_predict \
+        roofai_semseg_predict \
         profile=VALIDATION,$4 \
         $model_object_name \
         $dataset_object_name \

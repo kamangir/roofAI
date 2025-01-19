@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-function abcli_install_roofAI() {
+function abcli_install_roofai() {
 
     [[ "$abcli_is_sagemaker_system" == true ]] && return 0
 
@@ -21,4 +21,4 @@ function abcli_install_roofAI() {
         -o $filename
 }
 
-abcli_install_module roofAI 1.2.1
+abcli_install_module roofai 1.2.1

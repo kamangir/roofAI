@@ -1,19 +1,19 @@
 #! /usr/bin/env bash
 
-function test_roofAI_help() {
+function test_roofai_help() {
     local options=$1
 
     local module
     for module in \
-        "roofAI dataset" \
-        "roofAI dataset ingest" \
-        "roofAI dataset review" \
+        "roofai dataset" \
+        "roofai dataset ingest" \
+        "roofai dataset review" \
         \
-        "roofAI semseg" \
-        "roofAI semseg predict" \
-        "roofAI semseg train" \
+        "roofai semseg" \
+        "roofai semseg predict" \
+        "roofai semseg train" \
         \
-        "roofAI"; do
+        "roofai"; do
         abcli_eval ,$options \
             abcli_help $module
         [[ $? -ne 0 ]] && return 1

@@ -1,9 +1,9 @@
 #! /usr/bin/env bash
 
-function roofAI_semseg() {
+function roofai_semseg() {
     local task=$(abcli_unpack_keyword $1 version)
 
-    local function_name=roofAI_semseg_$task
+    local function_name=roofai_semseg_$task
     if [[ $(type -t $function_name) == "function" ]]; then
         $function_name "${@:2}"
         return

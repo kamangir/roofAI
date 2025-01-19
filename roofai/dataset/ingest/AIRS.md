@@ -15,7 +15,7 @@ more: [AIRS.ipynb](../../../notebooks/dataset/custom/AIRS.ipynb).
 ## Ingest
 
 ```bash
-roofAI dataset ingest \
+roofai dataset ingest \
     source=AIRS - \
     --test_count 250 \
     --train_count 350 \
@@ -25,7 +25,7 @@ roofAI dataset ingest \
 ## Review
 
 ```bash
-roofAI dataset review - \
+roofai dataset review - \
     $ROOFAI_AIRS_CACHE_OBJECT_NAME \
     --index 2
 ```
@@ -33,7 +33,7 @@ roofAI dataset review - \
 ![image](https://github.com/kamangir/assets/blob/main/roofAI/AIRS-cache-v45--review-index-2.png?raw=true)
 
 ```bash
-roofAI dataset review - \
+roofai dataset review - \
     roofAI_ingest_AIRS_2025-01-13-sg1kjj
 ```
 

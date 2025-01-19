@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-function roofAI_dataset_ingest() {
+function roofai_dataset_ingest() {
     local options=$1
     local do_dryrun=$(abcli_option_int "$options" dryrun 0)
     local do_upload=$(abcli_option_int "$options" upload 0)
@@ -8,11 +8,11 @@ function roofAI_dataset_ingest() {
     local target=$(abcli_option "$options" target torch)
 
     if [[ "|CamVid|AIRS|" != *"|$source|"* ]]; then
-        abcli_log_error "roofAI: dataset: ingest: $source: source not found."
+        abcli_log_error "roofai: dataset: ingest: $source: source not found."
         return 1
     fi
 
-    local object_name=$(abcli_clarify_object $2 roofAI_ingest_${source}_$(abcli_string_timestamp_short))
+    local object_name=$(abcli_clarify_object $2 roofai_ingest_${source}_$(abcli_string_timestamp_short))
     local object_path=$ABCLI_OBJECT_ROOT/$object_name
     mkdir -pv $object_path
 

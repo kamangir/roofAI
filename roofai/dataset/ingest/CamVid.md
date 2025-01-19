@@ -34,14 +34,14 @@ more: [review.ipynb](../../../notebooks/dataset/review.ipynb):
 ## Ingest
 
 ```bash
-roofAI dataset ingest \
+roofai dataset ingest \
     source=CamVid
 ```
 
 ## Review
 
 ```bash
-roofAI dataset review - \
+roofai dataset review - \
     roofAI_ingest_CamVid_2025-01-13-w4lnfp
 ```
 

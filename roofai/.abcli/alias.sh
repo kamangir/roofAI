@@ -1,3 +1,5 @@
 #! /usr/bin/env bash
 
-alias semseg=roofAI_semseg
+alias semseg=roofai_semseg
+
+alias roofAI=roofai
