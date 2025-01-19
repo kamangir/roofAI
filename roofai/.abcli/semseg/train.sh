@@ -17,7 +17,7 @@ function roofAI_semseg_train() {
     abcli_log "semseg.train($dataset_object_name) -$device-> $model_object_name."
 
     abcli_eval dryrun=$do_dryrun \
-        python3 -m roofAI.semseg train \
+        python3 -m roofai.semseg train \
         --device $device \
         --dataset_path $ABCLI_OBJECT_ROOT/$dataset_object_name \
         --model_path $ABCLI_OBJECT_ROOT/$model_object_name \

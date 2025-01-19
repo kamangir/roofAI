@@ -53,7 +53,7 @@ function roofAI_dataset_ingest() {
     fi
 
     abcli_eval dryrun=$do_dryrun \
-        python3 -m roofAI.dataset ingest \
+        python3 -m roofai.dataset ingest \
         --source $source \
         --target $target \
         --ingest_path $object_path \

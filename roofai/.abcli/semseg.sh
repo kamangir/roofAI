@@ -9,7 +9,7 @@ function roofAI_semseg() {
         return
     fi
 
-    python3 -m roofAI.semseg "$@"
+    python3 -m roofai.semseg "$@"
 }
 
 abcli_source_caller_suffix_path /semseg

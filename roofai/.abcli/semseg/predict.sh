@@ -21,7 +21,7 @@ function roofAI_semseg_predict() {
     abcli_log "semseg[$model_object_name].predict($dataset_object_name) -$device-> $prediction_object_name."
 
     abcli_eval dryrun=$do_dryrun \
-        python3 -m roofAI.semseg predict \
+        python3 -m roofai.semseg predict \
         --device $device \
         --model_path $ABCLI_OBJECT_ROOT/$model_object_name \
         --dataset_path $ABCLI_OBJECT_ROOT/$dataset_object_name \

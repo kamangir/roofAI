@@ -7,3 +7,5 @@ abcli_env_dot_load \
 
 abcli_env_dot_load \
     caller,filename=config.env,suffix=/..
+
+export roofAI_module_name=roofai

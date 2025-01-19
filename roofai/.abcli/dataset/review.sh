@@ -12,7 +12,7 @@ function roofAI_dataset_review() {
     local dataset_object_path=$ABCLI_OBJECT_ROOT/$dataset_object_name
 
     abcli_eval dryrun=$do_dryrun \
-        python3 -m roofAI.dataset review \
+        python3 -m roofai.dataset review \
         --dataset_path $dataset_object_path \
         "${@:3}"
 }

@@ -9,7 +9,7 @@ function roofAI_dataset() {
         return
     fi
 
-    python3 -m roofAI.dataset "$@"
+    python3 -m roofai.dataset "$@"
 }
 
 abcli_source_caller_suffix_path /dataset
